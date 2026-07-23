@@ -14,6 +14,22 @@ import './GameBoard.css';
 
 const TURN_TIME_LIMIT = 15; // 15 detik batas waktu berpikir
 
+// Helper untuk membaca progress tersimpan secara instan di render awal
+const getSavedProgress = () => {
+  try {
+    const saved = localStorage.getItem('memory_game_saved_state');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.player && parsed.player.hp > 0 && parsed.stage >= 1) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error("Error reading saved progress:", e);
+  }
+  return null;
+};
+
 const GameBoard = () => {
   // Player Name & Leaderboard States
   const [playerName, setPlayerName] = useState(localStorage.getItem('memory_player_name') || '');
@@ -28,80 +44,55 @@ const GameBoard = () => {
   // Turn Timer State
   const [turnTimer, setTurnTimer] = useState(TURN_TIME_LIMIT);
 
-  // Roguelike Progression States
-  const [stage, setStage] = useState(1);
-  const [playerDeck, setPlayerDeck] = useState(CARD_DATABASE.slice(0, 8));
+  // Inisialisasi State Game Secara Instan dari Storage (Paling Presisi)
+  const savedProgress = getSavedProgress();
+
+  const [stage, setStage] = useState(() => savedProgress?.stage || 1);
+  const [playerDeck, setPlayerDeck] = useState(() => savedProgress?.playerDeck || CARD_DATABASE.slice(0, 8));
   const [mismatchStreak, setMismatchStreak] = useState(0);
   const [showLootModal, setShowLootModal] = useState(false);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [lootChoices, setLootChoices] = useState([]);
-  const [totalMatchesMade, setTotalMatchesMade] = useState(0);
+  const [totalMatchesMade, setTotalMatchesMade] = useState(() => savedProgress?.totalMatchesMade || 0);
 
   // Game Board States
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(() => {
+    if (savedProgress?.cards && savedProgress.cards.length > 0) {
+      return savedProgress.cards;
+    }
+    return generateStarterBoard();
+  });
   const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedCardIds, setMatchedCardIds] = useState([]);
+  const [matchedCardIds, setMatchedCardIds] = useState(() => savedProgress?.matchedCardIds || []);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('Pilih 2 kartu untuk menyerang musuh!');
+  const [statusMessage, setStatusMessage] = useState(() => 
+    savedProgress ? `✨ Melanjutkan pertarungan Stage ${savedProgress.stage}!` : 'Pilih 2 kartu untuk menyerang musuh!'
+  );
 
   // Polish UI/UX States
   const [floatingTexts, setFloatingTexts] = useState([]);
   const [isShaking, setIsShaking] = useState(false);
 
   // Entity States
-  const [player, setPlayer] = useState({ name: playerName || 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
-  const [enemy, setEnemy] = useState({ name: 'Cyber Scout', hp: 70, maxHp: 70, block: 0 });
-  const [currentTurn, setCurrentTurn] = useState('PLAYER');
+  const initialEnemyConfig = getStageEnemyConfig(savedProgress?.stage || 1);
+  const [player, setPlayer] = useState(() => 
+    savedProgress?.player 
+      ? { ...savedProgress.player, name: localStorage.getItem('memory_player_name') || 'Cyber Hero' }
+      : { name: localStorage.getItem('memory_player_name') || 'Cyber Hero', hp: 100, maxHp: 100, block: 0 }
+  );
+  const [enemy, setEnemy] = useState(() => savedProgress?.enemy || initialEnemyConfig);
+  const [currentTurn, setCurrentTurn] = useState(() => savedProgress?.currentTurn || 'PLAYER');
   const [temporaryRevealed, setTemporaryRevealed] = useState([]);
 
   // AI State
-  const [aiDifficulty, setAiDifficulty] = useState('EASY');
+  const [aiDifficulty, setAiDifficulty] = useState(() => getStageEnemyConfig(savedProgress?.stage || 1).difficulty);
   const [aiMemory, setAiMemory] = useState({});
   const [isEmpJammerActive, setIsEmpJammerActive] = useState(false);
 
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
 
-  // Initialize & Restore Saved Progress (termasuk susunan papan & kartu cocok!)
-  useEffect(() => {
-    if (playerName) {
-      const savedState = localStorage.getItem('memory_game_saved_state');
-      if (savedState) {
-        try {
-          const parsed = JSON.parse(savedState);
-          if (parsed && parsed.player && parsed.player.hp > 0 && parsed.stage >= 1) {
-            setStage(parsed.stage);
-            setPlayer({ ...parsed.player, name: playerName });
-            setEnemy(parsed.enemy);
-            setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-            setTotalMatchesMade(parsed.totalMatchesMade || 0);
-
-            // Restore susunan kartu papan & pasangan yang sudah cocok!
-            if (parsed.cards && parsed.cards.length > 0) {
-              setCards(parsed.cards);
-              setMatchedCardIds(parsed.matchedCardIds || []);
-              setCurrentTurn(parsed.currentTurn || 'PLAYER');
-            } else {
-              resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-            }
-
-            const enemyConfig = getStageEnemyConfig(parsed.stage);
-            setAiDifficulty(enemyConfig.difficulty);
-            setFlippedCards([]);
-            setIsProcessing(false);
-
-            setStatusMessage(`✨ Melanjutkan pertarungan Stage ${parsed.stage}!`);
-            return;
-          }
-        } catch (err) {
-          console.error("Error parsing saved progress:", err);
-        }
-      }
-      startNewJourney();
-    }
-  }, [playerName]);
-
-  // Auto-Save progress secara real-time (termasuk posisi kartu & matchedCardIds)
+  // Auto-Save progress secara real-time ke localStorage
   useEffect(() => {
     if (playerName && player.hp > 0 && stage >= 1 && cards.length > 0) {
       const progress = {
