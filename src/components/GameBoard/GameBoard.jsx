@@ -366,7 +366,9 @@ const GameBoard = () => {
         setTotalMatchesMade((prev) => prev + 1);
       }
 
-      spawnFloatingText(`✨ MATCH: ${card1.name}!`, 'match');
+      if (card1.type !== 'BUFF') {
+        spawnFloatingText(`✨ MATCH: ${card1.name}!`, 'match');
+      }
       applyCardEffect(card1, actor);
 
       const nextMatched = [...matchedCardIds, card1.pairId];
@@ -473,7 +475,7 @@ const GameBoard = () => {
       case 'BUFF': {
         soundManager.playMatchSFX();
         if (isPlayer) {
-          spawnFloatingText(`👁️ X-RAY SCAN ACTIVE!`, 'match');
+          spawnFloatingText(`👁️ X-RAY SCAN: ${card.name}!`, 'match');
           const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
           if (unmatched.length >= 2) {
             const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);

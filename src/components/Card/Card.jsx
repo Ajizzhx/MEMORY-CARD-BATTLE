@@ -24,11 +24,13 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
           {isXrayVision && (
             <div className="xray-overlay">
               <div className="xray-scan-beam" />
-              <span className="xray-eye-icon">👁️</span>
-              <div className="xray-card-info" style={{ color: card.color }}>
-                <span className="xray-icon">{card.icon}</span>
+              <div className="xray-badge">
+                <span className="xray-eye">👁️ SCAN</span>
+              </div>
+              <div className="xray-card-info">
+                <span className="xray-icon" style={{ color: card.color }}>{card.icon}</span>
                 <span className="xray-title">{card.name}</span>
-                <span className="xray-type">{card.type}</span>
+                <span className="xray-type-pill" style={{ borderColor: card.color, color: card.color }}>{card.type}</span>
               </div>
             </div>
           )}
