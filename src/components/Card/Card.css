@@ -44,10 +44,10 @@
   overflow: hidden;
 }
 
-/* Card Back (Simple Dark Fantasy — Warm Gold Theme) */
+/* Card Back (Simple Dark Fantasy — Elegant & Dark) */
 .card-back {
   background: url('/assets/card-back.png') center/cover no-repeat;
-  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.5);
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -55,14 +55,14 @@
 
 /* --- X-RAY HOLOGRAPHIC SCAN EFFECT (KHUSUS BUFF PENERIMA) --- */
 .card-container.xray-active .card-back {
-  border-color: #ffd700;
-  box-shadow: 0 0 24px rgba(255, 215, 0, 0.9);
+  border-color: #00f0ff;
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.9);
 }
 
 .xray-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(18, 14, 8, 0.94);
+  background: rgba(6, 14, 32, 0.94);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -80,8 +80,8 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, transparent, #ffd700, #f97316, transparent);
-  box-shadow: 0 0 12px #ffd700;
+  background: linear-gradient(90deg, transparent, #00f0ff, #ff00ea, transparent);
+  box-shadow: 0 0 12px #00f0ff;
   animation: xrayBeamScan 1.2s infinite ease-in-out;
 }
 
@@ -92,13 +92,13 @@
 }
 
 @keyframes xrayPulse {
-  0% { box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.4); }
-  100% { box-shadow: inset 0 0 22px rgba(255, 215, 0, 0.8); }
+  0% { box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.4); }
+  100% { box-shadow: inset 0 0 22px rgba(0, 240, 255, 0.8); }
 }
 
 .xray-badge {
-  background: rgba(255, 215, 0, 0.2);
-  border: 1px solid rgba(255, 215, 0, 0.6);
+  background: rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(0, 240, 255, 0.6);
   padding: 1px 6px;
   border-radius: 10px;
 }
@@ -106,9 +106,9 @@
 .xray-eye {
   font-size: 0.6rem;
   font-weight: 900;
-  color: #ffd700;
+  color: #00f0ff;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 6px #ffd700;
+  text-shadow: 0 0 6px #00f0ff;
 }
 
 .xray-card-info {
@@ -148,7 +148,7 @@
 
 .card-container:hover:not(.flipped):not(.matched) .card-inner {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.5);
 }
 
 /* Card Front */
