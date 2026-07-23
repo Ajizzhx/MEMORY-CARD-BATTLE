@@ -62,7 +62,7 @@ const GameBoard = () => {
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
 
-  // Initialize & Restore Saved Progress on Mount
+  // Initialize & Restore Saved Progress (termasuk susunan papan & kartu cocok!)
   useEffect(() => {
     if (playerName) {
       const savedState = localStorage.getItem('memory_game_saved_state');
@@ -70,18 +70,27 @@ const GameBoard = () => {
         try {
           const parsed = JSON.parse(savedState);
           if (parsed && parsed.player && parsed.player.hp > 0 && parsed.stage >= 1) {
-            // Restore saved progress seamlessly!
             setStage(parsed.stage);
             setPlayer({ ...parsed.player, name: playerName });
             setEnemy(parsed.enemy);
             setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
             setTotalMatchesMade(parsed.totalMatchesMade || 0);
 
+            // Restore susunan kartu papan & pasangan yang sudah cocok!
+            if (parsed.cards && parsed.cards.length > 0) {
+              setCards(parsed.cards);
+              setMatchedCardIds(parsed.matchedCardIds || []);
+              setCurrentTurn(parsed.currentTurn || 'PLAYER');
+            } else {
+              resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
+            }
+
             const enemyConfig = getStageEnemyConfig(parsed.stage);
             setAiDifficulty(enemyConfig.difficulty);
+            setFlippedCards([]);
+            setIsProcessing(false);
 
-            resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-            setStatusMessage(`✨ Melanjutkan perjalanan Stage ${parsed.stage}!`);
+            setStatusMessage(`✨ Melanjutkan pertarungan Stage ${parsed.stage}!`);
             return;
           }
         } catch (err) {
@@ -92,19 +101,22 @@ const GameBoard = () => {
     }
   }, [playerName]);
 
-  // Auto-Save progress whenever stage or entities change
+  // Auto-Save progress secara real-time (termasuk posisi kartu & matchedCardIds)
   useEffect(() => {
-    if (playerName && player.hp > 0 && stage >= 1) {
+    if (playerName && player.hp > 0 && stage >= 1 && cards.length > 0) {
       const progress = {
         stage,
         player,
         enemy,
         playerDeck,
-        totalMatchesMade
+        totalMatchesMade,
+        cards,
+        matchedCardIds,
+        currentTurn
       };
       localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
     }
-  }, [stage, player, enemy, playerDeck, totalMatchesMade, playerName]);
+  }, [stage, player, enemy, playerDeck, totalMatchesMade, cards, matchedCardIds, currentTurn, playerName]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
