@@ -1,7 +1,7 @@
 /**
  * Sound & Music System untuk Memory Card Battle (Cyberfantasy Edition)
  * Menggunakan Web Audio API Synthesizer murni:
- * - Ambient Cyberfantasy Relaxing BGM (Pad Chords & Soft LFO)
+ * - Ambient Cyberfantasy Relaxing BGM (Pad Chords & Soft LFO - Terdengar Jelas & Menenangkan)
  * - SFX Responsif (Flip, Match Chime, Heal Sparkle, Attack Punch, Block Shield, Stage Clear)
  * - Bebas 404/Asset Loading Error pada Vercel/Netlify.
  */
@@ -33,11 +33,12 @@ class SoundSystem {
         this.masterGainNode.connect(this.ctx.destination);
 
         this.bgmGainNode = this.ctx.createGain();
-        this.bgmGainNode.gain.setValueAtTime(this.isBgmMuted ? 0 : 0.15, this.ctx.currentTime);
+        // Volume BGM ditingkatkan ke 0.35 agar terdengar jelas & mantap
+        this.bgmGainNode.gain.setValueAtTime(this.isBgmMuted ? 0 : 0.35, this.ctx.currentTime);
         this.bgmGainNode.connect(this.masterGainNode);
 
         this.sfxGainNode = this.ctx.createGain();
-        this.sfxGainNode.gain.setValueAtTime(this.isSfxMuted ? 0 : 0.35, this.ctx.currentTime);
+        this.sfxGainNode.gain.setValueAtTime(this.isSfxMuted ? 0 : 0.40, this.ctx.currentTime);
         this.sfxGainNode.connect(this.masterGainNode);
       }
     } else if (this.ctx.state === 'suspended') {
@@ -52,7 +53,7 @@ class SoundSystem {
 
     if (this.bgmGainNode && this.ctx) {
       this.bgmGainNode.gain.linearRampToValueAtTime(
-        this.isBgmMuted ? 0 : 0.15,
+        this.isBgmMuted ? 0 : 0.35,
         this.ctx.currentTime + 0.3
       );
     }
@@ -69,7 +70,7 @@ class SoundSystem {
     localStorage.setItem('memory_sfx_muted', this.isSfxMuted);
 
     if (this.sfxGainNode && this.ctx) {
-      this.sfxGainNode.gain.setValueAtTime(this.isSfxMuted ? 0 : 0.35, this.ctx.currentTime);
+      this.sfxGainNode.gain.setValueAtTime(this.isSfxMuted ? 0 : 0.40, this.ctx.currentTime);
     }
 
     return !this.isSfxMuted;
@@ -82,12 +83,12 @@ class SoundSystem {
 
     this.isBgmPlaying = true;
 
-    // Chord Progression Menenangkan (Cmaj7 -> Am9 -> Fmaj7 -> Gsus4)
+    // Chord Progression Harmonis & Menenangkan (Cmaj7 -> Am9 -> Fmaj7 -> Gsus4)
     const chords = [
-      [261.63, 329.63, 392.00, 493.88], // Cmaj7 (C4, E4, G4, B4)
-      [220.00, 261.63, 329.63, 392.00], // Am9   (A3, C4, E4, G4)
-      [174.61, 261.63, 329.63, 440.00], // Fmaj7 (F3, C4, E4, A4)
-      [196.00, 261.63, 392.00, 523.25]  // Gsus4 (G3, C4, G4, C5)
+      [261.63, 329.63, 392.00, 493.88, 523.25], // Cmaj7 (C4, E4, G4, B4, C5)
+      [220.00, 261.63, 329.63, 392.00, 440.00], // Am9   (A3, C4, E4, G4, A4)
+      [174.61, 261.63, 329.63, 440.00, 523.25], // Fmaj7 (F3, C4, E4, A4, C5)
+      [196.00, 261.63, 392.00, 523.25, 587.33]  // Gsus4 (G3, C4, G4, C5, D5)
     ];
 
     let chordIndex = 0;
@@ -99,24 +100,25 @@ class SoundSystem {
       chordIndex = (chordIndex + 1) % chords.length;
 
       const now = this.ctx.currentTime;
-      const duration = 4.5; // Durasi tiap pad chord 4.5 detik
+      const duration = 4.2; // Durasi tiap pad chord
 
-      currentNotes.forEach((freq) => {
+      // 1. Synth Pad Harmonis
+      currentNotes.forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const noteGain = this.ctx.createGain();
         const filter = this.ctx.createBiquadFilter();
 
-        osc.type = 'sine';
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
         osc.frequency.setValueAtTime(freq, now);
 
-        // Lowpass Filter lembut untuk kesan menenangkan & hangat
+        // Lowpass Filter jernih & hangat (1200 Hz) agar terdengar jelas tanpa bising
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(600, now);
-        filter.Q.setValueAtTime(2, now);
+        filter.frequency.setValueAtTime(1200, now);
+        filter.Q.setValueAtTime(1.5, now);
 
-        // Soft Fade In & Fade Out Envelope
+        // Soft Envelope Fade In & Fade Out
         noteGain.gain.setValueAtTime(0, now);
-        noteGain.gain.linearRampToValueAtTime(0.04, now + 1.2);
+        noteGain.gain.linearRampToValueAtTime(0.08, now + 1.0);
         noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
         osc.connect(filter);
@@ -126,10 +128,30 @@ class SoundSystem {
         osc.start(now);
         osc.stop(now + duration);
       });
+
+      // 2. Sentuhan Arpeggio Melodis Lembut (Calming Sparkle Melody)
+      const arpeggioNotes = [currentNotes[1], currentNotes[3], currentNotes[4]];
+      arpeggioNotes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const noteGain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + 1.2 + idx * 0.4);
+
+        noteGain.gain.setValueAtTime(0, now + 1.2 + idx * 0.4);
+        noteGain.gain.linearRampToValueAtTime(0.05, now + 1.3 + idx * 0.4);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2 + idx * 0.4);
+
+        osc.connect(noteGain);
+        noteGain.connect(this.bgmGainNode);
+
+        osc.start(now + 1.2 + idx * 0.4);
+        osc.stop(now + 2.2 + idx * 0.4);
+      });
     };
 
     playNextChord();
-    this.bgmInterval = setInterval(playNextChord, 4200);
+    this.bgmInterval = setInterval(playNextChord, 4000);
   }
 
   stopBgm() {
@@ -155,7 +177,7 @@ class SoundSystem {
     osc.frequency.setValueAtTime(320, now);
     osc.frequency.exponentialRampToValueAtTime(140, now + 0.08);
 
-    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.setValueAtTime(0.18, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
 
     osc.connect(gain);
@@ -180,7 +202,7 @@ class SoundSystem {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, now + idx * 0.06);
 
-      gain.gain.setValueAtTime(0.15, now + idx * 0.06);
+      gain.gain.setValueAtTime(0.18, now + idx * 0.06);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 0.6);
 
       osc.connect(gain);
@@ -204,7 +226,7 @@ class SoundSystem {
     osc.frequency.setValueAtTime(180, now);
     osc.frequency.exponentialRampToValueAtTime(120, now + 0.25);
 
-    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.setValueAtTime(0.15, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
 
     osc.connect(gain);
@@ -227,7 +249,7 @@ class SoundSystem {
     osc.frequency.setValueAtTime(160, now);
     osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
 
-    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.setValueAtTime(0.22, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
 
     osc.connect(gain);
@@ -252,7 +274,7 @@ class SoundSystem {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, now + idx * 0.07);
 
-      gain.gain.setValueAtTime(0.15, now + idx * 0.07);
+      gain.gain.setValueAtTime(0.18, now + idx * 0.07);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.07 + 0.7);
 
       osc.connect(gain);
@@ -276,7 +298,7 @@ class SoundSystem {
     osc.frequency.setValueAtTime(440, now);
     osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
 
-    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.setValueAtTime(0.18, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
 
     osc.connect(gain);
@@ -307,7 +329,7 @@ class SoundSystem {
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(item.note, now + item.time);
 
-      gain.gain.setValueAtTime(0.2, now + item.time);
+      gain.gain.setValueAtTime(0.22, now + item.time);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + item.time + 0.8);
 
       osc.connect(gain);
@@ -331,7 +353,7 @@ class SoundSystem {
     osc.frequency.setValueAtTime(600, now);
     osc.frequency.exponentialRampToValueAtTime(300, now + 0.04);
 
-    gain.gain.setValueAtTime(0.1, now);
+    gain.gain.setValueAtTime(0.12, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
 
     osc.connect(gain);
