@@ -101,6 +101,12 @@ const GameBoard = () => {
             setEnemy(parsed.enemy);
             setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
             setTotalMatchesMade(parsed.totalMatchesMade || 0);
+            setMismatchStreak(parsed.mismatchStreak || 0);
+
+            // Restore exact turn state
+            if (parsed.currentTurn) {
+              setCurrentTurn(parsed.currentTurn);
+            }
 
             // Restore exact cards layout and matched card ids
             if (parsed.cards && parsed.cards.length > 0) {
@@ -110,7 +116,8 @@ const GameBoard = () => {
               resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
             }
 
-            setStatusMessage(`✨ Melanjutkan pertarungan Stage ${parsed.stage}!`);
+            const activeTurnText = parsed.currentTurn === 'ENEMY' ? `🤖 Giliran Musuh (${parsed.enemy.name})` : `✨ Giliran Anda`;
+            setStatusMessage(`✨ Melanjutkan pertarungan Stage ${parsed.stage}! [${activeTurnText}]`);
             return;
           }
         } catch (err) {
@@ -131,11 +138,13 @@ const GameBoard = () => {
         playerDeck,
         cards,
         matchedCardIds,
-        totalMatchesMade
+        totalMatchesMade,
+        currentTurn,
+        mismatchStreak
       };
       localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
     }
-  }, [stage, player, enemy, playerDeck, cards, matchedCardIds, totalMatchesMade, playerName]);
+  }, [stage, player, enemy, playerDeck, cards, matchedCardIds, totalMatchesMade, currentTurn, mismatchStreak, playerName]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
