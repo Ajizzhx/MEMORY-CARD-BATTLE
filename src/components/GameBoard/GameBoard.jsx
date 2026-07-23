@@ -110,7 +110,11 @@ const GameBoard = () => {
 
             // Restore exact cards layout and matched card ids
             if (parsed.cards && parsed.cards.length > 0) {
-              setCards(parsed.cards);
+              const enrichedCards = parsed.cards.map((c) => ({
+                ...c,
+                img: c.img || CARD_DATABASE.find((dbCard) => dbCard.id === (c.pairId || c.id))?.img
+              }));
+              setCards(enrichedCards);
               setMatchedCardIds(parsed.matchedCardIds || []);
             } else {
               resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));

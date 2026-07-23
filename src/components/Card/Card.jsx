@@ -1,4 +1,5 @@
 import React from 'react';
+import { CARD_DATABASE } from '../../utils/cardData';
 import './Card.css';
 
 const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled }) => {
@@ -7,6 +8,9 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
       onClick(card);
     }
   };
+
+  // Cari image artwork dari object kartu atau fallback database
+  const cardImage = card.img || CARD_DATABASE.find((c) => c.id === (card.pairId || card.id))?.img;
 
   return (
     <div
@@ -24,8 +28,8 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
                 <span className="xray-eye">👁️ SCAN</span>
               </div>
               <div className="xray-card-info">
-                {card.img ? (
-                  <img src={card.img} alt={card.name} className="xray-card-art-img" style={{ borderColor: card.color }} />
+                {cardImage ? (
+                  <img src={cardImage} alt={card.name} className="xray-card-art-img" style={{ borderColor: card.color }} />
                 ) : (
                   <span className="xray-icon" style={{ color: card.color }}>{card.icon}</span>
                 )}
@@ -46,8 +50,8 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
           </div>
 
           <div className="card-icon" style={{ color: card.color }}>
-            {card.img ? (
-              <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
+            {cardImage ? (
+              <img src={cardImage} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
             ) : (
               card.icon
             )}
