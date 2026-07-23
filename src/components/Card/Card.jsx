@@ -14,12 +14,8 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
       onClick={handleClick}
     >
       <div className="card-inner">
-        {/* Punggung Kartu (Tampak Belakang) */}
+        {/* Punggung Kartu (Tampak Belakang — Tajam & Jelas Tanpa Blur) */}
         <div className="card-back">
-          <div className="card-back-pattern">
-            <span>🔮</span>
-          </div>
-
           {/* Animasi X-Ray Vision Scan (Khusus Efek BUFF Penerima) */}
           {isXrayVision && (
             <div className="xray-overlay">
