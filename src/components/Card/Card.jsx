@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
 
-const Card = ({ card, isFlipped, isMatched, onClick, isDisabled }) => {
+const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled }) => {
   const handleClick = () => {
     if (!isFlipped && !isMatched && !isDisabled && onClick) {
       onClick(card);
@@ -10,7 +10,7 @@ const Card = ({ card, isFlipped, isMatched, onClick, isDisabled }) => {
 
   return (
     <div
-      className={`card-container ${isFlipped ? 'flipped' : ''} ${isMatched ? 'matched' : ''}`}
+      className={`card-container ${isFlipped ? 'flipped' : ''} ${isMatched ? 'matched' : ''} ${isXrayVision ? 'xray-active' : ''}`}
       onClick={handleClick}
     >
       <div className="card-inner">
@@ -19,9 +19,22 @@ const Card = ({ card, isFlipped, isMatched, onClick, isDisabled }) => {
           <div className="card-back-pattern">
             <span>🔮</span>
           </div>
+
+          {/* Animasi X-Ray Vision Scan (Khusus Efek BUFF Penerima) */}
+          {isXrayVision && (
+            <div className="xray-overlay">
+              <div className="xray-scan-beam" />
+              <span className="xray-eye-icon">👁️</span>
+              <div className="xray-card-info" style={{ color: card.color }}>
+                <span className="xray-icon">{card.icon}</span>
+                <span className="xray-title">{card.name}</span>
+                <span className="xray-type">{card.type}</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Muka Kartu (Tampak Depan) */}
+        {/* Muka Kartu (Tampak Depan saat 3D Flip) */}
         <div className={`card-front ${card.rarity}`}>
           <div className="card-header">
             <span className="card-type-badge" style={{ color: card.color }}>

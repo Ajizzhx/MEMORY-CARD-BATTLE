@@ -3,6 +3,7 @@
   width: 100%;
   aspect-ratio: 3 / 4.3;
   cursor: pointer;
+  position: relative;
 }
 
 .card-inner {
@@ -62,6 +63,90 @@
   color: var(--color-primary);
   text-shadow: 0 0 12px var(--color-primary);
   background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+}
+
+/* --- X-RAY HOLOGRAPHIC SCAN EFFECT (KHUSUS BUFF PENERIMA) --- */
+.card-container.xray-active .card-back {
+  border-color: #00f0ff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.8), inset 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.xray-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 15, 35, 0.85);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  z-index: 5;
+  padding: 4px;
+  animation: xrayPulse 1.5s infinite alternate;
+}
+
+.xray-scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #00f0ff, #ff00ea, transparent);
+  box-shadow: 0 0 12px #00f0ff;
+  animation: xrayBeamScan 1.2s infinite ease-in-out;
+}
+
+@keyframes xrayBeamScan {
+  0% { top: 0%; opacity: 0.8; }
+  50% { top: 95%; opacity: 1; }
+  100% { top: 0%; opacity: 0.8; }
+}
+
+@keyframes xrayPulse {
+  0% { box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.4); }
+  100% { box-shadow: inset 0 0 22px rgba(0, 240, 255, 0.8); }
+}
+
+.xray-eye-icon {
+  font-size: 0.9rem;
+  animation: eyeGlow 1s infinite alternate;
+}
+
+@keyframes eyeGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 4px #00f0ff); }
+  100% { transform: scale(1.15); filter: drop-shadow(0 0 10px #ff00ea); }
+}
+
+.xray-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.xray-icon {
+  font-size: 1.3rem;
+}
+
+.xray-title {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+
+.xray-type {
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+  text-transform: uppercase;
 }
 
 .card-container:hover:not(.flipped):not(.matched) .card-inner {
@@ -162,7 +247,7 @@
 /* Mobile Ultra-Compact Adjustments (< 500px) */
 @media (max-width: 500px) {
   .card-container {
-    aspect-ratio: 3 / 4.6; /* Membuat kartu sedikit lebih tinggi agar tidak sesak */
+    aspect-ratio: 3 / 4.6;
   }
   .card-front,
   .card-back {
@@ -197,5 +282,11 @@
   .card-value {
     font-size: 0.55rem;
     line-height: 1;
+  }
+  .xray-title {
+    font-size: 0.52rem;
+  }
+  .xray-icon {
+    font-size: 1.05rem;
   }
 }

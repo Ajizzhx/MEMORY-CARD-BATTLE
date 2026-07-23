@@ -472,14 +472,25 @@ const GameBoard = () => {
       }
       case 'BUFF': {
         soundManager.playMatchSFX();
-        spawnFloatingText(`👁️ VISION ACTIVE!`, 'match');
-        const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
-        if (unmatched.length >= 2) {
-          const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
-          setTemporaryRevealed(sample);
-          setTimeout(() => {
-            setTemporaryRevealed([]);
-          }, 2000);
+        if (isPlayer) {
+          spawnFloatingText(`👁️ X-RAY SCAN ACTIVE!`, 'match');
+          const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+          if (unmatched.length >= 2) {
+            const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
+            setTemporaryRevealed(sample);
+            setTimeout(() => {
+              setTemporaryRevealed([]);
+            }, 2500);
+          }
+        } else {
+          // Musuh (AI) Buff -> AI merekam ingatan tanpa membocorkan ke tampilan pemain
+          spawnFloatingText(`🤖 MUSUH SCAN PAPAN!`, 'damage');
+          const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+          if (unmatched.length >= 2) {
+            const sample = unmatched.slice(0, 2);
+            const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
+            setAiMemory((prevMem) => updateAiMemory(prevMem, sample, accuracy));
+          }
         }
         break;
       }
@@ -605,9 +616,9 @@ const GameBoard = () => {
         {cards.map((card) => {
           const isFlipped =
             flippedCards.some((c) => c.uniqueId === card.uniqueId) ||
-            matchedCardIds.includes(card.pairId) ||
-            temporaryRevealed.includes(card.uniqueId);
+            matchedCardIds.includes(card.pairId);
           const isMatched = matchedCardIds.includes(card.pairId);
+          const isXrayVision = temporaryRevealed.includes(card.uniqueId);
 
           return (
             <Card
@@ -615,6 +626,7 @@ const GameBoard = () => {
               card={card}
               isFlipped={isFlipped}
               isMatched={isMatched}
+              isXrayVision={isXrayVision}
               isDisabled={isProcessing || currentTurn !== 'PLAYER' || isGameOver}
               onClick={handleCardClick}
             />
