@@ -7,6 +7,7 @@ import FloatingText from '../FloatingText/FloatingText';
 import NameModal from '../NameModal/NameModal';
 import LeaderboardModal from '../LeaderboardModal/LeaderboardModal';
 import CatalogModal from '../CatalogModal/CatalogModal';
+import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
 import { generateStarterBoard, CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
@@ -20,6 +21,7 @@ const GameBoard = () => {
   const [showNameModal, setShowNameModal] = useState(!localStorage.getItem('memory_player_name'));
   const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
   const [showCatalogModal, setShowCatalogModal] = useState(false);
+  const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => {
     const saved = localStorage.getItem('memory_card_leaderboard');
     return saved ? JSON.parse(saved) : [];
@@ -204,19 +206,19 @@ const GameBoard = () => {
     localStorage.setItem('memory_card_leaderboard', JSON.stringify(updated));
   };
 
-  // Handler untuk Tombol Reset dengan Validasi
+  // Handler untuk Buka Modal Validasi Reset Desain UI Custom
   const handleResetButtonClick = () => {
-    const isConfirmed = window.confirm(
-      '⚠️ Konfirmasi Reset Perjalanan:\n\nApakah Anda yakin ingin mereset permainan? Seluruh progres saat ini akan dihapus dan Anda akan kembali ke Dashboard Pembuatan Nama.'
-    );
+    setShowResetConfirmModal(true);
+  };
 
-    if (isConfirmed) {
-      localStorage.removeItem('memory_game_saved_state');
-      localStorage.removeItem('memory_player_name');
-      setPlayerName('');
-      setShowNameModal(true);
-      startNewJourney();
-    }
+  // Handler Konfirmasi Reset dari Modal Custom UI
+  const handleConfirmReset = () => {
+    setShowResetConfirmModal(false);
+    localStorage.removeItem('memory_game_saved_state');
+    localStorage.removeItem('memory_player_name');
+    setPlayerName('');
+    setShowNameModal(true);
+    startNewJourney();
   };
 
   // Mulai Perjalanan Baru dari Stage 1
@@ -596,6 +598,14 @@ const GameBoard = () => {
       {/* Modal Katalog Kartu */}
       {showCatalogModal && (
         <CatalogModal onClose={() => setShowCatalogModal(false)} />
+      )}
+
+      {/* Modal Custom UI Konfirmasi Reset */}
+      {showResetConfirmModal && (
+        <ResetConfirmModal
+          onConfirm={handleConfirmReset}
+          onCancel={() => setShowResetConfirmModal(false)}
+        />
       )}
 
       {/* Modal Loot saat Stage Cleared */}
