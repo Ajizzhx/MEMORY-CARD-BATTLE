@@ -12,7 +12,7 @@
 
 <p align="center">
   <b>Gabungan Antara Memory Card Game Klasik, RPG Turn-Based Battle, dan Elemen Roguelike Progression.</b><br>
-  Dibalut dalam Desain UI/UX <b>Cyberfantasy</b> yang Mewah, Penuh Animasi 3D Flip, Effek Neon Glow, dan Glassmorphism.
+  Dibalut dalam Desain UI/UX <b>Cyberfantasy 3D Artwork</b> yang Mewah, Penuh Animasi 3D Flip, Effek Neon Glow, dan Synthesizer BGM.
 </p>
 
 [🎮 Mainkan Langsung di Vercel](https://memory-card-battle.vercel.app/) •
@@ -25,17 +25,18 @@
 
 ## 🌟 Fitur Utama (Core Features)
 
-### ⚔️ 1vs1 Turn-Based Memory Battle
+### ⚔️ 1vs1 Turn-Based Memory Battle (Shared Board)
 - **Aksi Berbasis Pasangan Kartu:** Mencocokkan 2 kartu akan memicu efek aksi instan (*Attack, Defense, Heal, Buff, Debuff*).
-- **Match & Extra Turn:** Berhasil mencocokkan kartu akan memberikan giliran tambahan.
+- **Shared Arena Board Mechanics:** Kartu Loot yang diperoleh pemain masuk ke Deck. Siapa pun yang mencocokkan pasangan kartu di papan 4x4 (Pemain maupun AI), dialah yang mendapatkan efeknya!
 - **HP & Armor System:** Perhitungan HP dinamis lengkap dengan bar pertahanan *Block/Armor* untuk menahan damage musuh.
 
-### 🧠 AI Memory Engine & Difficulty Scaling
-- **Kecerdasan Memori AI:** Musuh (AI) memiliki kemampuan merekam kartu yang pernah terbuka.
-- **Tingkat Kesulitan Dinamis:**
-  - 🟢 **Mudah (35% Akurasi Memori)** — Musuh sering lupa.
-  - 🟡 **Sedang (65% Akurasi Memori)** — Musuh cukup cerdas.
-  - 🔴 **Tinggi (88% Akurasi Memori)** — Musuh memiliki daya ingat tajam.
+### 🧠 AI Memory Engine & Stage Enemy Progression
+- **Musuh AI Berdasarkan Stage:**
+  - 🤖 **Stage 1: Cyber Scout** (70 HP - Mudah)
+  - 🦾 **Stage 2: Cybergolem** (90 HP - Sedang)
+  - 👻 **Stage 3: Neon Spectre** (110 HP - Sedang)
+  - 👹 **Stage 4: Aether Warlord** (140 HP - Tinggi)
+  - 🐉 **Stage 5+: Abyss Omega (Boss)** (150+ HP Endless Boss Scaling +30 HP/stage)
 
 ### 🛡️ Pity System & Comeback Mechanics
 - Jika HP Pemain **< 50%** dan mengalami 3 *mismatch* berturut-turut, **Pity System Active** akan dipicu:
@@ -43,43 +44,22 @@
   - Memberikan bantuan penunjuk pasangan kartu di papan.
 
 ### 🏆 Deck-Building & Roguelike Progression
-- **Stage Scaling:** Hadapi musuh yang semakin kuat (*Cyber Scout, Cybergolem, Neon Spectre, Aether Warlord, Abyss Omega Boss*).
-- **Loot Selection:** Setelah memenangkan stage, pilih 1 dari 3 kartu baru untuk dimasukkan ke dalam *Deck Pool* Anda di stage selanjutnya.
-- **Permadeath & Leaderboard Sesi:** Setiap akhir perjalanan, skor Anda (*Stage Tertinggi & Total Matches*) dicatat ke dalam **Session Leaderboard**.
+- **100% Unified 3D Cyberfantasy Artwork:** Seluruh 13 kartu dalam game memiliki gambar ilustrasi 3D yang unik dan seragam.
+- **Random Deck Sampling:** Papan 4x4 secara acak memilih 8 pasang kartu unik dari koleksi Deck pemain di setiap stage.
+- **Session Leaderboard:** Merekam Skor (*Stage Tertinggi, Total Matches, dan Kesulitan AI*) ke dalam **Session Leaderboard**.
 
-### ⏳ Turn Timer & Kompendium Kartu
-- **Turn Countdown (15 Detik):** Batas waktu berpikir 15 detik pada giliran pemain.
-- **📖 Katalog Kartu (Card Compendium):** Halaman khusus bagi pemain baru untuk mempelajari visual, statistik, dan deskripsi seluruh jenis kartu.
-
----
-
-## 🎨 Tema Visual: Cyberfantasy UI Pro Max
-
-- **Glassmorphic UI Panels:** Tampilan semi-transparan dengan *backdrop blur* 12px dan border bercahaya neon.
-- **3D Card Flip & Shimmer:** Transisi memutar 3D pada kartu dan efek kilauan *shimmer* pada kartu langka (*Rare & Epic*).
-- **Haptic Visuals:** Efek layar bergetar (*Screen Shake*) saat menerima damage besar dan animasi angka melayang (*Floating Text Overlay*).
+### 🎵 Web Audio Synthesizer BGM & SFX
+- **Ambient Cyberfantasy BGM:** Musik latar harmonis dengan lowpass filter 1200Hz dan arpeggio melodis yang menenangkan.
 
 ---
 
 ## 📂 Dokumentasi Lengkap Proyek
 
-Seluruh perancangan game ini terdokumentasi secara detail di dalam folder `docs/`:
-
 1. [📄 1_REQUIREMENTS.md](docs/1_REQUIREMENTS.md) — Spesifikasi kebutuhan mekanik game & balancing.
-2. [📄 2_DESIGN_SYSTEM.md](docs/2_DESIGN_SYSTEM.md) — Pedoman visual Cyberfantasy, palet warna, dan UI/UX Pro Max.
-3. [📄 3_ROADMAP.md](docs/3_ROADMAP.md) — Alur tahap pengembangan proyek dari Fase 1 hingga Fase 8.
-4. [📄 4_CARDS_CATALOG.md](docs/4_CARDS_CATALOG.md) — Katalog lengkap seluruh kartu (Attack, Defense, Heal, Buff, Debuff, Legendary).
-5. [📄 5_TESTING_REPORT.md](docs/5_TESTING_REPORT.md) — Laporan pengujian gameplay & penanganan bug.
-6. [📄 6_DEPLOYMENT_GUIDE.md](docs/6_DEPLOYMENT_GUIDE.md) — Panduan deployment ke Vercel, Netlify, dan GitHub Pages.
-
----
-
-## 🛠️ Teknologi Yang Digunakan (Tech Stack)
-
-- **Frontend Framework:** React.js 19
-- **Build Tool:** Vite 6
-- **Styling:** Vanilla CSS3 (Custom CSS Variables, Flexbox, CSS Grid, Glassmorphism, 3D Transforms, Keyframe Animations)
-- **Deployment Platform:** Vercel Hosting
+2. [📄 2_ARCHITECTURAL_DESIGN.md](docs/2_ARCHITECTURAL_DESIGN.md) — Arsitektur sistem game & alur data state.
+3. [📄 3_CARDS_CATALOG.md](docs/3_CARDS_CATALOG.md) — Katalog 13 kartu lengkap beserta statistik & gambar 3D.
+4. [📄 4_LOOT_AND_PITY_SYSTEM.md](docs/4_LOOT_AND_PITY_SYSTEM.md) — Mekanisme Loot, Drop Rate, & Pity Comeback.
+5. [📄 5_TESTING_REPORT.md](docs/5_TESTING_REPORT.md) — Laporan pengujian gameplay & status verifikasi bug.
 
 ---
 
@@ -110,5 +90,5 @@ Seluruh perancangan game ini terdokumentasi secara detail di dalam folder `docs/
 ---
 
 <div align="center">
-  <sub>Dibuat oleh <b>Ajizzhx</b> untuk percobaan proyek game Memory Card Battle — 2026</sub>
+  <sub>Dibuat oleh <b>Ajizzhx</b> untuk proyek Memory Card Battle — 2026</sub>
 </div>

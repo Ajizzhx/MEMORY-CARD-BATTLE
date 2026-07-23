@@ -80,3 +80,95 @@
   font-size: 0.7rem;
   color: var(--color-text-muted);
 }
+
+/* Styling untuk Tab Panduan Game & Musuh */
+.game-guide-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.guide-section {
+  background: rgba(15, 20, 35, 0.8);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.guide-heading {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.enemy-guide-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enemy-guide-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.enemy-guide-card.boss {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.enemy-icon {
+  font-size: 2rem;
+}
+
+.enemy-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.enemy-info strong {
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.enemy-hp {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.enemy-info p {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.guide-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rule-item {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+
+  p {
+    margin-top: 2px;
+    font-size: 0.78rem;
+  }
+}
+
+.rule-item strong {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+}
