@@ -1,7 +1,7 @@
 .card-container {
   perspective: 1000px;
   width: 100%;
-  aspect-ratio: 3 / 4.2;
+  aspect-ratio: 3 / 4.3;
   cursor: pointer;
 }
 
@@ -37,8 +37,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 8px 4px;
+  justify-content: space-around;
+  padding: 6px 4px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   overflow: hidden;
 }
@@ -136,13 +136,13 @@
 }
 
 .card-icon {
-  font-size: 1.8rem;
-  margin: 2px 0;
+  font-size: 1.7rem;
+  margin: 1px 0;
   filter: drop-shadow(0 0 8px currentColor);
 }
 
 .card-name {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--color-text);
   line-height: 1.1;
@@ -154,33 +154,48 @@
 }
 
 .card-value {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--color-accent);
 }
 
-/* Mobile Optimizations (< 500px) */
+/* Mobile Ultra-Compact Adjustments (< 500px) */
 @media (max-width: 500px) {
+  .card-container {
+    aspect-ratio: 3 / 4.6; /* Membuat kartu sedikit lebih tinggi agar tidak sesak */
+  }
   .card-front,
   .card-back {
-    padding: 4px 2px;
+    padding: 3px 2px;
+  }
+  .card-header {
+    font-size: 0.55rem;
+    line-height: 1;
   }
   .card-type-badge {
-    font-size: 0.52rem;
-    padding: 1px 3px;
+    font-size: 0.48rem;
+    padding: 1px 2px;
+    border-radius: 2px;
   }
   .card-rarity {
-    font-size: 0.55rem;
+    font-size: 0.52rem;
   }
   .card-icon {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     margin: 1px 0;
   }
   .card-name {
-    font-size: 0.62rem;
-    letter-spacing: -0.2px;
+    font-size: 0.58rem;
+    line-height: 1.05;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
   }
   .card-value {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
+    line-height: 1;
   }
 }
