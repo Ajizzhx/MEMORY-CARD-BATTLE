@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './NameModal.css';
 
-const NameModal = ({ onSubmitName }) => {
+const NameModal = ({ onSubmitName, onOpenCatalog }) => {
   const [nameInput, setNameInput] = useState('');
   const [selectedAiMode, setSelectedAiMode] = useState('AUTO');
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const NameModal = ({ onSubmitName }) => {
     <div className="modal-overlay">
       <div className="name-modal-content glass-panel">
         <h2 className="app-title">MEMORY CARD BATTLE</h2>
-        <p className="app-subtitle">Masukkan Nama & Pilih Mode Kesulitan AI Musuh:</p>
+        <p className="app-subtitle">Cyberfantasy RPG & Memory Matching Game</p>
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <input
@@ -64,6 +65,40 @@ const NameModal = ({ onSubmitName }) => {
               </button>
             </div>
           </div>
+
+          {/* Panduan Alur Permainan & Katalog Bar */}
+          <div className="game-guide-actions">
+            <button
+              type="button"
+              className="guide-toggle-btn"
+              onClick={() => setShowHowToPlay(!showHowToPlay)}
+            >
+              ℹ️ {showHowToPlay ? 'Tutup Panduan Alur' : 'Panduan Alur Permainan'}
+            </button>
+
+            {onOpenCatalog && (
+              <button
+                type="button"
+                className="guide-catalog-btn"
+                onClick={onOpenCatalog}
+              >
+                📖 Katalog Kartu
+              </button>
+            )}
+          </div>
+
+          {/* Panduan Alur Collapsible Panel */}
+          {showHowToPlay && (
+            <div className="game-flow-panel">
+              <h4>⚔️ Alur & Cara Bermain:</h4>
+              <ul>
+                <li><strong>🂠 Pencocokan Kartu:</strong> Pilih 2 kartu di papan. Jika pasangan cocok, efek kartu (Attack, Defense, Heal, Buff, Debuff) langsung aktif!</li>
+                <li><strong>🔄 Giliran Ekstra:</strong> Jika berhasil match, Anda mendapat giliran tambahan. Jika mismatch, giliran berpindah ke Musuh.</li>
+                <li><strong>⏳ Batas Waktu 15s:</strong> Setiap giliran pemain dibatasi 15 detik.</li>
+                <li><strong>🏆 Roguelike Stage:</strong> Kalahkan musuh untuk lanjut ke Stage berikutnya dan memilih kartu loot baru!</li>
+              </ul>
+            </div>
+          )}
 
           <button type="submit" className="start-journey-btn" style={{ marginTop: '16px' }}>
             ⚔️ Mulai Pertarungan

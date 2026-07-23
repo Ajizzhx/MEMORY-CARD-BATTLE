@@ -563,7 +563,12 @@ const GameBoard = () => {
       </div>
 
       {/* Modal Input Nama di Awal */}
-      {showNameModal && <NameModal onSubmitName={handleNameSubmit} />}
+      {showNameModal && (
+        <NameModal
+          onSubmitName={handleNameSubmit}
+          onOpenCatalog={() => setShowCatalogModal(true)}
+        />
+      )}
 
       {/* Modal Leaderboard */}
       {showLeaderboardModal && (
