@@ -204,6 +204,21 @@ const GameBoard = () => {
     localStorage.setItem('memory_card_leaderboard', JSON.stringify(updated));
   };
 
+  // Handler untuk Tombol Reset dengan Validasi
+  const handleResetButtonClick = () => {
+    const isConfirmed = window.confirm(
+      '⚠️ Konfirmasi Reset Perjalanan:\n\nApakah Anda yakin ingin mereset permainan? Seluruh progres saat ini akan dihapus dan Anda akan kembali ke Dashboard Pembuatan Nama.'
+    );
+
+    if (isConfirmed) {
+      localStorage.removeItem('memory_game_saved_state');
+      localStorage.removeItem('memory_player_name');
+      setPlayerName('');
+      setShowNameModal(true);
+      startNewJourney();
+    }
+  };
+
   // Mulai Perjalanan Baru dari Stage 1
   const startNewJourney = () => {
     localStorage.removeItem('memory_game_saved_state');
@@ -534,7 +549,7 @@ const GameBoard = () => {
           <button className="nav-icon-btn" onClick={() => setShowLeaderboardModal(true)} title="Leaderboard Sesi">
             🏆 Skor
           </button>
-          <button className="reset-btn" onClick={startNewJourney}>
+          <button className="reset-btn" onClick={handleResetButtonClick}>
             Reset
           </button>
         </div>
