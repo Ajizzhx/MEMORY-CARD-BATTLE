@@ -62,12 +62,49 @@ const GameBoard = () => {
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
 
-  // Initialize Game on Mount
+  // Initialize & Restore Saved Progress on Mount
   useEffect(() => {
     if (playerName) {
+      const savedState = localStorage.getItem('memory_game_saved_state');
+      if (savedState) {
+        try {
+          const parsed = JSON.parse(savedState);
+          if (parsed && parsed.player && parsed.player.hp > 0 && parsed.stage >= 1) {
+            // Restore saved progress seamlessly!
+            setStage(parsed.stage);
+            setPlayer({ ...parsed.player, name: playerName });
+            setEnemy(parsed.enemy);
+            setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
+            setTotalMatchesMade(parsed.totalMatchesMade || 0);
+
+            const enemyConfig = getStageEnemyConfig(parsed.stage);
+            setAiDifficulty(enemyConfig.difficulty);
+
+            resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
+            setStatusMessage(`✨ Melanjutkan perjalanan Stage ${parsed.stage}!`);
+            return;
+          }
+        } catch (err) {
+          console.error("Error parsing saved progress:", err);
+        }
+      }
       startNewJourney();
     }
   }, [playerName]);
+
+  // Auto-Save progress whenever stage or entities change
+  useEffect(() => {
+    if (playerName && player.hp > 0 && stage >= 1) {
+      const progress = {
+        stage,
+        player,
+        enemy,
+        playerDeck,
+        totalMatchesMade
+      };
+      localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
+    }
+  }, [stage, player, enemy, playerDeck, totalMatchesMade, playerName]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
@@ -138,6 +175,7 @@ const GameBoard = () => {
 
   // Mulai Perjalanan Baru dari Stage 1
   const startNewJourney = () => {
+    localStorage.removeItem('memory_game_saved_state');
     const enemyConfig = getStageEnemyConfig(1);
     setStage(1);
     setPlayerDeck(CARD_DATABASE.slice(0, 8));
@@ -399,6 +437,7 @@ const GameBoard = () => {
   };
 
   const triggerGameOver = () => {
+    localStorage.removeItem('memory_game_saved_state');
     recordLeaderboardScore(stage, totalMatchesMade);
     setTimeout(() => {
       setShowGameOverModal(true);
