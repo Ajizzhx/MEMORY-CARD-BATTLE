@@ -11,11 +11,16 @@ import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
 import { generateStarterBoard, CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
+import { soundManager } from '../../utils/soundSystem';
 import './GameBoard.css';
 
 const TURN_TIME_LIMIT = 15; // 15 detik batas waktu berpikir
 
 const GameBoard = () => {
+  // Audio Controls State
+  const [isBgmMuted, setIsBgmMuted] = useState(soundManager.isBgmMuted);
+  const [isSfxMuted, setIsSfxMuted] = useState(soundManager.isSfxMuted);
+
   // Player Name & Leaderboard States
   const [playerName, setPlayerName] = useState(localStorage.getItem('memory_player_name') || '');
   const [showNameModal, setShowNameModal] = useState(!localStorage.getItem('memory_player_name'));
@@ -69,9 +74,23 @@ const GameBoard = () => {
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
 
+  // Audio Toggle Handlers
+  const handleToggleBgm = () => {
+    soundManager.playClickSFX();
+    const isNowActive = soundManager.toggleBgm();
+    setIsBgmMuted(!isNowActive);
+  };
+
+  const handleToggleSfx = () => {
+    soundManager.playClickSFX();
+    const isNowActive = soundManager.toggleSfx();
+    setIsSfxMuted(!isNowActive);
+  };
+
   // Initialize & Restore Saved Progress on Mount
   useEffect(() => {
     if (playerName) {
+      soundManager.startBgm();
       const savedState = localStorage.getItem('memory_game_saved_state');
       if (savedState) {
         try {
@@ -142,6 +161,7 @@ const GameBoard = () => {
   const handleTurnTimeout = () => {
     setFlippedCards([]);
     setIsProcessing(true);
+    soundManager.playMismatchSFX();
     spawnFloatingText('⏰ WAKTU HABIS!', 'damage');
     setStatusMessage('⏰ Waktu berpikir Anda habis! Giliran berpindah ke Musuh!');
 
@@ -153,6 +173,7 @@ const GameBoard = () => {
 
   // Cycle AI Difficulty Manually on Badge Click
   const handleCycleDifficulty = () => {
+    soundManager.playClickSFX();
     const modes = ['AUTO', 'EASY', 'MEDIUM', 'HARD'];
     const nextIdx = (modes.indexOf(selectedAiMode) + 1) % modes.length;
     const nextMode = modes[nextIdx];
@@ -187,6 +208,8 @@ const GameBoard = () => {
 
   // Handle Nama & Mode AI Pemain
   const handleNameSubmit = (name, mode = 'AUTO') => {
+    soundManager.startBgm();
+    soundManager.playClickSFX();
     localStorage.setItem('memory_player_name', name);
     localStorage.setItem('memory_ai_mode', mode);
     setPlayerName(name);
@@ -208,11 +231,13 @@ const GameBoard = () => {
 
   // Handler untuk Buka Modal Validasi Reset Desain UI Custom
   const handleResetButtonClick = () => {
+    soundManager.playClickSFX();
     setShowResetConfirmModal(true);
   };
 
   // Handler Konfirmasi Reset dari Modal Custom UI
   const handleConfirmReset = () => {
+    soundManager.playClickSFX();
     setShowResetConfirmModal(false);
     localStorage.removeItem('memory_game_saved_state');
     localStorage.removeItem('memory_player_name');
@@ -286,6 +311,7 @@ const GameBoard = () => {
 
         if (choices.length === 2) {
           const [c1, c2] = choices;
+          soundManager.playFlipSFX();
           setFlippedCards([c1, c2]);
           setAiMemory((prevMem) => updateAiMemory(prevMem, [c1, c2], accuracy));
 
@@ -312,6 +338,7 @@ const GameBoard = () => {
       return;
     }
 
+    soundManager.playFlipSFX();
     const newFlipped = [...flippedCards, clickedCard];
     setFlippedCards(newFlipped);
 
@@ -333,6 +360,7 @@ const GameBoard = () => {
     const actorName = actor === 'PLAYER' ? playerName || 'Anda' : enemy.name;
 
     if (isMatch) {
+      soundManager.playMatchSFX();
       if (actor === 'PLAYER') {
         setMismatchStreak(0);
         setTotalMatchesMade((prev) => prev + 1);
@@ -368,6 +396,7 @@ const GameBoard = () => {
         if (actor === 'ENEMY') setIsEmpJammerActive(false);
       }
     } else {
+      soundManager.playMismatchSFX();
       if (actor === 'PLAYER') {
         setMismatchStreak((prev) => prev + 1);
       }
@@ -389,6 +418,7 @@ const GameBoard = () => {
 
     switch (card.type) {
       case 'ATTACK': {
+        soundManager.playAttackSFX();
         const damage = card.value;
         triggerScreenShake();
         spawnFloatingText(`-${damage} HP`, 'damage');
@@ -421,6 +451,7 @@ const GameBoard = () => {
         break;
       }
       case 'DEFENSE': {
+        soundManager.playBlockSFX();
         spawnFloatingText(`+${card.value} Armor`, 'block');
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, block: prev.block + card.value }));
@@ -430,6 +461,7 @@ const GameBoard = () => {
         break;
       }
       case 'HEAL': {
+        soundManager.playHealSFX();
         spawnFloatingText(`+${card.value} HP`, 'heal');
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + card.value) }));
@@ -439,6 +471,7 @@ const GameBoard = () => {
         break;
       }
       case 'BUFF': {
+        soundManager.playMatchSFX();
         spawnFloatingText(`👁️ VISION ACTIVE!`, 'match');
         const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
         if (unmatched.length >= 2) {
@@ -451,6 +484,7 @@ const GameBoard = () => {
         break;
       }
       case 'DEBUFF': {
+        soundManager.playAttackSFX();
         triggerScreenShake();
         spawnFloatingText(`☠️ VIRUS -16 HP!`, 'damage');
         if (isPlayer) {
@@ -475,6 +509,7 @@ const GameBoard = () => {
   };
 
   const triggerStageClear = () => {
+    soundManager.playVictorySFX();
     recordLeaderboardScore(stage, totalMatchesMade + 1);
     setTimeout(() => {
       const choices = generateLootChoices(isPityActive);
@@ -484,6 +519,7 @@ const GameBoard = () => {
   };
 
   const triggerGameOver = () => {
+    soundManager.playMismatchSFX();
     localStorage.removeItem('memory_game_saved_state');
     recordLeaderboardScore(stage, totalMatchesMade);
     setTimeout(() => {
@@ -492,6 +528,7 @@ const GameBoard = () => {
   };
 
   const handleSelectLoot = (selectedCard) => {
+    soundManager.playClickSFX();
     setShowLootModal(false);
     const newDeck = [selectedCard, ...playerDeck];
     setPlayerDeck(newDeck);
@@ -545,10 +582,16 @@ const GameBoard = () => {
         </div>
 
         <div className="header-controls">
-          <button className="nav-icon-btn" onClick={() => setShowCatalogModal(true)} title="Katalog Kartu">
+          <button className="nav-icon-btn" onClick={handleToggleBgm} title="Toggle Musik BGM">
+            {isBgmMuted ? '🔇 Musik' : '🔊 Musik'}
+          </button>
+          <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX Suara">
+            {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
+          </button>
+          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowCatalogModal(true); }} title="Katalog Kartu">
             📖 Kartu
           </button>
-          <button className="nav-icon-btn" onClick={() => setShowLeaderboardModal(true)} title="Leaderboard Sesi">
+          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Leaderboard Sesi">
             🏆 Skor
           </button>
           <button className="reset-btn" onClick={handleResetButtonClick}>
@@ -583,7 +626,7 @@ const GameBoard = () => {
       {showNameModal && (
         <NameModal
           onSubmitName={handleNameSubmit}
-          onOpenCatalog={() => setShowCatalogModal(true)}
+          onOpenCatalog={() => { soundManager.playClickSFX(); setShowCatalogModal(true); }}
         />
       )}
 
@@ -591,20 +634,20 @@ const GameBoard = () => {
       {showLeaderboardModal && (
         <LeaderboardModal
           leaderboard={leaderboard}
-          onClose={() => setShowLeaderboardModal(false)}
+          onClose={() => { soundManager.playClickSFX(); setShowLeaderboardModal(false); }}
         />
       )}
 
       {/* Modal Katalog Kartu */}
       {showCatalogModal && (
-        <CatalogModal onClose={() => setShowCatalogModal(false)} />
+        <CatalogModal onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }} />
       )}
 
       {/* Modal Custom UI Konfirmasi Reset */}
       {showResetConfirmModal && (
         <ResetConfirmModal
           onConfirm={handleConfirmReset}
-          onCancel={() => setShowResetConfirmModal(false)}
+          onCancel={() => { soundManager.playClickSFX(); setShowResetConfirmModal(false); }}
         />
       )}
 
