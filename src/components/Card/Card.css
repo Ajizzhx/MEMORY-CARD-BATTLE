@@ -1,7 +1,7 @@
 .card-container {
   perspective: 1000px;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3 / 4.2;
   cursor: pointer;
 }
 
@@ -12,7 +12,7 @@
   text-align: center;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .card-container.flipped .card-inner {
@@ -33,17 +33,17 @@
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  padding: 8px 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   overflow: hidden;
 }
 
-/* Card Back (Cyberfantasy Rune Backside) */
+/* Card Back */
 .card-back {
   background: linear-gradient(135deg, rgba(25, 30, 55, 0.95), rgba(10, 10, 25, 0.98));
   border: 1.5px solid rgba(0, 240, 255, 0.4);
@@ -54,19 +54,19 @@
   width: 100%;
   height: 100%;
   border: 1px dashed rgba(0, 240, 255, 0.3);
-  border-radius: 8px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: var(--color-primary);
   text-shadow: 0 0 12px var(--color-primary);
   background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
 }
 
 .card-container:hover:not(.flipped):not(.matched) .card-inner {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.5);
 }
 
 /* Card Front */
@@ -76,7 +76,6 @@
   border: 1.5px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Shimmer Animation Effect for Rare & Epic */
 .card-front.rare::after,
 .card-front.epic::after {
   content: '';
@@ -110,12 +109,12 @@
 
 .card-front.rare {
   border-color: rgba(0, 195, 255, 0.9);
-  box-shadow: 0 0 18px rgba(0, 195, 255, 0.4);
+  box-shadow: 0 0 16px rgba(0, 195, 255, 0.4);
 }
 
 .card-front.epic {
   border-color: rgba(168, 85, 247, 0.95);
-  box-shadow: 0 0 24px rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
 }
 
 .card-header {
@@ -123,33 +122,65 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .card-type-badge {
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 0.65rem;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 0.6rem;
+  white-space: nowrap;
 }
 
 .card-icon {
-  font-size: 2.2rem;
-  margin: 6px 0;
-  filter: drop-shadow(0 0 10px currentColor);
+  font-size: 1.8rem;
+  margin: 2px 0;
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .card-name {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--color-text);
-  margin-bottom: 2px;
+  line-height: 1.1;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-value {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--color-accent);
+}
+
+/* Mobile Optimizations (< 500px) */
+@media (max-width: 500px) {
+  .card-front,
+  .card-back {
+    padding: 4px 2px;
+  }
+  .card-type-badge {
+    font-size: 0.52rem;
+    padding: 1px 3px;
+  }
+  .card-rarity {
+    font-size: 0.55rem;
+  }
+  .card-icon {
+    font-size: 1.35rem;
+    margin: 1px 0;
+  }
+  .card-name {
+    font-size: 0.62rem;
+    letter-spacing: -0.2px;
+  }
+  .card-value {
+    font-size: 0.58rem;
+  }
 }
