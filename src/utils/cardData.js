@@ -1,4 +1,4 @@
-// Database Kartu Lengkap berdasarkan 4_CARDS_CATALOG.md (Seluruh 13 Kartu Memiliki Gambar Unik)
+// Database Kartu Lengkap (100% Unified 3D Cyberfantasy Render Art Style)
 export const CARD_DATABASE = [
   // --- COMMON (Tingkat Biasa) ---
   {
@@ -19,7 +19,7 @@ export const CARD_DATABASE = [
     rarity: 'common',
     value: 10,
     icon: '🛡️',
-    img: '/assets/cards/def_nano.svg',
+    img: '/assets/cards/def_nano.png',
     description: 'Memberikan 10 Armor/Block.',
     color: '#00ff88'
   },
@@ -65,7 +65,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 20,
     icon: '💊',
-    img: '/assets/cards/heal_elixir.svg',
+    img: '/assets/cards/heal_potion.png',
     description: 'Memulihkan 20 HP.',
     color: '#a855f7'
   },
@@ -100,7 +100,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 30,
     icon: '🔱',
-    img: '/assets/cards/atk_aether.svg',
+    img: '/assets/cards/atk_plasma.png',
     description: 'Serangan tebasan kosmik sebesar 30 damage!',
     color: '#ec4899'
   },
@@ -111,7 +111,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 32,
     icon: '🏰',
-    img: '/assets/cards/def_aegis.svg',
+    img: '/assets/cards/def_shield.png',
     description: 'Benteng energi kokoh sebesar 32 Armor!',
     color: '#8b5cf6'
   },
@@ -122,7 +122,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 35,
     icon: '🔥',
-    img: '/assets/cards/heal_phoenix.svg',
+    img: '/assets/cards/heal_potion.png',
     description: 'Pemulihan regenerasi besar 35 HP!',
     color: '#f97316'
   },
@@ -133,7 +133,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 24,
     icon: '👾',
-    img: '/assets/cards/debuff_glitch.svg',
+    img: '/assets/cards/debuff_virus.png',
     description: 'Ganggui sistem musuh & berikan 24 Damage.',
     color: '#d946ef'
   },
@@ -146,7 +146,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 40,
     icon: '⚡',
-    img: '/assets/cards/pity_wrath.svg',
+    img: '/assets/cards/atk_plasma.png',
     description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
     color: '#eab308'
   }
