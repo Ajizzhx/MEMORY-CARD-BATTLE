@@ -286,12 +286,16 @@ const GameBoard = () => {
     const boardCards = [];
     const activeDeck = deckToUse || playerDeck;
     
-    const selectedTypes = activeDeck.slice(0, 8);
+    // Acak pilihan 8 jenis kartu unik dari Deck Pemain (sehingga jika koleksi Deck > 8, variasi kartu selalu acak & segar)
+    const shuffledDeck = [...activeDeck].sort(() => Math.random() - 0.5);
+    const selectedTypes = shuffledDeck.slice(0, 8);
+
     selectedTypes.forEach((card) => {
       boardCards.push({ uniqueId: `${card.id}-a-${Math.random()}`, pairId: card.id, ...card });
       boardCards.push({ uniqueId: `${card.id}-b-${Math.random()}`, pairId: card.id, ...card });
     });
 
+    // Pengocokan 16 kartu di papan (4x4) menggunakan Algoritma Fisher-Yates Shuffle
     for (let i = boardCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [boardCards[i], boardCards[j]] = [boardCards[j], boardCards[i]];
