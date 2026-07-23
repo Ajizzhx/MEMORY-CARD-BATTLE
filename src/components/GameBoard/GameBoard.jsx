@@ -54,10 +54,15 @@ const GameBoard = () => {
   const [currentTurn, setCurrentTurn] = useState('PLAYER');
   const [temporaryRevealed, setTemporaryRevealed] = useState([]);
 
-  // AI State
-  const [aiDifficulty, setAiDifficulty] = useState('EASY');
+  // AI Difficulty Mode State ('AUTO' | 'EASY' | 'MEDIUM' | 'HARD')
+  const [selectedAiMode, setSelectedAiMode] = useState(localStorage.getItem('memory_ai_mode') || 'AUTO');
   const [aiMemory, setAiMemory] = useState({});
   const [isEmpJammerActive, setIsEmpJammerActive] = useState(false);
+
+  // Compute Active AI Difficulty
+  const activeAiDifficulty = selectedAiMode === 'AUTO'
+    ? getStageEnemyConfig(stage).difficulty
+    : selectedAiMode;
 
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
@@ -76,10 +81,7 @@ const GameBoard = () => {
             setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
             setTotalMatchesMade(parsed.totalMatchesMade || 0);
 
-            const enemyConfig = getStageEnemyConfig(parsed.stage);
-            setAiDifficulty(enemyConfig.difficulty);
-
-            // RESTORE EXACT CARDS LAYOUT & MATCHED CARDS!
+            // Restore exact cards layout and matched card ids
             if (parsed.cards && parsed.cards.length > 0) {
               setCards(parsed.cards);
               setMatchedCardIds(parsed.matchedCardIds || []);
@@ -98,7 +100,7 @@ const GameBoard = () => {
     }
   }, [playerName]);
 
-  // Auto-Save progress whenever stage, entities, cards, or matchedCardIds change
+  // Auto-Save progress whenever state changes
   useEffect(() => {
     if (playerName && player.hp > 0 && stage >= 1 && cards.length > 0) {
       const progress = {
@@ -106,8 +108,8 @@ const GameBoard = () => {
         player,
         enemy,
         playerDeck,
-        cards,           // SAVE BOARD CARDS LAYOUT
-        matchedCardIds,  // SAVE OPEN MATCHED CARDS
+        cards,
+        matchedCardIds,
         totalMatchesMade
       };
       localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
@@ -147,6 +149,25 @@ const GameBoard = () => {
     }, 1200);
   };
 
+  // Cycle AI Difficulty Manually on Badge Click
+  const handleCycleDifficulty = () => {
+    const modes = ['AUTO', 'EASY', 'MEDIUM', 'HARD'];
+    const nextIdx = (modes.indexOf(selectedAiMode) + 1) % modes.length;
+    const nextMode = modes[nextIdx];
+    setSelectedAiMode(nextMode);
+    localStorage.setItem('memory_ai_mode', nextMode);
+
+    const modeLabels = {
+      AUTO: 'Otomatis (Scaling Stage)',
+      EASY: 'Mudah (35%)',
+      MEDIUM: 'Sedang (65%)',
+      HARD: 'Tinggi (88%)'
+    };
+
+    spawnFloatingText(`🧠 Mode AI: ${modeLabels[nextMode]}`, 'match');
+    setStatusMessage(`🧠 Mode Kesulitan AI Diubah ke: ${modeLabels[nextMode]}`);
+  };
+
   // Spawn Floating Text
   const spawnFloatingText = (text, type) => {
     const newItem = { id: Date.now() + Math.random(), text, type };
@@ -162,10 +183,12 @@ const GameBoard = () => {
     setTimeout(() => setIsShaking(false), 400);
   };
 
-  // Handle Nama Pemain
-  const handleNameSubmit = (name) => {
+  // Handle Nama & Mode AI Pemain
+  const handleNameSubmit = (name, mode = 'AUTO') => {
     localStorage.setItem('memory_player_name', name);
+    localStorage.setItem('memory_ai_mode', mode);
     setPlayerName(name);
+    setSelectedAiMode(mode);
     setPlayer((prev) => ({ ...prev, name }));
     setShowNameModal(false);
   };
@@ -189,7 +212,6 @@ const GameBoard = () => {
     setPlayerDeck(CARD_DATABASE.slice(0, 8));
     setPlayer({ name: playerName || 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
     setEnemy({ name: enemyConfig.name, hp: enemyConfig.hp, maxHp: enemyConfig.maxHp, block: 0 });
-    setAiDifficulty(enemyConfig.difficulty);
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
@@ -232,9 +254,9 @@ const GameBoard = () => {
       if (available.length < 2) return;
 
       setIsProcessing(true);
-      setStatusMessage(`🤖 ${enemy.name} (AI ${AI_DIFFICULTY_LEVELS[aiDifficulty].name}) sedang berpikir...`);
+      setStatusMessage(`🤖 ${enemy.name} (AI ${AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}) sedang berpikir...`);
 
-      const accuracy = AI_DIFFICULTY_LEVELS[aiDifficulty].memoryAccuracy;
+      const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
 
       setTimeout(() => {
         const choices = getAiCardChoices(
@@ -258,7 +280,7 @@ const GameBoard = () => {
         }
       }, 1100);
     }
-  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, aiDifficulty, isEmpJammerActive, player.hp, enemy.hp]);
+  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, player.hp, enemy.hp]);
 
   // Handle Player Card Click
   const handleCardClick = (clickedCard) => {
@@ -276,7 +298,7 @@ const GameBoard = () => {
     const newFlipped = [...flippedCards, clickedCard];
     setFlippedCards(newFlipped);
 
-    const accuracy = AI_DIFFICULTY_LEVELS[aiDifficulty].memoryAccuracy;
+    const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
     setAiMemory((prevMem) => updateAiMemory(prevMem, [clickedCard], accuracy));
 
     if (newFlipped.length === 2) {
@@ -467,7 +489,6 @@ const GameBoard = () => {
       maxHp: nextEnemyConfig.maxHp,
       block: 0
     });
-    setAiDifficulty(nextEnemyConfig.difficulty);
     setMismatchStreak(0);
 
     resetBoardForStage(nextStage, newDeck);
@@ -485,7 +506,8 @@ const GameBoard = () => {
         player={player}
         enemy={enemy}
         currentTurn={currentTurn}
-        difficultyName={AI_DIFFICULTY_LEVELS[aiDifficulty].name}
+        difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}
+        onCycleDifficulty={handleCycleDifficulty}
       />
 
       {/* Pity Indicator Banner jika Pity Active */}

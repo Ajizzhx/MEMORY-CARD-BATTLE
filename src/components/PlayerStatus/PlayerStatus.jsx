@@ -1,7 +1,7 @@
 import React from 'react';
 import './PlayerStatus.css';
 
-const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
+const PlayerStatus = ({ player, enemy, currentTurn, difficultyName, onCycleDifficulty }) => {
   const playerHpPct = Math.max(0, Math.min(100, (player.hp / player.maxHp) * 100));
   const enemyHpPct = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
 
@@ -27,14 +27,18 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
         </div>
       </div>
 
-      {/* Turn & Difficulty Badge */}
+      {/* Turn & Clickable Difficulty Badge */}
       <div className="status-center-badge">
         <div className={`turn-badge ${currentTurn === 'PLAYER' ? 'player' : 'enemy'}`}>
           {currentTurn === 'PLAYER' ? 'Giliran Pemain' : 'Giliran Musuh'}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag">
-            🧠 AI: {difficultyName}
+          <div
+            className="difficulty-tag clickable"
+            onClick={onCycleDifficulty}
+            title="Klik untuk mengubah Mode Kesulitan AI"
+          >
+            🧠 AI: {difficultyName} ⚙️
           </div>
         )}
       </div>

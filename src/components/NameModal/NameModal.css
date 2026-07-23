@@ -1,49 +1,97 @@
 .name-modal-content {
-  width: 90%;
-  max-width: 450px;
-  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  border: 1px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.25);
+  gap: 14px;
+  width: 90%;
+  max-width: 440px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(15, 15, 30, 0.95);
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
   text-align: center;
 }
 
 .name-input-field {
   width: 100%;
   padding: 12px 16px;
-  border-radius: 10px;
-  background: rgba(10, 15, 30, 0.9);
-  border: 1.5px solid var(--color-primary);
-  color: var(--color-text);
-  font-size: 1.05rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: #fff;
+  font-size: 0.95rem;
   text-align: center;
   outline: none;
   transition: all 0.3s ease;
 }
 
 .name-input-field:focus {
-  box-shadow: 0 0 15px var(--color-primary);
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.ai-selector-container {
+  margin-top: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.ai-selector-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.ai-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.ai-opt-btn {
+  background: rgba(20, 25, 45, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-muted);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.ai-opt-btn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  color: #fff;
+}
+
+.ai-opt-btn.active {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  font-weight: 800;
 }
 
 .start-journey-btn {
   width: 100%;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(135deg, var(--color-primary), #0088ff);
   color: #000;
-  font-size: 1rem;
   font-weight: 800;
-  cursor: pointer;
+  font-size: 0.95rem;
   border: none;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
 }
 
 .start-journey-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
 }
