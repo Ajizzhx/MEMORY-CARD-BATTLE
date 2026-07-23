@@ -1,7 +1,7 @@
 .card-container {
   perspective: 1000px;
   width: 100%;
-  aspect-ratio: 3 / 4.1;
+  aspect-ratio: 3 / 4.3;
   cursor: pointer;
   position: relative;
 }
@@ -44,9 +44,9 @@
   overflow: hidden;
 }
 
-/* Card Back (Fit 100% Sempurna Sesuai Ukuran Kartu) */
+/* Card Back (Simple Dark Fantasy — Elegant & Dark) */
 .card-back {
-  background: url('/assets/card-back.png') center/100% 100% no-repeat;
+  background: url('/assets/card-back.png') center/cover no-repeat;
   border: 1.5px solid rgba(0, 240, 255, 0.4);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.5);
   image-rendering: -webkit-optimize-contrast;
@@ -245,7 +245,7 @@
 /* Mobile Ultra-Compact Adjustments (< 500px) */
 @media (max-width: 500px) {
   .card-container {
-    aspect-ratio: 3 / 4.4;
+    aspect-ratio: 3 / 4.6;
   }
   .card-front,
   .card-back {
