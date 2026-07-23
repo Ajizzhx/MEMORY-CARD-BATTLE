@@ -35,7 +35,11 @@ const CatalogModal = ({ onClose }) => {
                 {card.rarity}
               </span>
               <div className="catalog-card-icon" style={{ color: card.color }}>
-                {card.icon}
+                {card.img ? (
+                  <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
+                ) : (
+                  card.icon
+                )}
               </div>
               <div className="catalog-card-name">{card.name}</div>
               <div className="catalog-card-desc">{card.description}</div>

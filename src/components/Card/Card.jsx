@@ -14,7 +14,7 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
       onClick={handleClick}
     >
       <div className="card-inner">
-        {/* Punggung Kartu (Tampak Belakang — Tajam & Jelas Tanpa Blur) */}
+        {/* Punggung Kartu (Tampak Belakang) */}
         <div className="card-back">
           {/* Animasi X-Ray Vision Scan (Khusus Efek BUFF Penerima) */}
           {isXrayVision && (
@@ -24,7 +24,11 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
                 <span className="xray-eye">👁️ SCAN</span>
               </div>
               <div className="xray-card-info">
-                <span className="xray-icon" style={{ color: card.color }}>{card.icon}</span>
+                {card.img ? (
+                  <img src={card.img} alt={card.name} className="xray-card-art-img" style={{ borderColor: card.color }} />
+                ) : (
+                  <span className="xray-icon" style={{ color: card.color }}>{card.icon}</span>
+                )}
                 <span className="xray-title">{card.name}</span>
                 <span className="xray-type-pill" style={{ borderColor: card.color, color: card.color }}>{card.type}</span>
               </div>
@@ -42,7 +46,11 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
           </div>
 
           <div className="card-icon" style={{ color: card.color }}>
-            {card.icon}
+            {card.img ? (
+              <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
+            ) : (
+              card.icon
+            )}
           </div>
 
           <div className="card-name">{card.name}</div>

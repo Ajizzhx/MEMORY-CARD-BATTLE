@@ -222,6 +222,27 @@
   font-size: 1.7rem;
   margin: 1px 0;
   filter: drop-shadow(0 0 8px currentColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-art-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid currentColor;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.xray-card-art-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid currentColor;
+  box-shadow: 0 0 8px currentColor;
 }
 
 .card-name {

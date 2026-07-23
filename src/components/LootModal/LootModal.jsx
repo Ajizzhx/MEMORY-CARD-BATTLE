@@ -25,7 +25,11 @@ const LootModal = ({ stage, choices, isPityActive, onSelectLoot }) => {
                 {card.rarity}
               </span>
               <div className="loot-card-icon" style={{ color: card.color }}>
-                {card.icon}
+                {card.img ? (
+                  <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
+                ) : (
+                  card.icon
+                )}
               </div>
               <div className="loot-card-name">{card.name}</div>
               <div className="loot-card-desc">{card.description}</div>

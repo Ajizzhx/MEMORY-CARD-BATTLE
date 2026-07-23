@@ -8,6 +8,7 @@ export const CARD_DATABASE = [
     rarity: 'common',
     value: 12,
     icon: '⚔️',
+    img: '/assets/cards/atk_dagger.png',
     description: 'Menyerang musuh sebesar 12 damage.',
     color: '#00f0ff'
   },
@@ -18,6 +19,7 @@ export const CARD_DATABASE = [
     rarity: 'common',
     value: 10,
     icon: '🛡️',
+    img: '/assets/cards/def_shield.png',
     description: 'Memberikan 10 Armor/Block.',
     color: '#00ff88'
   },
@@ -28,6 +30,7 @@ export const CARD_DATABASE = [
     rarity: 'common',
     value: 10,
     icon: '🧪',
+    img: '/assets/cards/heal_potion.png',
     description: 'Memulihkan 10 HP.',
     color: '#00ffaa'
   },
@@ -40,6 +43,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 22,
     icon: '🗡️',
+    img: '/assets/cards/atk_plasma.png',
     description: 'Menyerang musuh sebesar 22 damage.',
     color: '#00c3ff'
   },
@@ -50,6 +54,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 18,
     icon: '🔰',
+    img: '/assets/cards/def_shield.png',
     description: 'Memberikan 18 Armor/Block.',
     color: '#ffd700'
   },
@@ -60,6 +65,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 20,
     icon: '💊',
+    img: '/assets/cards/heal_potion.png',
     description: 'Memulihkan 20 HP.',
     color: '#a855f7'
   },
@@ -70,6 +76,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 0,
     icon: '👁️',
+    img: '/assets/cards/buff_eye.png',
     description: 'Mengintip 2 kartu tertutup di papan.',
     color: '#3b82f6'
   },
@@ -80,6 +87,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 16,
     icon: '☠️',
+    img: '/assets/cards/debuff_virus.png',
     description: 'Virus mengikis HP musuh (16 Damage).',
     color: '#ef4444'
   },
@@ -92,6 +100,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 30,
     icon: '🔱',
+    img: '/assets/cards/atk_plasma.png',
     description: 'Serangan tebasan kosmik sebesar 30 damage!',
     color: '#ec4899'
   },
@@ -102,6 +111,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 32,
     icon: '🏰',
+    img: '/assets/cards/def_shield.png',
     description: 'Benteng energi kokoh sebesar 32 Armor!',
     color: '#8b5cf6'
   },
@@ -112,6 +122,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 35,
     icon: '🔥',
+    img: '/assets/cards/heal_potion.png',
     description: 'Pemulihan regenerasi besar 35 HP!',
     color: '#f97316'
   },
@@ -122,6 +133,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 24,
     icon: '👾',
+    img: '/assets/cards/debuff_virus.png',
     description: 'Ganggui sistem musuh & berikan 24 Damage.',
     color: '#d946ef'
   },
@@ -134,6 +146,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 40,
     icon: '⚡',
+    img: '/assets/cards/atk_plasma.png',
     description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
     color: '#eab308'
   }
