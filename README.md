@@ -110,5 +110,5 @@ Seluruh perancangan game ini terdokumentasi secara detail di dalam folder `docs/
 ---
 
 <div align="center">
-  <sub>Dibuat dengan ❤️ untuk proyek game Memory Card Battle — 2026</sub>
+  <sub>Dibuat oleh <b>Ajizzhx</b> untuk percobaan proyek game Memory Card Battle — 2026</sub>
 </div>
