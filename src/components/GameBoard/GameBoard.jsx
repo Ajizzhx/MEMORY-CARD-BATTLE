@@ -233,7 +233,13 @@ const GameBoard = () => {
 
   // Catat Skor ke Leaderboard Sesi
   const recordLeaderboardScore = (finalStage, matches) => {
-    const newEntry = { name: playerName || 'Cyber Hero', stage: finalStage, totalMatches: matches };
+    const activeDifficultyLabel = AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name || 'Otomatis';
+    const newEntry = {
+      name: playerName || 'Cyber Hero',
+      difficulty: activeDifficultyLabel,
+      stage: finalStage,
+      totalMatches: matches
+    };
     const updated = [...leaderboard, newEntry]
       .sort((a, b) => b.stage - a.stage || b.totalMatches - a.totalMatches)
       .slice(0, 10);
@@ -587,7 +593,6 @@ const GameBoard = () => {
         enemy={enemy}
         currentTurn={currentTurn}
         difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}
-        onCycleDifficulty={handleCycleDifficulty}
       />
 
       {/* Pity Indicator Banner jika Pity Active */}
