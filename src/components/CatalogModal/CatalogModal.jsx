@@ -31,10 +31,14 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
           ✕
         </button>
         {/* Header Modal */}
-        {isDashboard ? (
+        {isDashboard || showAll15CardsInGame ? (
           <>
             <h2 className="catalog-title">🂠 KATALOG 15 KARTU GAME</h2>
-            <p className="app-subtitle">Kompendium Koleksi Statistik, Efek, &amp; Gambar 3D Render 15 Kartu Cyberfantasy:</p>
+            <p className="app-subtitle">
+              {isDashboard
+                ? 'Kompendium Koleksi Statistik, Efek, & Gambar 3D Render 15 Kartu Cyberfantasy:'
+                : 'Menampilkan seluruh 15 jenis kartu kompendium katalog dalam game:'}
+            </p>
           </>
         ) : (
           <>
