@@ -4,28 +4,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 10px;
+  padding: 20px 12px;
 }
 
 .app-header {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .app-title {
-  font-size: 2.2rem;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
   font-weight: 900;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #00f0ff 0%, #ffd700 50%, #ff0055 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  animation: shineTitle 4s linear infinite;
+  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.45));
+  text-transform: uppercase;
+}
+
+@keyframes shineTitle {
+  to {
+    background-position: 200% center;
+  }
 }
 
 .app-subtitle {
-  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
   color: var(--color-text-muted);
-  margin-top: 4px;
+  letter-spacing: 0.8px;
+  font-weight: 500;
 }
 
 .app-main {
@@ -37,21 +53,25 @@
 }
 
 .app-footer {
-  margin-top: 16px;
-  font-size: 0.75rem;
+  margin-top: 20px;
+  font-size: 0.78rem;
   color: var(--color-text-muted);
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
-@media (max-width: 500px) {
+.app-footer strong {
+  color: var(--color-primary);
+}
+
+@media (max-width: 600px) {
   .app-container {
-    padding: 8px 4px;
+    padding: 10px 6px;
   }
   .app-title {
-    font-size: 1.4rem;
-    letter-spacing: 1px;
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
   }
   .app-subtitle {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 }

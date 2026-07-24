@@ -1,57 +1,84 @@
 .floating-text-container {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 500;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
 }
 
 .floating-text {
-  font-size: 1.8rem;
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
   font-weight: 900;
-  letter-spacing: 1px;
-  animation: floatUpAndFade 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.28) FORWARDS;
-  text-shadow: 0 0 15px currentColor;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  animation: floatUpPop 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.85);
   white-space: nowrap;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.9));
 }
 
 .floating-text.damage {
   color: #ff0055;
+  text-shadow: 
+    0 0 10px #ff0055,
+    0 0 25px #ff0000,
+    0 0 45px rgba(255, 0, 85, 0.8),
+    0 0 70px rgba(255, 0, 85, 0.5);
 }
 
 .floating-text.heal {
   color: #00ff88;
+  text-shadow: 
+    0 0 10px #00ff88,
+    0 0 25px #00ffcc,
+    0 0 45px rgba(0, 255, 136, 0.8),
+    0 0 70px rgba(0, 255, 136, 0.5);
 }
 
 .floating-text.block {
-  color: #00c3ff;
+  color: #00f0ff;
+  text-shadow: 
+    0 0 10px #00f0ff,
+    0 0 25px #00aaff,
+    0 0 45px rgba(0, 240, 255, 0.8),
+    0 0 70px rgba(0, 240, 255, 0.5);
 }
 
 .floating-text.match {
   color: #ffd700;
+  text-shadow: 
+    0 0 10px #ffd700,
+    0 0 25px #ffaa00,
+    0 0 45px rgba(255, 215, 0, 0.9),
+    0 0 70px rgba(255, 215, 0, 0.6);
 }
 
-@keyframes floatUpAndFade {
+@keyframes floatUpPop {
   0% {
     opacity: 0;
-    transform: translateY(20px) scale(0.7);
+    transform: translateY(25px) scale(0.4) rotate(-3deg);
   }
-  20% {
+  18% {
     opacity: 1;
-    transform: translateY(0) scale(1.2);
+    transform: translateY(-5px) scale(1.35) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-10px) scale(1.1);
   }
   80% {
     opacity: 1;
-    transform: translateY(-30px) scale(1);
+    transform: translateY(-40px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-50px) scale(0.8);
+    transform: translateY(-70px) scale(0.85);
   }
 }
 
@@ -61,8 +88,14 @@
 }
 
 @keyframes shake {
-  10%, 90% { transform: translate3d(-2px, 1px, 0); }
-  20%, 80% { transform: translate3d(3px, -2px, 0); }
-  30%, 50%, 70% { transform: translate3d(-5px, 3px, 0); }
-  40%, 60% { transform: translate3d(5px, -3px, 0); }
+  10%, 90% { transform: translate3d(-3px, 1px, 0); }
+  20%, 80% { transform: translate3d(4px, -3px, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
+  40%, 60% { transform: translate3d(6px, -4px, 0); }
+}
+
+@media (max-width: 600px) {
+  .floating-text {
+    font-size: 1.5rem;
+  }
 }

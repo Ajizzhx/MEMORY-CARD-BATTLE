@@ -8,11 +8,11 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
   return (
     <div className="player-status-container glass-panel">
       {/* Player Entity */}
-      <div className={`entity-card ${currentTurn === 'PLAYER' ? 'active-turn' : ''}`}>
-        <div className="entity-avatar">🧙‍♂️</div>
+      <div className={`entity-card player ${currentTurn === 'PLAYER' ? 'active-turn' : ''}`}>
+        <div className="entity-avatar player-avatar">🧙‍♂️</div>
         <div className="entity-info">
           <div className="entity-header">
-            <span className="entity-name">{player.name}</span>
+            <span className="entity-name" title={player.name}>{player.name}</span>
             {player.block > 0 && <span className="entity-block">🛡️ {player.block}</span>}
           </div>
           <div className="hp-bar-bg">
@@ -22,7 +22,8 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
             />
           </div>
           <div className="hp-text">
-            HP: {player.hp} / {player.maxHp}
+            <span>HP</span>
+            <strong>{player.hp} / {player.maxHp}</strong>
           </div>
         </div>
       </div>
@@ -30,10 +31,11 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
       {/* Turn Badge & Indikator Kesulitan AI */}
       <div className="status-center-badge">
         <div className={`turn-badge ${currentTurn === 'PLAYER' ? 'player' : 'enemy'}`}>
-          {currentTurn === 'PLAYER' ? 'Giliran Pemain' : 'Giliran Musuh'}
+          <span className="turn-pulse-dot" />
+          {currentTurn === 'PLAYER' ? 'GILIRAN ANDA' : 'GILIRAN MUSUH'}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag">
+          <div className="difficulty-tag clickable" title="Klik untuk mengubah mode AI">
             🧠 AI: {difficultyName}
           </div>
         )}
@@ -43,20 +45,21 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
       <div className={`entity-card enemy ${currentTurn === 'ENEMY' ? 'active-turn' : ''}`}>
         <div className="entity-info">
           <div className="entity-header">
-            <span className="entity-name">{enemy.name}</span>
+            <span className="entity-name" title={enemy.name}>{enemy.name}</span>
             {enemy.block > 0 && <span className="entity-block">🛡️ {enemy.block}</span>}
           </div>
           <div className="hp-bar-bg">
             <div
-              className={`hp-bar-fill ${enemyHpPct <= 30 ? 'low' : ''}`}
+              className={`hp-bar-fill enemy ${enemyHpPct <= 30 ? 'low' : ''}`}
               style={{ width: `${enemyHpPct}%` }}
             />
           </div>
           <div className="hp-text">
-            HP: {enemy.hp} / {enemy.maxHp}
+            <span>HP</span>
+            <strong>{enemy.hp} / {enemy.maxHp}</strong>
           </div>
         </div>
-        <div className="entity-avatar">🤖</div>
+        <div className="entity-avatar enemy-avatar">{enemy.avatar || '🤖'}</div>
       </div>
     </div>
   );
