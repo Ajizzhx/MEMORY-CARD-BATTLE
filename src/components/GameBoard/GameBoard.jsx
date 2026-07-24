@@ -603,7 +603,18 @@ const GameBoard = () => {
     setShowLootModal(false);
 
     let updatedDeck = playerDeck;
-    if (selectedCard) {
+    if (selectedCard && selectedCard.id === 'pity_emergency_aid') {
+      // Pity Emergency Aid Selected! Pemulihan Darurat +35 HP & +20 Armor
+      soundManager.playHealSFX();
+      soundManager.playBlockSFX();
+      spawnFloatingText('🚑 EMERGENCY AID +35 HP & +20 ARMOR!', 'heal');
+      setPlayer((prev) => ({
+        ...prev,
+        hp: Math.min(prev.maxHp, prev.hp + 35),
+        block: prev.block + 20
+      }));
+    } else if (selectedCard) {
+      // Normal Loot Card Selected
       updatedDeck = [selectedCard, ...playerDeck];
       setPlayerDeck(updatedDeck);
     } else {
@@ -646,7 +657,7 @@ const GameBoard = () => {
       {/* Pity Indicator Banner jika Pity Active */}
       {isPityActive && (
         <div className="pity-active-banner">
-          🌟 <strong>Pity System Active!</strong> Bantuan Darurat Diaktifkan (+25% Rare/Epic Drop).
+          🌟 <strong>Pity System Active!</strong> Bantuan Darurat Diaktifkan: Tersedia Pilihan Ke-4 (+35 HP & +20 Armor) di Loot Stage!
         </div>
       )}
 

@@ -1,6 +1,17 @@
 import React from 'react';
 import './LootModal.css';
 
+const PITY_AID_CARD = {
+  id: 'pity_emergency_aid',
+  name: 'Emergency Aid',
+  type: 'PITY_AID',
+  rarity: 'epic',
+  value: 35,
+  icon: '🚑',
+  color: '#ff0055',
+  description: 'Bantuan Darurat! Pulihkan +35 HP & +20 Armor (Tidak menambah kartu ke deck).'
+};
+
 const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
   const choicesCount = choices.length;
 
@@ -10,6 +21,11 @@ const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
   } else if (choicesCount === 1) {
     subtitleText = "Tersisa 1 Kartu Baru di Katalog! Klaim kartu terakhir Anda:";
   }
+
+  // Jika Pity System Aktif, tambahkan Pity Aid Card sebagai Pilihan Ke-4 (Emergency Aid)
+  const displayChoices = isPityActive && choicesCount > 0
+    ? [...choices, PITY_AID_CARD]
+    : choices;
 
   return (
     <div className="modal-overlay">
@@ -34,31 +50,37 @@ const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
 
             {isPityActive && (
               <div className="pity-notice">
-                🌟 <strong>Pity System Active!</strong> Peluang mendapatkan Kartu Rare & Epic meningkat +25%!
+                🌟 <strong>Pity System Active!</strong> Pilihan Ke-4 "Bantuan Darurat (+35 HP & +20 Armor)" Diaktifkan untuk menyelamatkan Anda!
               </div>
             )}
 
-            <div className={`loot-choices-grid count-${choicesCount}`}>
-              {choices.map((card) => (
-                <div
-                  key={card.id}
-                  className={`loot-card-item ${card.rarity}`}
-                  onClick={() => onSelectLoot(card)}
-                >
-                  <span className="loot-rarity-tag" style={{ color: card.color }}>
-                    {card.rarity}
-                  </span>
-                  <div className="loot-card-icon" style={{ color: card.color }}>
-                    {card.img ? (
-                      <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
-                    ) : (
-                      card.icon
-                    )}
+            <div className={`loot-choices-grid count-${displayChoices.length}`}>
+              {displayChoices.map((card) => {
+                const isPityCard = card.id === 'pity_emergency_aid';
+
+                return (
+                  <div
+                    key={card.id}
+                    className={`loot-card-item ${card.rarity} ${isPityCard ? 'pity-aid-item' : ''}`}
+                    onClick={() => onSelectLoot(card)}
+                  >
+                    <span className="loot-rarity-tag" style={{ color: card.color }}>
+                      {isPityCard ? 'PITY AID' : card.rarity}
+                    </span>
+                    <div className="loot-card-icon" style={{ color: card.color }}>
+                      {card.img ? (
+                        <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
+                      ) : (
+                        card.icon
+                      )}
+                    </div>
+                    <div className="loot-card-name" style={{ color: isPityCard ? '#ff0055' : 'inherit' }}>
+                      {card.name}
+                    </div>
+                    <div className="loot-card-desc">{card.description}</div>
                   </div>
-                  <div className="loot-card-name">{card.name}</div>
-                  <div className="loot-card-desc">{card.description}</div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>
         )}
