@@ -387,6 +387,29 @@ class SoundSystem {
       osc.stop(now + i * 0.04 + 0.06);
     }
   }
+
+  // 10. Game Over / Defeat Sound (Dramatic Low-Pitch Pulse)
+  playDefeatSFX() {
+    this.initAudioContext();
+    if (!this.ctx || this.isSfxMuted) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(240, now);
+    osc.frequency.exponentialRampToValueAtTime(50, now + 0.85);
+
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGainNode);
+
+    osc.start(now);
+    osc.stop(now + 0.85);
+  }
 }
 
 export const soundManager = new SoundSystem();

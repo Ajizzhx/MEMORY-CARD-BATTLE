@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
+import { soundManager } from '../../utils/soundSystem';
 import './NameModal.css';
 
 const NameModal = ({ onSubmitName, onOpenCatalog }) => {
-  const [nameInput, setNameInput] = useState('');
+  const [nameInput, setNameInput] = useState(() => localStorage.getItem('memory_player_name') || '');
   const [selectedAiMode, setSelectedAiMode] = useState('AUTO');
   const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (nameInput.trim().length > 0) {
+      soundManager.playClickSFX();
       onSubmitName(nameInput.trim(), selectedAiMode);
     }
+  };
+
+  const handleSelectAi = (mode) => {
+    soundManager.playClickSFX();
+    setSelectedAiMode(mode);
   };
 
   return (
@@ -38,28 +45,28 @@ const NameModal = ({ onSubmitName, onOpenCatalog }) => {
               <button
                 type="button"
                 className={`ai-opt-btn ${selectedAiMode === 'AUTO' ? 'active' : ''}`}
-                onClick={() => setSelectedAiMode('AUTO')}
+                onClick={() => handleSelectAi('AUTO')}
               >
                 🔄 Otomatis (Stage)
               </button>
               <button
                 type="button"
                 className={`ai-opt-btn easy ${selectedAiMode === 'EASY' ? 'active' : ''}`}
-                onClick={() => setSelectedAiMode('EASY')}
+                onClick={() => handleSelectAi('EASY')}
               >
                 🟢 Mudah (35%)
               </button>
               <button
                 type="button"
                 className={`ai-opt-btn medium ${selectedAiMode === 'MEDIUM' ? 'active' : ''}`}
-                onClick={() => setSelectedAiMode('MEDIUM')}
+                onClick={() => handleSelectAi('MEDIUM')}
               >
                 🟡 Sedang (65%)
               </button>
               <button
                 type="button"
                 className={`ai-opt-btn hard ${selectedAiMode === 'HARD' ? 'active' : ''}`}
-                onClick={() => setSelectedAiMode('HARD')}
+                onClick={() => handleSelectAi('HARD')}
               >
                 🔴 Tinggi (88%)
               </button>
@@ -71,7 +78,10 @@ const NameModal = ({ onSubmitName, onOpenCatalog }) => {
             <button
               type="button"
               className="guide-toggle-btn"
-              onClick={() => setShowHowToPlay(!showHowToPlay)}
+              onClick={() => {
+                soundManager.playClickSFX();
+                setShowHowToPlay(!showHowToPlay);
+              }}
             >
               ℹ️ {showHowToPlay ? 'Tutup Panduan Alur' : 'Panduan Alur Permainan'}
             </button>

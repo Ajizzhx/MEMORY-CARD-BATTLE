@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CARD_DATABASE } from '../../utils/cardData';
+import { soundManager } from '../../utils/soundSystem';
 import './CatalogModal.css';
 
 const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
@@ -28,7 +29,10 @@ const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
             <button
               key={type}
               className={`tab-btn ${activeFilter === type ? 'active' : ''}`}
-              onClick={() => setActiveFilter(type)}
+              onClick={() => {
+                soundManager.playClickSFX();
+                setActiveFilter(type);
+              }}
             >
               {type === 'GUIDE' ? 'ℹ️ PANDUAN GAME' : type}
             </button>

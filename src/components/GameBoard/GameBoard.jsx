@@ -533,7 +533,6 @@ const GameBoard = () => {
         break;
       }
       case 'BUFF': {
-        soundManager.playMatchSFX();
         if (isPlayer) {
           spawnFloatingText(`👁️ X-RAY SCAN: ${card.name}!`, 'match');
           const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
@@ -592,7 +591,7 @@ const GameBoard = () => {
   };
 
   const triggerGameOver = () => {
-    soundManager.playMismatchSFX();
+    soundManager.playDefeatSFX();
     localStorage.removeItem('memory_game_saved_state');
     recordLeaderboardScore(stage, totalMatchesMade);
     setTimeout(() => {
