@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchTopScores } from '../../utils/leaderboardService';
 import { soundManager } from '../../utils/soundSystem';
 import './NameModal.css';
 
 const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
   const [nameInput, setNameInput] = useState(() => localStorage.getItem('memory_player_name') || '');
   const [selectedAiMode, setSelectedAiMode] = useState('AUTO');
+  const [topScores, setTopScores] = useState([]);
+  const [loadingScores, setLoadingScores] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchTopScores(3)
+      .then((data) => {
+        if (isMounted && data && Array.isArray(data)) {
+          setTopScores(data);
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (isMounted) setLoadingScores(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +50,37 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
           <span className="feature-pill">⚔️ 1v1 Battle RPG</span>
           <span className="feature-pill">🃏 15 Kartu Cyber</span>
           <span className="feature-pill">🛡️ Pity System</span>
+        </div>
+
+        {/* Top 3 Global High Scores Widget */}
+        <div className="dash-leaderboard-section">
+          <div className="dash-lb-header">
+            🏆 <span>TOP 3 SKOR GLOBAL WORLD</span>
+          </div>
+          {loadingScores ? (
+            <div className="dash-lb-loading">Memuat Skor Global...</div>
+          ) : topScores.length > 0 ? (
+            <div className="dash-lb-grid">
+              {topScores.map((score, idx) => {
+                const medalEmoji = idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉';
+                const rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : 'rank-3';
+                return (
+                  <div key={score.id || idx} className={`dash-lb-card ${rankClass}`}>
+                    <div className="dash-lb-rank">
+                      {medalEmoji} #{idx + 1}
+                    </div>
+                    <div className="dash-lb-player-name">{score.name}</div>
+                    <div className="dash-lb-details">
+                      <span>Stage <strong>{score.stage}</strong></span> • <span><strong>{score.total_matches}</strong> Match</span>
+                    </div>
+                    <div className="dash-lb-diff">{score.difficulty}</div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="dash-lb-empty">Belum ada skor global recorded. Jadilah yang pertama!</div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
