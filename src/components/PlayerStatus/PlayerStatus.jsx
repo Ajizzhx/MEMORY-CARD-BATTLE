@@ -11,8 +11,9 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
       <div className={`entity-card player ${currentTurn === 'PLAYER' ? 'active-turn' : ''}`}>
         <div className="entity-avatar player-avatar">🧙‍♂️</div>
         <div className="entity-info">
-          <div className="entity-name-row">
+          <div className="entity-header">
             <span className="entity-name" title={player.name}>{player.name}</span>
+            {player.block > 0 && <span className="entity-block">🛡️ {player.block}</span>}
           </div>
           <div className="hp-bar-bg">
             <div
@@ -21,11 +22,8 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             />
           </div>
           <div className="hp-text">
-            <span className="hp-val">HP <strong>{player.hp}/{player.maxHp}</strong></span>
-            <div className="entity-badge-group">
-              <span className="entity-matches" title="Total Match Pemain di Stage Ini">✨ {playerMatches} Match</span>
-              {player.block > 0 && <span className="entity-block">🛡️ {player.block}</span>}
-            </div>
+            <span>HP <strong>{player.hp}/{player.maxHp}</strong></span>
+            <span className="entity-matches" title="Total Match Pemain di Stage Ini">✨ {playerMatches} Match</span>
           </div>
         </div>
       </div>
@@ -46,8 +44,9 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
       {/* Enemy Entity */}
       <div className={`entity-card enemy ${currentTurn === 'ENEMY' ? 'active-turn' : ''}`}>
         <div className="entity-info">
-          <div className="entity-name-row">
+          <div className="entity-header">
             <span className="entity-name" title={enemy.name}>{enemy.name}</span>
+            {enemy.block > 0 && <span className="entity-block">🛡️ {enemy.block}</span>}
           </div>
           <div className="hp-bar-bg">
             <div
@@ -56,11 +55,8 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             />
           </div>
           <div className="hp-text">
-            <span className="hp-val">HP <strong>{enemy.hp}/{enemy.maxHp}</strong></span>
-            <div className="entity-badge-group">
-              <span className="entity-matches enemy-matches" title="Total Match Musuh di Stage Ini">✨ {enemyMatches} Match</span>
-              {enemy.block > 0 && <span className="entity-block">🛡️ {enemy.block}</span>}
-            </div>
+            <span>HP <strong>{enemy.hp}/{enemy.maxHp}</strong></span>
+            <span className="entity-matches enemy-matches" title="Total Match Musuh di Stage Ini">✨ {enemyMatches} Match</span>
           </div>
         </div>
         <div className="entity-avatar enemy-avatar">{enemy.avatar || '🤖'}</div>
