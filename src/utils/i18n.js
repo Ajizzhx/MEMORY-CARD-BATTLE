@@ -140,7 +140,7 @@ export const TRANSLATIONS = {
     backDashBtn: '🏠 Halaman Depan',
 
     // ── ResetConfirmModal ──
-    resetTitle: '⚠️ KONFIRMASI RESET GAME',
+    resetTitle: 'KONFIRMASI RESET GAME',
     resetBody: 'Apakah Anda yakin ingin mengulang permainan dari Stage 1? Progresi HP, Armor, dan Deck kartu Anda saat ini akan di-reset.',
     resetConfirmBtn: 'Ya, Reset dari Stage 1',
     resetCancelBtn: 'Batal',
@@ -360,7 +360,7 @@ export const TRANSLATIONS = {
     backDashBtn: '🏠 Return to Dashboard',
 
     // ── ResetConfirmModal ──
-    resetTitle: '⚠️ GAME RESET CONFIRMATION',
+    resetTitle: 'GAME RESET CONFIRMATION',
     resetBody: 'Are you sure you want to restart from Stage 1? Your current HP, Armor, and Deck progress will be reset.',
     resetConfirmBtn: 'Yes, Reset from Stage 1',
     resetCancelBtn: 'Cancel',
