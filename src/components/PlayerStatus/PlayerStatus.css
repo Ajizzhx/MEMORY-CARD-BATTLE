@@ -93,63 +93,23 @@
   min-width: 0;
 }
 
-.entity-header {
+.entity-name-row {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
 }
 
 .entity-name {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--color-text);
   letter-spacing: 0.4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.entity-badge-group {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.entity-matches {
-  font-family: var(--font-heading);
-  font-size: 0.68rem;
-  font-weight: 800;
-  color: #ffd700;
-  background: rgba(255, 215, 0, 0.15);
-  padding: 1px 6px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.25);
-  white-space: nowrap;
-}
-
-.entity-matches.enemy-matches {
-  color: #ff55aa;
-  background: rgba(255, 0, 85, 0.15);
-  border-color: rgba(255, 0, 85, 0.4);
-  box-shadow: 0 0 6px rgba(255, 0, 85, 0.25);
-}
-
-.entity-block {
-  font-family: var(--font-heading);
-  font-size: 0.68rem;
-  font-weight: 800;
-  color: #00f0ff;
-  background: rgba(0, 240, 255, 0.15);
-  padding: 1px 6px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
-  flex-shrink: 0;
-  white-space: nowrap;
+  max-width: 100%;
 }
 
 .hp-bar-bg {
@@ -189,13 +149,56 @@
 .hp-text {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.7rem;
   color: var(--color-text-muted);
   font-family: var(--font-heading);
+  gap: 4px;
 }
 
-.hp-text strong {
+.hp-val strong {
   color: var(--color-text);
+}
+
+.entity-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.entity-matches {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.15);
+  padding: 1px 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.25);
+  white-space: nowrap;
+}
+
+.entity-matches.enemy-matches {
+  color: #ff55aa;
+  background: rgba(255, 0, 85, 0.15);
+  border-color: rgba(255, 0, 85, 0.4);
+  box-shadow: 0 0 6px rgba(255, 0, 85, 0.25);
+}
+
+.entity-block {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.15);
+  padding: 1px 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ── Center Turn Badge ── */
