@@ -154,7 +154,6 @@ const GameBoard = () => {
     soundManager.playMismatchSFX();
     spawnFloatingText('⏰ WAKTU HABIS!', 'damage');
     setStatusMessage('⏰ Waktu berpikir Anda habis! Giliran berpindah ke Musuh!');
-    setStageRound((prev) => prev + 1);
 
     setTimeout(() => {
       setIsProcessing(false);
@@ -258,9 +257,12 @@ const GameBoard = () => {
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
     setPityUsesLeft(2);
+    setPlayerMatches(0);
+    setEnemyMatches(0);
+    setStageRound(1);
     setShowLootModal(false);
     setShowGameOverModal(false);
-    resetBoardForStage(1, CARD_DATABASE.slice(0, 8));
+    resetBoardForStage(1, CARD_DATABASE.slice(0, 8), true);
   };
 
   // Kembali ke Dashboard Nama (dipanggil dari Game Over / Reset)
@@ -276,6 +278,9 @@ const GameBoard = () => {
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
     setPityUsesLeft(2);
+    setPlayerMatches(0);
+    setEnemyMatches(0);
+    setStageRound(1);
     setShowLootModal(false);
     setShowGameOverModal(false);
     setPlayerName('');
@@ -285,8 +290,8 @@ const GameBoard = () => {
   // Alias untuk kompatibilitas (dipanggil dari GameOverModal)
   const startNewJourney = returnToDashboard;
 
-  // Reset Board untuk Stage tertentu
-  const resetBoardForStage = (stageNum, deckToUse) => {
+  // Reset Board untuk Stage / Ronde baru
+  const resetBoardForStage = (stageNum, deckToUse, isNewStage = false) => {
     const boardCards = [];
     const activeDeck = deckToUse || playerDeck;
 
@@ -323,9 +328,13 @@ const GameBoard = () => {
     setIsProcessing(false);
     setCurrentTurn('PLAYER');
     setTurnTimer(TURN_TIME_LIMIT);
-    setPlayerMatches(0);
-    setEnemyMatches(0);
-    setStageRound(1);
+
+    if (isNewStage) {
+      setStageRound(1);
+    } else {
+      setStageRound((prev) => prev + 1);
+    }
+
     setStatusMessage(`⚔️ Stage ${stageNum}: Pertarungan melawan ${getStageEnemyConfig(stageNum).name}!`);
 
     // Pemicu Animasi Realistis Casino Dealer Riffle & Deal Shuffle
@@ -415,7 +424,6 @@ const GameBoard = () => {
       } else {
         setEnemyMatches((prev) => prev + 1);
       }
-      setStageRound((prev) => prev + 1);
 
       if (card1.type !== 'BUFF') {
         spawnFloatingText(`✨ MATCH: ${card1.name}!`, 'match');
@@ -433,9 +441,9 @@ const GameBoard = () => {
           setEnemy((latestEnemy) => {
             setPlayer((latestPlayer) => {
               if (latestEnemy.hp > 0 && latestPlayer.hp > 0) {
-                spawnFloatingText('🔄 Papan Direset!', 'match');
-                setStatusMessage('🔄 Seluruh kartu cocok! Mengocok ulang papan...');
-                resetBoardForStage(stage, playerDeck);
+                spawnFloatingText('🔄 Ronde Baru! Papan Direset', 'match');
+                setStatusMessage('🔄 Seluruh 16 kartu cocok! Mengocok papan untuk Ronde berikutnya...');
+                resetBoardForStage(stage, playerDeck, false);
               }
               return latestPlayer;
             });
@@ -453,7 +461,6 @@ const GameBoard = () => {
       if (actor === 'PLAYER') {
         setMismatchStreak((prev) => prev + 1);
       }
-      setStageRound((prev) => prev + 1);
 
       setStatusMessage(`❌ Mismatch! Giliran ${actorName} berakhir.`);
       setTimeout(() => {
@@ -667,8 +674,7 @@ const GameBoard = () => {
       block: 0
     });
 
-    setMismatchStreak(0);
-    resetBoardForStage(nextStage, updatedDeck);
+    resetBoardForStage(nextStage, updatedDeck, true);
   };
 
   const isGameOver = player.hp <= 0 || enemy.hp <= 0;
