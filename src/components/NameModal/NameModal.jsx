@@ -91,7 +91,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
             {selectedAiMode === 'HARD' && 'ℹ️ Tinggi: AI Musuh mengingat 88% posisi kartu. Tantangan memori tingkat dewa!'}
           </div>
 
-          {/* Navigasi Dashboard: Buku Panduan, Katalog Kartu, & Leaderboard */}
+          {/* Navigasi Terpisah: Buku Panduan Game vs Katalog Kartu vs Leaderboard */}
           <div className="game-guide-actions">
             {onOpenGuide && (
               <button
@@ -119,7 +119,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-leaderboard-btn"
                 onClick={onOpenLeaderboard}
               >
-                🏆 Leaderboard
+                🏆 Topskor
               </button>
             )}
           </div>

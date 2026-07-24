@@ -91,7 +91,11 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
             return (
               <div
                 key={card.id}
-                className={`catalog-card-item ${isPresent ? 'present-on-stage' : ''}`}
+                className={`catalog-card-item rarity-${card.rarity} ${isPresent && !isDashboard ? 'present-on-stage' : ''}`}
+                style={{
+                  borderColor: card.color || 'rgba(0, 240, 255, 0.5)',
+                  boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
+                }}
               >
                 {!isDashboard && isPresent && (
                   <div className="card-stage-status-badge">

@@ -810,6 +810,10 @@ const GameBoard = () => {
             setIsCatalogFromDashboard(true);
             setShowCatalogModal(true);
           }}
+          onOpenLeaderboard={() => {
+            soundManager.playClickSFX();
+            setShowLeaderboardModal(true);
+          }}
         />
       )}
 
