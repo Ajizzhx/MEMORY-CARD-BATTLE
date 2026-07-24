@@ -7,6 +7,7 @@ import FloatingText from '../FloatingText/FloatingText';
 import NameModal from '../NameModal/NameModal';
 import LeaderboardModal from '../LeaderboardModal/LeaderboardModal';
 import CatalogModal from '../CatalogModal/CatalogModal';
+import GuideModal from '../GuideModal/GuideModal';
 import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
 import { CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
@@ -27,6 +28,7 @@ const GameBoard = () => {
   const [showNameModal, setShowNameModal] = useState(!localStorage.getItem('memory_player_name'));
   const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
   const [showCatalogModal, setShowCatalogModal] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState(false);
   const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => {
     const saved = localStorage.getItem('memory_card_leaderboard');
@@ -694,6 +696,16 @@ const GameBoard = () => {
             className="nav-icon-btn"
             onClick={() => {
               soundManager.playClickSFX();
+              setShowGuideModal(true);
+            }}
+            title="Buku Panduan Game"
+          >
+            📖 Panduan
+          </button>
+          <button
+            className="nav-icon-btn"
+            onClick={() => {
+              soundManager.playClickSFX();
               setIsCatalogFromDashboard(false);
               setShowCatalogModal(true);
             }}
@@ -746,6 +758,10 @@ const GameBoard = () => {
       {showNameModal && (
         <NameModal
           onSubmitName={handleNameSubmit}
+          onOpenGuide={() => {
+            soundManager.playClickSFX();
+            setShowGuideModal(true);
+          }}
           onOpenCatalog={() => {
             soundManager.playClickSFX();
             setIsCatalogFromDashboard(true);
@@ -760,6 +776,13 @@ const GameBoard = () => {
           leaderboard={leaderboard}
           currentPlayerName={playerName}
           onClose={() => { soundManager.playClickSFX(); setShowLeaderboardModal(false); }}
+        />
+      )}
+
+      {/* Modal Buku Panduan Game */}
+      {showGuideModal && (
+        <GuideModal
+          onClose={() => { soundManager.playClickSFX(); setShowGuideModal(false); }}
         />
       )}
 
