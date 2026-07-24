@@ -32,7 +32,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
         {isDashboard ? (
           <>
             <h2 className="catalog-title">📘 BUKU PANDUAN & KATALOG GAME</h2>
-            <p className="app-subtitle">Panduan Musuh AI per Stage, Aturan Game, dan Kompendium 13 Kartu:</p>
+            <p className="app-subtitle">Panduan Musuh AI per Stage, Aturan Game, dan Kompendium 15 Kartu Lengkap:</p>
           </>
         ) : (
           <>
@@ -71,7 +71,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
             >
               {showFullGuideInGame
                 ? `🎯 Kembali ke Kartu Stage ${stage}`
-                : `📘 Lihat Semua 13 Kartu Katalog`}
+                : `📘 Lihat Semua 15 Kartu Katalog`}
             </button>
           </div>
         )}
@@ -137,8 +137,8 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                   <p>Kartu Loot yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun AI) dialah yang akan mendapatkan efek dari kartu tersebut!</p>
                 </div>
                 <div className="rule-item">
-                  <strong>3. Kelengkapan Kartu (13 Kartu Katalog):</strong>
-                  <p>Anda memulainya dengan 8 kartu starter dan bisa melengkapi seluruh 13 kartu katalog saat berhasil menyelesaikan hingga Stage 5.</p>
+                  <strong>3. Kelengkapan Kartu (15 Kartu Katalog):</strong>
+                  <p>Anda memulai dengan 8 kartu starter dan dapat melengkapi semua 15 kartu katalog ketika berhasil mencapai Stage 7 Clear. Setiap Stage Clear memberikan 1 kartu baru dari katalog yang belum dimiliki.</p>
                 </div>
               </div>
             </div>

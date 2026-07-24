@@ -8,7 +8,7 @@ import NameModal from '../NameModal/NameModal';
 import LeaderboardModal from '../LeaderboardModal/LeaderboardModal';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
-import { generateStarterBoard, CARD_DATABASE } from '../../utils/cardData';
+import { CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
 import { soundManager } from '../../utils/soundSystem';
@@ -182,25 +182,7 @@ const GameBoard = () => {
     return () => clearInterval(interval);
   }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal]);
 
-  // Auto-Reshuffle Safety Net Effect: jika seluruh kartu di papan telah terbuka/cocok namun Pemain & Musuh masih hidup
-  useEffect(() => {
-    if (
-      cards.length > 0 &&
-      matchedCardIds.length * 2 >= cards.length &&
-      player.hp > 0 &&
-      enemy.hp > 0 &&
-      !showLootModal &&
-      !showGameOverModal &&
-      !showNameModal
-    ) {
-      const timer = setTimeout(() => {
-        spawnFloatingText('🔄 Ronde Baru! Papan Direset', 'match');
-        setStatusMessage('🔄 Seluruh kartu cocok! Mengocok ulang papan pertarungan...');
-        resetBoardForStage(stage, playerDeck);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [matchedCardIds, cards.length, player.hp, enemy.hp, stage, playerDeck, showLootModal, showGameOverModal, showNameModal]);
+  // Catatan: Reset papan sudah ditangani di handleMatchResult ketika semua kartu cocok.
 
   // Waktu Berpikir Habis Handler
   const handleTurnTimeout = () => {
@@ -297,20 +279,22 @@ const GameBoard = () => {
     startNewJourney();
   };
 
-  // Mulai Perjalanan Baru dari Stage 1
+  // Mulai Perjalanan Baru dari Stage 1 (kembali ke Dashboard Nama)
   const startNewJourney = () => {
     localStorage.removeItem('memory_game_saved_state');
+    localStorage.removeItem('memory_player_name');
     const enemyConfig = getStageEnemyConfig(1);
     setStage(1);
     setPlayerDeck(CARD_DATABASE.slice(0, 8));
-    setPlayer({ name: playerName || 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
+    setPlayer({ name: 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
     setEnemy({ name: enemyConfig.name, hp: enemyConfig.hp, maxHp: enemyConfig.maxHp, block: 0 });
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
     setShowLootModal(false);
     setShowGameOverModal(false);
-    resetBoardForStage(1, CARD_DATABASE.slice(0, 8));
+    setPlayerName('');
+    setShowNameModal(true);
   };
 
   // Reset Board untuk Stage tertentu
@@ -488,6 +472,7 @@ const GameBoard = () => {
         triggerScreenShake();
 
         if (card.isPiercing) {
+          // Quantum Piercer: Menembus armor langsung ke HP
           spawnFloatingText(`🗡️ PIERCE -${damage} HP`, 'damage');
           if (isPlayer) {
             setEnemy((prev) => {
@@ -529,6 +514,15 @@ const GameBoard = () => {
               return { ...prev, block: newBlock, hp: updatedHp };
             });
           }
+        }
+
+        // Divine Wrath: Efek unik Attack + Heal +15 HP untuk penyerang
+        if (card.id === 'pity_wrath' && isPlayer) {
+          soundManager.playHealSFX();
+          spawnFloatingText(`⚡ DIVINE WRATH +15 HP!`, 'heal');
+          setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 15) }));
+        } else if (card.id === 'pity_wrath' && !isPlayer) {
+          setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 15) }));
         }
         break;
       }
@@ -578,19 +572,27 @@ const GameBoard = () => {
       case 'DEBUFF': {
         soundManager.playAttackSFX();
         triggerScreenShake();
-        spawnFloatingText(`☠️ VIRUS -${card.value} HP!`, 'damage');
+        // EMP Disrupter: melumpuhkan armor musuh terlebih dahulu
+        const isEmpAttack = card.id === 'debuff_emp';
+        if (isEmpAttack) {
+          spawnFloatingText(`⚡ EMP! Armor dihancurkan! -${card.value} HP`, 'damage');
+        } else {
+          spawnFloatingText(`☠️ VIRUS -${card.value} HP!`, 'damage');
+        }
         if (isPlayer) {
           setIsEmpJammerActive(true);
           setEnemy((prev) => {
+            const newBlock = isEmpAttack ? 0 : prev.block;
             const updatedHp = Math.max(0, prev.hp - card.value);
             if (updatedHp === 0) triggerStageClear();
-            return { ...prev, hp: updatedHp };
+            return { ...prev, block: newBlock, hp: updatedHp };
           });
         } else {
           setPlayer((prev) => {
+            const newBlock = isEmpAttack ? 0 : prev.block;
             const updatedHp = Math.max(0, prev.hp - card.value);
             if (updatedHp === 0) triggerGameOver();
-            return { ...prev, hp: updatedHp };
+            return { ...prev, block: newBlock, hp: updatedHp };
           });
         }
         break;

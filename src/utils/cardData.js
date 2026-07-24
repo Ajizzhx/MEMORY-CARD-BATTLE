@@ -175,27 +175,5 @@ export const CARD_DATABASE = [
   }
 ];
 
-// Helper untuk menghasilkan starter board (16 kartu = 8 pasang)
-export const generateStarterBoard = () => {
-  const selectedTypes = CARD_DATABASE.slice(0, 8);
-  const boardCards = [];
-  selectedTypes.forEach((card) => {
-    boardCards.push({
-      uniqueId: `${card.id}-a-${Math.random()}`,
-      pairId: card.id,
-      ...card
-    });
-    boardCards.push({
-      uniqueId: `${card.id}-b-${Math.random()}`,
-      pairId: card.id,
-      ...card
-    });
-  });
-
-  for (let i = boardCards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [boardCards[i], boardCards[j]] = [boardCards[j], boardCards[i]];
-  }
-
-  return boardCards;
-};
+// Catatan: Pembuatan papan dilakukan oleh fungsi resetBoardForStage di GameBoard.jsx
+// menggunakan Fisher-Yates Shuffle pada deck aktif pemain.
