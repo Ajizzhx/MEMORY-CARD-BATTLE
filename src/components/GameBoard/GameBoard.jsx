@@ -14,6 +14,7 @@ import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../ut
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
 import { submitScore } from '../../utils/leaderboardService';
 import { soundManager } from '../../utils/soundSystem';
+import { t, getLanguage, setLanguage, LANGUAGES } from '../../utils/i18n';
 import './GameBoard.css';
 
 const TURN_TIME_LIMIT = 15; // 15 detik batas waktu berpikir
@@ -22,6 +23,16 @@ const GameBoard = () => {
   // Audio Controls State
   const [isBgmMuted, setIsBgmMuted] = useState(soundManager.isBgmMuted);
   const [isSfxMuted, setIsSfxMuted] = useState(soundManager.isSfxMuted);
+
+  // Language i18n State
+  const [currentLang, setCurrentLang] = useState(getLanguage());
+
+  const handleToggleLanguage = () => {
+    soundManager.playClickSFX();
+    const nextLang = currentLang === LANGUAGES.ID ? LANGUAGES.EN : LANGUAGES.ID;
+    setLanguage(nextLang);
+    setCurrentLang(nextLang);
+  };
 
   // Player Name & Leaderboard States
   const [playerName, setPlayerName] = useState(localStorage.getItem('memory_player_name') || '');
@@ -729,11 +740,14 @@ const GameBoard = () => {
         </div>
 
         <div className="header-controls">
+          <button className="nav-icon-btn lang-btn" onClick={handleToggleLanguage} title="Ganti Bahasa / Switch Language">
+            {currentLang === LANGUAGES.ID ? '🌐 ID' : '🌐 EN'}
+          </button>
           <button className="nav-icon-btn" onClick={handleToggleBgm} title="Toggle Musik BGM">
-            {isBgmMuted ? '🔇 Musik' : '🔊 Musik'}
+            {isBgmMuted ? `🔇 ${t('music_btn')}` : `🔊 ${t('music_btn')}`}
           </button>
           <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX Suara">
-            {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
+            {isSfxMuted ? `🔕 ${t('sfx_btn')}` : `🔔 ${t('sfx_btn')}`}
           </button>
           <button
             className="nav-icon-btn"
@@ -743,7 +757,7 @@ const GameBoard = () => {
             }}
             title="Buku Panduan Game"
           >
-            📖 Panduan
+            📖 {t('guide_btn')}
           </button>
           <button
             className="nav-icon-btn"
@@ -754,13 +768,13 @@ const GameBoard = () => {
             }}
             title="Kartu Aktif Stage Ini"
           >
-            🂠 Kartu Stage
+            🂠 {t('catalog_btn')}
           </button>
           <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Leaderboard Sesi">
-            🏆 Skor
+            🏆 {t('scores_btn')}
           </button>
           <button className="reset-btn" onClick={handleResetButtonClick}>
-            Reset
+            {t('reset_btn')}
           </button>
         </div>
       </div>

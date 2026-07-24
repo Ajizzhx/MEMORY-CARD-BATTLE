@@ -1,4 +1,5 @@
 import React from 'react';
+import { t } from '../../utils/i18n';
 import './PlayerStatus.css';
 
 const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName }) => {
@@ -11,11 +12,11 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
       <div className="status-center-badge">
         <div className={`turn-badge ${currentTurn === 'PLAYER' ? 'player' : 'enemy'}`}>
           <span className="turn-pulse-dot" />
-          {currentTurn === 'PLAYER' ? 'GILIRAN ANDA' : 'GILIRAN MUSUH'}
+          {currentTurn === 'PLAYER' ? t('turn_player_banner') : t('turn_enemy_banner')}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag" title={`Mode Kesulitan AI Musuh: ${difficultyName}`}>
-            🧠 AI: {difficultyName}
+          <div className="difficulty-tag" title={`${t('ai_mode_label')} ${difficultyName}`}>
+            {t('ai_badge')} {difficultyName}
           </div>
         )}
       </div>
@@ -40,7 +41,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             </div>
             <div className="hp-text">
               <span>HP <strong>{player.hp}/{player.maxHp}</strong></span>
-              <span className="entity-matches" title="Total Match Pemain">✨ {playerMatches} Match</span>
+              <span className="entity-matches" title="Total Match Pemain">{t('matches_count', { count: playerMatches })}</span>
             </div>
           </div>
         </div>
@@ -60,7 +61,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             </div>
             <div className="hp-text">
               <span>HP <strong>{enemy.hp}/{enemy.maxHp}</strong></span>
-              <span className="entity-matches enemy-matches" title="Total Match Musuh">✨ {enemyMatches} Match</span>
+              <span className="entity-matches enemy-matches" title="Total Match Musuh">{t('matches_count', { count: enemyMatches })}</span>
             </div>
           </div>
           <div className="entity-avatar enemy-avatar">

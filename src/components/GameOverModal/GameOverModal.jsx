@@ -1,44 +1,40 @@
 import React from 'react';
+import { t } from '../../utils/i18n';
 import './GameOverModal.css';
 
-const GameOverModal = ({ stage, totalMatches, enemyName = 'Musuh Arena', playerName = 'Pemain', onRestartJourney, onOpenLeaderboard }) => {
+const GameOverModal = ({ stage, totalMatches, isVictory = false, onRestart, onViewLeaderboard }) => {
   return (
     <div className="modal-overlay">
-      <div className="gameover-modal-content glass-panel">
-        <div className="gameover-header-icon">💀</div>
-        <h2 className="gameover-title">PERJALANAN TERHENTI</h2>
+      <div className={`gameover-modal-content glass-panel ${isVictory ? 'victory' : 'defeat'}`}>
+        <h2 className="gameover-title">
+          {isVictory ? t('victory_title') : t('defeat_title')}
+        </h2>
         <p className="gameover-subtitle">
-          Penjelajah <strong className="highlight-player">{playerName}</strong> telah gugur dalam pertarungan di dunia Cyberfantasy...
+          {isVictory
+            ? 'Selamat! Anda berhasil menaklukkan seluruh musuh cyber arena!'
+            : 'HP Pemain telah habis di arena pertarungan.'}
         </p>
 
-        <div className="gameover-stats-grid">
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">Stage Terakhir</span>
-            <strong className="stat-card-value primary">Stage {stage}</strong>
+        <div className="gameover-stats-container">
+          <div className="stat-card">
+            <span className="stat-label">{t('final_stage')}</span>
+            <span className="stat-value stage-val">Stage {stage}</span>
           </div>
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">Musuh Terakhir</span>
-            <strong className="stat-card-value enemy">{enemyName}</strong>
-          </div>
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">Total Match Pasangan</span>
-            <strong className="stat-card-value match">✨ {totalMatches} Pasangan</strong>
-          </div>
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">Gelar Perjuangan</span>
-            <strong className="stat-card-value title">⚔️ Pendekar Memory</strong>
+          <div className="stat-card">
+            <span className="stat-label">{t('total_matches_stat')}</span>
+            <span className="stat-value match-val">✨ {totalMatches}</span>
           </div>
         </div>
 
         <div className="gameover-actions">
-          <button className="restart-journey-btn" onClick={onRestartJourney}>
-            🔄 Mulai Perjalanan Baru (Stage 1)
-          </button>
-          {onOpenLeaderboard && (
-            <button className="view-leaderboard-btn" onClick={onOpenLeaderboard}>
-              🏆 Lihat Leaderboard Skor
+          {onViewLeaderboard && (
+            <button className="gameover-btn leaderboard-btn" onClick={onViewLeaderboard}>
+              {t('view_leaderboard_btn')}
             </button>
           )}
+          <button className="gameover-btn restart-btn" onClick={onRestart}>
+            {t('restart_btn')}
+          </button>
         </div>
       </div>
     </div>

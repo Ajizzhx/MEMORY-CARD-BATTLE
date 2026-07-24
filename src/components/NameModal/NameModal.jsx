@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { soundManager } from '../../utils/soundSystem';
+import { t, getLanguage, setLanguage, LANGUAGES } from '../../utils/i18n';
 import './NameModal.css';
 
-const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard }) => {
+const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard, onLanguageChange }) => {
   const [nameInput, setNameInput] = useState(() => localStorage.getItem('memory_player_name') || '');
   const [selectedAiMode, setSelectedAiMode] = useState('AUTO');
+  const [currentLang, setCurrentLang] = useState(getLanguage());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,24 +21,42 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
     setSelectedAiMode(mode);
   };
 
+  const handleToggleLanguage = () => {
+    soundManager.playClickSFX();
+    const nextLang = currentLang === LANGUAGES.ID ? LANGUAGES.EN : LANGUAGES.ID;
+    setLanguage(nextLang);
+    setCurrentLang(nextLang);
+    if (onLanguageChange) onLanguageChange(nextLang);
+  };
+
   return (
     <div className="modal-overlay">
-      <div className="name-modal-content glass-panel">
-        <h2 className="name-modal-title">MEMORY CARD BATTLE</h2>
-        <p className="app-subtitle">Cyberfantasy RPG &amp; Memory Matching Game</p>
+      <div className="name-modal-content glass-panel" style={{ position: 'relative' }}>
+        {/* Language Switcher Button Top Left */}
+        <button
+          type="button"
+          className="dash-lang-toggle-btn"
+          onClick={handleToggleLanguage}
+          title="Ganti Bahasa / Switch Language"
+        >
+          {currentLang === LANGUAGES.ID ? '🌐 ID 🇮🇩' : '🌐 EN 🇬🇧'}
+        </button>
+
+        <h2 className="name-modal-title">{t('app_title')}</h2>
+        <p className="app-subtitle">{t('app_subtitle')}</p>
 
         {/* Feature Badges Summary */}
         <div className="dash-features-bar">
-          <span className="feature-pill">⚔️ 1v1 Battle RPG</span>
-          <span className="feature-pill">🃏 15 Kartu Cyber</span>
-          <span className="feature-pill">🛡️ Pity System</span>
+          <span className="feature-pill">{t('feat_battle')}</span>
+          <span className="feature-pill">{t('feat_cards')}</span>
+          <span className="feature-pill">{t('feat_pity')}</span>
         </div>
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <input
             type="text"
             className="name-input-field"
-            placeholder="Ketik Nama Pemain..."
+            placeholder={t('input_placeholder')}
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             maxLength={15}
@@ -46,7 +66,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
 
           {/* AI Difficulty Selector */}
           <div className="ai-selector-container">
-            <label className="ai-selector-label">🧠 Mode Kesulitan AI Musuh:</label>
+            <label className="ai-selector-label">{t('ai_mode_label')}</label>
             <div className="ai-selector-grid">
               <button
                 type="button"
@@ -54,7 +74,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'AUTO' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('AUTO')}
               >
-                🔄 Otomatis (Stage)
+                {t('ai_auto')}
               </button>
               <button
                 type="button"
@@ -62,7 +82,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'EASY' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('EASY')}
               >
-                🟢 Mudah (35%)
+                {t('ai_easy')}
               </button>
               <button
                 type="button"
@@ -70,7 +90,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'MEDIUM' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('MEDIUM')}
               >
-                🟡 Sedang (65%)
+                {t('ai_medium')}
               </button>
               <button
                 type="button"
@@ -78,17 +98,17 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'HARD' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('HARD')}
               >
-                🔴 Tinggi (88%)
+                {t('ai_hard')}
               </button>
             </div>
           </div>
 
           {/* Dynamic AI Mode Explanation Text */}
           <div className="ai-mode-desc-banner">
-            {selectedAiMode === 'AUTO' && 'ℹ️ Otomatis: Kesulitan AI naik bertahap dari Stage 1 (35%) hingga Stage 5+ (88%).'}
-            {selectedAiMode === 'EASY' && 'ℹ️ Mudah: AI Musuh mengingat 35% posisi kartu. Cocok untuk pemain baru!'}
-            {selectedAiMode === 'MEDIUM' && 'ℹ️ Sedang: AI Musuh mengingat 65% posisi kartu. Pertarungan seimbang!'}
-            {selectedAiMode === 'HARD' && 'ℹ️ Tinggi: AI Musuh mengingat 88% posisi kartu. Tantangan memori tingkat dewa!'}
+            {selectedAiMode === 'AUTO' && t('ai_desc_auto')}
+            {selectedAiMode === 'EASY' && t('ai_desc_easy')}
+            {selectedAiMode === 'MEDIUM' && t('ai_desc_medium')}
+            {selectedAiMode === 'HARD' && t('ai_desc_hard')}
           </div>
 
           {/* Navigasi Terpisah: Buku Panduan Game vs Katalog Kartu vs Leaderboard */}
@@ -99,7 +119,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-toggle-btn"
                 onClick={onOpenGuide}
               >
-                📖 Panduan
+                {t('nav_guide')}
               </button>
             )}
 
@@ -109,7 +129,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-catalog-btn"
                 onClick={onOpenCatalog}
               >
-                🂠 Katalog
+                {t('nav_catalog')}
               </button>
             )}
 
@@ -119,18 +139,18 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-leaderboard-btn"
                 onClick={onOpenLeaderboard}
               >
-                🏆 Topskor
+                {t('nav_scores')}
               </button>
             )}
           </div>
 
           {/* Dashboard Info Box */}
           <div className="dash-info-box">
-            <span>💡 <strong>Tips Arena:</strong> Kumpulkan 15 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!</span>
+            <span>{t('dash_tip')}</span>
           </div>
 
           <button type="submit" className="start-journey-btn">
-            ⚔️ Mulai Pertarungan
+            {t('start_battle_btn')}
           </button>
         </form>
       </div>

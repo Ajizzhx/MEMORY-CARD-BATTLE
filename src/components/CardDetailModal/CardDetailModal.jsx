@@ -1,9 +1,12 @@
 import React from 'react';
 import { soundManager } from '../../utils/soundSystem';
+import { t, getTranslatedCard } from '../../utils/i18n';
 import './CardDetailModal.css';
 
-const CardDetailModal = ({ card, onClose }) => {
-  if (!card) return null;
+const CardDetailModal = ({ card: rawCard, onClose }) => {
+  if (!rawCard) return null;
+
+  const card = getTranslatedCard(rawCard);
 
   const handleClose = () => {
     soundManager.playClickSFX();
@@ -20,7 +23,7 @@ const CardDetailModal = ({ card, onClose }) => {
           boxShadow: `0 0 35px ${card.color || '#00f0ff'}45`
         }}
       >
-        <button className="modal-close-icon-btn" onClick={handleClose} title="Tutup Detail Kartu">
+        <button className="modal-close-icon-btn" onClick={handleClose} title="Close Card Detail">
           ✕
         </button>
 
@@ -42,12 +45,12 @@ const CardDetailModal = ({ card, onClose }) => {
               {card.rarity?.toUpperCase()}
             </span>
             <span className="card-type-badge">
-              {card.type === 'ATTACK' && '⚔️ SERANGAN'}
-              {card.type === 'DEFENSE' && '🛡️ PERTAHANAN'}
-              {card.type === 'HEAL' && '🧪 PEMULIHAN'}
-              {card.type === 'BUFF' && '👁️ BUFF PANTAU'}
-              {card.type === 'DEBUFF' && '☠️ DEBUFF GLITCH'}
-              {card.type === 'EMERGENCY' && '🚑 MEDKIT DARURAT'}
+              {card.type === 'ATTACK' && '⚔️ ATTACK'}
+              {card.type === 'DEFENSE' && '🛡️ DEFENSE'}
+              {card.type === 'HEAL' && '🧪 HEAL'}
+              {card.type === 'BUFF' && '👁️ BUFF'}
+              {card.type === 'DEBUFF' && '☠️ DEBUFF'}
+              {card.type === 'EMERGENCY' && '🚑 EMERGENCY MEDKIT'}
             </span>
           </div>
 
@@ -62,31 +65,31 @@ const CardDetailModal = ({ card, onClose }) => {
         <div className="card-detail-lore-box">
           <div className="lore-box-header">
             <span className="lore-icon">📜</span>
-            <span className="lore-title">CYBER LORE ARCHIVE</span>
+            <span className="lore-title">{t('lore_archive_header')}</span>
           </div>
           <p className="lore-content">
-            "{card.lore || 'Arsip rahasia kartu ini tersimpan dalam intisari memori Sektor Neo-Veridia.'}"
+            "{card.lore || 'Secret archive records of this card are encrypted in Neo-Veridia Sector memory.'}"
           </p>
         </div>
 
         {/* Footer Stats Box */}
         <div className="card-detail-stats-bar">
           <div className="stat-pill">
-            <span className="stat-label">NILAI EFEK</span>
+            <span className="stat-label">{t('effect_val')}</span>
             <span className="stat-val" style={{ color: card.color }}>
-              {card.value > 0 ? `${card.value} Poin` : 'Efek Pengintip'}
+              {card.value > 0 ? `${card.value}` : 'Scan 2 Cards'}
             </span>
           </div>
           {card.isPiercing && (
             <div className="stat-pill piercing">
-              <span className="stat-label">KEISTIMEWAAN</span>
-              <span className="stat-val">🗡️ Kuantum Penetrasik</span>
+              <span className="stat-label">SPECIAL</span>
+              <span className="stat-val">{t('special_piercing')}</span>
             </div>
           )}
         </div>
 
         <button className="card-detail-close-btn" onClick={handleClose}>
-          Tutup Detail Kartu
+          {t('close_detail_btn')}
         </button>
       </div>
     </div>

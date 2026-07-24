@@ -1,4 +1,5 @@
 import React from 'react';
+import { t } from '../../utils/i18n';
 import './GuideModal.css';
 
 const GuideModal = ({ onClose }) => {
@@ -8,43 +9,43 @@ const GuideModal = ({ onClose }) => {
         <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Buku Panduan">
           ✕
         </button>
-        <h2 className="guide-modal-title">📖 BUKU PANDUAN GAME</h2>
-        <p className="app-subtitle">Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, &amp; Musuh AI:</p>
+        <h2 className="guide-modal-title">{t('guide_modal_title')}</h2>
+        <p className="app-subtitle">{t('guide_modal_subtitle')}</p>
 
         <div className="guide-modal-body">
           {/* Section 1: Alur & Cara Bermain */}
           <div className="guide-section">
-            <h3 className="guide-heading">⚔️ Alur &amp; Cara Bermain</h3>
+            <h3 className="guide-heading">{t('section_flow')}</h3>
             <div className="guide-steps-grid">
               <div className="guide-step-card">
                 <div className="step-number">1</div>
                 <div className="step-content">
-                  <strong>Pilih Nama &amp; Mode AI:</strong>
-                  <p>Ketik nama pemain dan pilih tingkat kecerdasan AI Musuh (Otomatis, Mudah 35%, Sedang 65%, atau Tinggi 88%).</p>
+                  <strong>{t('step1_title')}</strong>
+                  <p>{t('step1_desc')}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">2</div>
                 <div className="step-content">
-                  <strong>Buka Pasangan Kartu di Papan:</strong>
-                  <p>Di setiap giliran, klik 2 kartu tertutup di papan 4x4. Jika 2 kartu cocok (Match), efek kartu langsung aktif!</p>
+                  <strong>{t('step2_title')}</strong>
+                  <p>{t('step2_desc')}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">3</div>
                 <div className="step-content">
-                  <strong>Giliran Ekstra &amp; Batas Waktu 15 Detik:</strong>
-                  <p>Pemain yang berhasil mencocokkan kartu mendapatkan giliran tambahan. Jika kartu tidak cocok atau waktu 15 detik habis, giliran berpindah ke lawan.</p>
+                  <strong>{t('step3_title')}</strong>
+                  <p>{t('step3_desc')}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <strong>Hadiah Kartu &amp; Stage Baru:</strong>
-                  <p>Kalahkan musuh untuk memilih 1 Kartu Hadiah baru yang belum Anda miliki dan lanjut bertualang ke Stage berikutnya!</p>
+                  <strong>{t('step4_title')}</strong>
+                  <p>{t('step4_desc')}</p>
                 </div>
               </div>
             </div>
@@ -52,40 +53,40 @@ const GuideModal = ({ onClose }) => {
 
           {/* Section 2: Aturan Papan & Arena */}
           <div className="guide-section">
-            <h3 className="guide-heading">🎲 Aturan Papan &amp; Arena Pertarungan</h3>
+            <h3 className="guide-heading">{t('section_rules')}</h3>
             <div className="guide-rules-list">
               <div className="rule-item">
-                <strong>1. Papan Arena 4x4 (16 Kartu / 8 Pasang):</strong>
-                <p>Di setiap stage, arena memilih 8 jenis kartu dari koleksi Deck Anda untuk membentuk 8 pasang kartu tertutup (total 16 kartu di papan).</p>
+                <strong>{t('rule1_title')}</strong>
+                <p>{t('rule1_desc')}</p>
               </div>
               <div className="rule-item">
-                <strong>2. Arena Milik Bersama (Shared Board):</strong>
-                <p>Kartu hadiah yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun Musuh AI) dialah yang memperoleh efek dari kartu tersebut!</p>
+                <strong>{t('rule2_title')}</strong>
+                <p>{t('rule2_desc')}</p>
               </div>
               <div className="rule-item">
-                <strong>3. Kelengkapan Kartu (15 Kartu Katalog):</strong>
-                <p>Anda memulai perjalanan dengan 8 kartu awal dan dapat melengkapi seluruh 15 kartu katalog saat berhasil menaklukkan stage demi stage.</p>
+                <strong>{t('rule3_title')}</strong>
+                <p>{t('rule3_desc')}</p>
               </div>
             </div>
           </div>
 
           {/* Section 3: Fitur Pertolongan & Medkit Darurat */}
           <div className="guide-section pity-section">
-            <h3 className="guide-heading">🚑 Fitur Pertolongan &amp; Medkit Darurat (Maksimal 2x Pemakaian)</h3>
+            <h3 className="guide-heading">{t('section_pity')}</h3>
             <p className="pity-explanation">
-              Jika HP Anda berada di bawah 50% atau mengalami kegagalan cocok 3 kali berturut-turut, <strong>Fitur Pertolongan Aktif!</strong>
+              {t('pity_text1')}<strong>{t('pity_text2')}</strong>
               <br />
-              Di layar Hadiah Kelulusan Stage, akan terbuka <strong>Opsi Ke-4: 🚑 Bio-Shield Medkit</strong> (+35 HP &amp; +25 Perisai instan).
+              {t('pity_text3')}<strong>{t('pity_medkit_label')}</strong>
               <br />
-              <strong>⚠️ Kuota Medkit Darurat:</strong> Penggunaan Medkit Darurat <strong>dibatasi maksimal 2 kali</strong> sepanjang satu perjalanan bertarung. Jika kuota 2 kali sudah habis terpakai, opsi ini tidak akan muncul lagi.
+              <strong>{t('pity_limit')}</strong>
               <br />
-              <em>Pertimbangan Strategi: Mengambil Medkit akan menyelamatkan HP Anda, namun Anda tidak memperoleh kartu baru sehingga penambahan koleksi kartu katalog Anda berjalan lebih lambat.</em>
+              <em>{t('pity_strategy')}</em>
             </p>
           </div>
 
           {/* Section 4: Musuh AI per Stage */}
           <div className="guide-section">
-            <h3 className="guide-heading">👾 Musuh AI Berdasarkan Stage</h3>
+            <h3 className="guide-heading">{t('section_enemies')}</h3>
             <div className="enemy-guide-grid">
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
@@ -93,8 +94,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 1: Cyber Scout</strong>
-                  <span className="enemy-hp">HP: 70 | Kesulitan: Mudah (Memori 35%)</span>
-                  <p>Musuh pengintai dasar untuk pemanasan pemain baru.</p>
+                  <span className="enemy-hp">HP: 70 | Easy (Memory 35%)</span>
+                  <p>Basic reconnaissance drone for player warmup.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -103,8 +104,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 2: Cybergolem</strong>
-                  <span className="enemy-hp">HP: 90 | Kesulitan: Sedang (Memori 65%)</span>
-                  <p>Robot Golem tangguh dengan pertahanan HP &amp; Perisai yang lebih tebal.</p>
+                  <span className="enemy-hp">HP: 90 | Medium (Memory 65%)</span>
+                  <p>Sturdy Golem robot with thick HP &amp; Shield defense.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -113,8 +114,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 3: Neon Spectre</strong>
-                  <span className="enemy-hp">HP: 110 | Kesulitan: Sedang (Memori 65%)</span>
-                  <p>Hantu cyber lincah yang mulai mengingat posisi kartu dengan akurat.</p>
+                  <span className="enemy-hp">HP: 110 | Medium (Memory 65%)</span>
+                  <p>Agile cyber phantom with sharp card memory accuracy.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -123,8 +124,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 4: Aether Warlord</strong>
-                  <span className="enemy-hp">HP: 140 | Kesulitan: Tinggi (Memori 88%)</span>
-                  <p>Panglima perang kosmik dengan HP tebal &amp; daya serang yang mematikan.</p>
+                  <span className="enemy-hp">HP: 140 | Hard (Memory 88%)</span>
+                  <p>Cosmic commander with massive HP &amp; deadly firepower.</p>
                 </div>
               </div>
               <div className="enemy-guide-card boss">
@@ -132,9 +133,9 @@ const GuideModal = ({ onClose }) => {
                   <img src="/assets/avatars/avatar_dragon.png" alt="Abyss Omega" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
-                  <strong>Stage 5+: Abyss Omega (Bos Akhir)</strong>
-                  <span className="enemy-hp">HP: 150+ (Meningkat per Stage) | Kesulitan: Bos Akhir</span>
-                  <p>Naga Cyber legendaris dalam arena pertarungan tanpa akhir!</p>
+                  <strong>Stage 5+: Abyss Omega (Final Boss)</strong>
+                  <span className="enemy-hp">HP: 150+ (Scales per Stage) | Final Boss</span>
+                  <p>Legendary Cyber Dragon in an endless arena battle!</p>
                 </div>
               </div>
             </div>
@@ -142,7 +143,7 @@ const GuideModal = ({ onClose }) => {
         </div>
 
         <button className="close-modal-btn" onClick={onClose}>
-          Tutup Buku Panduan
+          {t('close_guide_btn')}
         </button>
       </div>
     </div>
