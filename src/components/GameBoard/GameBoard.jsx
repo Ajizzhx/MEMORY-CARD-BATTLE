@@ -692,7 +692,6 @@ const GameBoard = () => {
         enemyMatches={enemyMatches}
         currentTurn={currentTurn}
         difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}
-        onCycleDifficulty={handleCycleDifficulty}
       />
 
       {/* Pity Indicator Banner jika Pity Active */}
