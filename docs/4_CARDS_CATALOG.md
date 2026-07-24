@@ -1,7 +1,7 @@
 # Dokumen Katalog Kartu (Card Database Catalog)
 ## Memory Card Battle - Cyberfantasy Edition
 
-Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup statistik, efek, tingkat kelangkaan (rarity), gambar 3D artwork render, serta kisah latar belakang (Lore Story) unik per kartu.
+Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup statistik, efek, tingkat kelangkaan (rarity), gambar 3D artwork render, serta kisah latar belakang (Lore Story) unik bergenre **Cyberfantasy (Peleburan High Fantasy & Cyberpunk)** per kartu.
 
 ---
 
@@ -34,25 +34,25 @@ Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup stat
 
 ---
 
-## 3. Kisah Latar Belakang (Lore Story Archive) 15 Kartu
+## 3. Kisah Latar Belakang (Lore Story Archive) Cyberfantasy 15 Kartu
 
-1. ⚔️ **Cyber Dagger:** *Belati energi cyan yang ditempa di laboratorium bawah tanah Sektor Neo-Veridia. Diukir dengan serat foton frekuensi tinggi, senjata standar peretas memori ini mampu menembus selubung gelombang otak musuh dalam sekejap.*
-2. 🛡️ **Nano Barrier:** *Jaring mikroskopis nanobot pertahanan yang diaktifkan melalui impuls syaraf. Diciptakan oleh Guild Cybermedis, nanobot ini secara instan membentuk perisai foton berkepadatan tinggi saat menerima sinyal benturan.*
-3. 🧪 **Bio Nectar:** *Cairan bioluminesensi murni yang diekstrak dari Bunga Sintetis Aether. Dikenal oleh para penjelajah cyber sebagai sumber pemulihan jaringan vital yang mampu menutup luka fusi sel dalam hitungan detik.*
-4. 🗡️ **Plasma Blade:** *Pedang plasma terionisasi yang memancarkan panas hingga 10.000°C. Senjata legendaris garapan Glitch Smith ini pernah digunakan untuk membelah inti mainframe raksasa pada era Perang Cyber Pertama.*
-5. 🔰 **Aura Shield:** *Tameng energi berkode geometri suci yang dipancarkan dari jimat intan cyber. Pelindung kuno ini membiaskan radiasi frekuensi tinggi dan menahan gempuran fisik dengan medan gravitasi buatan.*
-6. 💊 **Cyber Elixir:** *Ramuan rahasia hasil formulasi Alkemis Digital Neo-Kyoto. Mengandung molekul regeneratif cair yang merekonstruksi kode genetik dan memulihkan vitalitas fisik serta mental penggunanya secara dramatis.*
-7. 👁️ **Oracle Eye:** *Relik mata cybernetic buatan Oracle dari Inti Sektor 0. Menggunakan pindaian spektral dimensi tinggi, lensa ini menembus matriks maya untuk menyingkap rahasia kartu tertutup sebelum takdir terwujud.*
-8. ☠️ **Corrosive Virus:** *Virus korosif bio-digital yang menyebar melalui protokol memori terbuka. Begitu menginfeksi sistem musuh, racun molekuler ini mengikis sel pertahanan secara bertahap tanpa bisa dihentikan firewall standar.*
-9. 🗡️ **Quantum Piercer:** *Tombak kuantum berenergi foton ganda yang mampu menembus ruang dan waktu. Diciptakan untuk mengabaikan segala bentuk armor atau perisai fisik, menghantam titik lemah musuh secara mematikan.*
-10. 🔱 **Aether Strike:** *Tebasan pedang kosmik bertatahkan kristal Aether murni. Membelah struktur ruang dimensi dan melepaskan ledakan energi astral berkekuatan tinggi yang mampu meremukkan musuh paling tangguh sekalipun.*
-11. 🏰 **Aegis Protocol:** *Protokol pertahanan tertinggi buatan Konsorsium Keamanan Sektor Atas. Memanggil matriks perisai bersisi-banyak yang memantulkan benturan berat dan melindungi integritas pengguna dalam benteng energi abadi.*
-12. 🔥 **Phoenix Catalyst:** *Katalis api kosmik yang menyimpan esensi Burung Phoenix Abadi. Saat dipicu, gelombang regenerasi hangat membakar sel mati dan membangkitkan vitalitas tubuh hingga kapasitas puncak.*
-13. 👾 **Glitch Overlay:** *Anomali matriks maya yang mengganggu sistem kognitif musuh. Memancarkan fraktal piksel rusak yang membuat musuh kebingungan sekaligus mengikis pertahanan lawan dengan gangguan sirkuit.*
-14. ⚡ **EMP Disrupter:** *Meriam pulsa elektromagnetik berdaya tinggi. Saat dilepaskan, gelombang shockwave EMP melumpuhkan komponen elektronik musuh, menghancurkan perisai armor, dan mengacak sistem ingatan musuh secara total.*
-15. ⚡ **Divine Wrath:** *Manifestasi amarah kuno para Dewa Cybernetic. Diberikan oleh sistem pertolongan alam bawah sadar saat pejuang berada di ambang kekalahan, menyambar musuh dengan petir suci 40 Damage sekaligus memulihkan 15 HP.*
+1. ⚔️ **Cyber Dagger:** *Belati sihir foton yang ditempa oleh Penyihir Rune di Laboratorium Alkimia Neo-Veridia. Diukir dengan inskripsi mantra suci kuno yang dialiri energi neon, senjata ini menembus jiwa dan memori musuh dalam sekejap.*
+2. 🛡️ **Nano Barrier:** *Perisai gaib gabungan Sihir Perlindungan Elven dan matriks Nanobot. Diciptakan oleh Para Penyihir Cybermedis, jaring kristal ini memancarkan mantra pelindung suci secara instan saat ancaman bahaya mendekat.*
+3. 🧪 **Bio Nectar:** *Cairan mana bioluminesensi murni yang diekstrak dari Bunga Abadi Hutan Aether. Dikenal oleh para Penyihir Cyber sebagai ramuan mukjizat penyembuh jiwa yang mampu menutup luka fusi sel dalam sekejap.*
+4. 🗡️ **Plasma Blade:** *Pedang plasma terionisasi yang disuntikkan Jiwa Naga Api Kuno. Senjata pusaka garapan Pandai Besi Alkemis ini memancarkan kobaran api magis 10.000°C yang mampu membelah inti matriks kegelapan.*
+5. 🔰 **Aura Shield:** *Tameng energi bertuliskan Geometri Suci Mandala yang dipancarkan dari jimat intan sihir kuno. Pelindung bertuah ini membiaskan kutukan musuh dan menahan gempuran fisik dengan benteng aura mistik.*
+6. 💊 **Cyber Elixir:** *Elixir rahasia ciptaan para Alkemis Takdir dari Kuil Digital Neo-Kyoto. Meramu sari benih kehidupan mistis dengan molekul regeneratif untuk membangkitkan vitalitas jiwa dan fisik penggunanya secara dramatis.*
+7. 👁️ **Oracle Eye:** *Relik mata peramal suci milik Sang Oracle Kuno dari Kuil Sektor 0. Menggabungkan penglihatan gaib dengan pindaian spektral dimensi tinggi, mata mistik ini menembus tabir takdir untuk menyingkap rahasia kartu tertutup.*
+8. ☠️ **Corrosive Virus:** *Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.*
+9. 🗡️ **Quantum Piercer:** *Tombak kuantum bertatahkan Rune Valkyrie berenergi foton suci. Membelah takdir ruang dan waktu untuk mengabaikan segala armor fisik maupun perisai sihir musuh, menghantam titik vital secara mematikan.*
+10. 🔱 **Aether Strike:** *Tebasan pedang kosmik Malaikat Agung bertatahkan Kristal Aether Murni. Membelah dimensi astral dan melepaskan ledakan sihir kosmik berkekuatan tinggi yang meremukkan musuh paling tangguh.*
+11. 🏰 **Aegis Protocol:** *Mantra pertahanan tertinggi ciptaan Parlemen Penyihir Agung Sektor Atas. Memanggil Sanctuary bertatahkan kristal pelindung suci yang memantulkan gempuran musuh dalam keabadian benteng sihir.*
+12. 🔥 **Phoenix Catalyst:** *Relik suci yang menyimpan Jiwa Api Burung Phoenix Abadi. Saat dipicu dalam ritual pertarungan, gelombang kobaran api regenerasi membakar seluruh sel mati dan memulihkan 35 HP secara sempurna.*
+13. 👾 **Glitch Overlay:** *Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.*
+14. ⚡ **EMP Disrupter:** *Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.*
+15. ⚡ **Divine Wrath:** *Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.*
 
 ---
 
 ## 4. Interaktivitas Detail Kartu di Katalog
-Pemain dapat menekan kartu mana pun pada Katalog Kartu di Dashboard Nama maupun saat In-Game untuk membuka **Interactive Card Lore Modal (`CardDetailModal.jsx`)**, yang memperlihatkan artwork 3D besar bercahaya neon, statistik spesifik, jenis efek, serta arsip cerita latar belakang kartu tersebut.
+Pemain dapat menekan kartu mana pun pada Katalog Kartu di Dashboard Nama maupun saat In-Game untuk membuka **Interactive Card Lore Modal (`CardDetailModal.jsx`)**, yang memperlihatkan artwork 3D besar bercahaya neon, statistik spesifik, jenis efek, serta arsip cerita latar belakang kartu bergenre peleburan Cyberfantasy.
