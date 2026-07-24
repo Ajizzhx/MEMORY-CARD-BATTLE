@@ -129,8 +129,8 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
               <h3 className="guide-heading">🎲 Aturan Papan & Arena Pertarungan</h3>
               <div className="guide-rules-list">
                 <div className="rule-item">
-                  <strong>1. Papan Arena 4x4 (16 Kartu / 8 Pasang):</strong>
-                  <p>Di setiap stage, sistem mengambil 8 jenis kartu secara acak dari Deck Anda dan menduplikasinya menjadi 8 pasang (16 kartu tertutup).</p>
+                  <strong>1. Papan Arena 4x4 (16 Kartu / 8 Pasang Unik):</strong>
+                  <p>Di setiap stage, sistem mengambil 8 jenis kartu unik (tanpa duplikat jenis) dari Deck Anda dan membentuk 8 pasang (16 kartu tertutup di papan 4x4).</p>
                 </div>
                 <div className="rule-item">
                   <strong>2. Arena Milik Bersama (Shared Board):</strong>
@@ -138,7 +138,15 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                 </div>
                 <div className="rule-item">
                   <strong>3. Kelengkapan Kartu (15 Kartu Katalog):</strong>
-                  <p>Anda memulai dengan 8 kartu starter dan dapat melengkapi semua 15 kartu katalog ketika berhasil mencapai Stage 7 Clear. Setiap Stage Clear memberikan 1 kartu baru dari katalog yang belum dimiliki.</p>
+                  <p>Anda memulai dengan 8 kartu starter dan dapat melengkapi semua 15 kartu katalog saat berhasil mencapai Stage 7 Clear. Setiap Stage Clear menawarkan 1 kartu baru dari katalog yang belum dimiliki (Strict Non-Duplicate).</p>
+                </div>
+                <div className="rule-item">
+                  <strong>4. Pity System & Bantuan Darurat (Risk vs Reward):</strong>
+                  <p>Jika HP &lt; 50% atau Mismatch 3x beruntun, Pity System Aktif! Terbuka pilihan ke-4 <strong>🚑 Bio-Shield Medkit</strong> (+35 HP &amp; +25 Armor). Memilih Medkit menyelamatkan nyawa Anda, namun tidak menambah kartu baru (+0 progresi) sehingga kelengkapan 15 kartu akan bergeser ke Stage 8+.</p>
+                </div>
+                <div className="rule-item">
+                  <strong>5. Giliran Extra & Batas Waktu 15 Detik:</strong>
+                  <p>Setiap giliran dibatasi 15 detik. Jika berhasil mencocokkan kartu (Match), Anda mendapatkan giliran ekstra! Jika Mismatch atau waktu habis, giliran berpindah ke Musuh.</p>
                 </div>
               </div>
             </div>
