@@ -341,12 +341,12 @@ const GameBoard = () => {
     setTurnTimer(TURN_TIME_LIMIT);
     setStatusMessage(`⚔️ Stage ${stageNum}: Pertarungan melawan ${getStageEnemyConfig(stageNum).name}!`);
 
-    // Pemicu Animasi Kocok Kartu 3D Fan Out
+    // Pemicu Animasi Realistis Casino Dealer Riffle & Deal Shuffle
     setIsShufflingBoard(true);
-    soundManager.playFlipSFX();
+    soundManager.playShuffleSFX();
     setTimeout(() => {
       setIsShufflingBoard(false);
-    }, 700);
+    }, 850);
   };
 
   // AI Turn Handling
@@ -680,9 +680,17 @@ const GameBoard = () => {
             matchedCardIds.includes(card.pairId);
           const isMatched = matchedCardIds.includes(card.pairId);
           const isXrayVision = temporaryRevealed.includes(card.uniqueId);
+          const shuffleSide = index % 2 === 0 ? 1 : -1;
 
           return (
-            <div key={card.uniqueId} style={{ animationDelay: `${index * 0.035}s`, height: '100%' }}>
+            <div
+              key={card.uniqueId}
+              style={{
+                animationDelay: `${index * 0.038}s`,
+                '--shuffle-side': shuffleSide,
+                height: '100%'
+              }}
+            >
               <Card
                 card={card}
                 isFlipped={isFlipped}

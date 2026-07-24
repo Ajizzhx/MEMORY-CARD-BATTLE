@@ -362,6 +362,31 @@ class SoundSystem {
     osc.start(now);
     osc.stop(now + 0.04);
   }
+
+  // 9. Card Dealer Shuffle Sound (Riffle & Deal Sweep)
+  playShuffleSFX() {
+    this.initAudioContext();
+    if (!this.ctx || this.isSfxMuted) return;
+
+    const now = this.ctx.currentTime;
+    for (let i = 0; i < 8; i++) {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(380 + Math.random() * 220, now + i * 0.04);
+      osc.frequency.exponentialRampToValueAtTime(140, now + i * 0.04 + 0.06);
+
+      gain.gain.setValueAtTime(0.14, now + i * 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.04 + 0.06);
+
+      osc.connect(gain);
+      gain.connect(this.sfxGainNode);
+
+      osc.start(now + i * 0.04);
+      osc.stop(now + i * 0.04 + 0.06);
+    }
+  }
 }
 
 export const soundManager = new SoundSystem();
