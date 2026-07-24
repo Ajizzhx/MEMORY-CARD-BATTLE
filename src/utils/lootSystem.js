@@ -114,7 +114,7 @@ export const getStageEnemyConfig = (stageLevel) => {
       maxHp: 150 + (stageLevel - 5) * 30,
       difficulty: 'HARD',
       avatar: '🐉',
-      avatarImg: '/assets/avatars/avatar_dragon.svg'
+      avatarImg: '/assets/avatars/avatar_dragon.png'
     };
   }
 };

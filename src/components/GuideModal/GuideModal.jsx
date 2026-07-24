@@ -129,7 +129,7 @@ const GuideModal = ({ onClose }) => {
               </div>
               <div className="enemy-guide-card boss">
                 <div className="enemy-avatar-wrapper boss">
-                  <img src="/assets/avatars/avatar_dragon.svg" alt="Abyss Omega" className="enemy-guide-img" />
+                  <img src="/assets/avatars/avatar_dragon.png" alt="Abyss Omega" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 5+: Abyss Omega (Bos Akhir)</strong>

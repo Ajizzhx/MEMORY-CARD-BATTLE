@@ -252,7 +252,14 @@ const GameBoard = () => {
     setStage(1);
     setPlayerDeck(CARD_DATABASE.slice(0, 8));
     setPlayer((prev) => ({ ...prev, hp: 100, maxHp: 100, block: 0 }));
-    setEnemy({ name: enemyConfig.name, hp: enemyConfig.hp, maxHp: enemyConfig.maxHp, block: 0 });
+    setEnemy({
+      name: enemyConfig.name,
+      hp: enemyConfig.hp,
+      maxHp: enemyConfig.maxHp,
+      avatar: enemyConfig.avatar,
+      avatarImg: enemyConfig.avatarImg,
+      block: 0
+    });
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
@@ -273,7 +280,14 @@ const GameBoard = () => {
     setStage(1);
     setPlayerDeck(CARD_DATABASE.slice(0, 8));
     setPlayer({ name: 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
-    setEnemy({ name: enemyConfig.name, hp: enemyConfig.hp, maxHp: enemyConfig.maxHp, block: 0 });
+    setEnemy({
+      name: enemyConfig.name,
+      hp: enemyConfig.hp,
+      maxHp: enemyConfig.maxHp,
+      avatar: enemyConfig.avatar,
+      avatarImg: enemyConfig.avatarImg,
+      block: 0
+    });
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
@@ -671,6 +685,8 @@ const GameBoard = () => {
       name: nextEnemyConfig.name,
       hp: nextEnemyConfig.hp,
       maxHp: nextEnemyConfig.maxHp,
+      avatar: nextEnemyConfig.avatar,
+      avatarImg: nextEnemyConfig.avatarImg,
       block: 0
     });
 
