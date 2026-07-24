@@ -52,7 +52,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose }) => {
         {/* ── ONLINE TAB ── */}
         {activeTab === 'online' && (
           <div className="lb-online-container">
-            <p className="app-subtitle">Top 25 Pemain Terbaik Dunia — Memory Card Battle</p>
+            <p className="app-subtitle">Top 10 Pemain Terbaik Dunia — Memory Card Battle</p>
 
             {isLoading && (
               <div className="lb-loading">

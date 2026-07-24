@@ -2,6 +2,9 @@
  * Supabase Online Leaderboard Service
  * Menggunakan Supabase REST API secara langsung (tanpa SDK) agar bundle tetap kecil.
  * Table: leaderboard (id, name, stage, total_matches, difficulty, created_at)
+ *
+ * Pembersihan database otomatis dilakukan oleh PostgreSQL Trigger di Supabase:
+ * setiap INSERT baru, trigger langsung menghapus baris di luar Top 10.
  */
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -15,14 +18,32 @@ const HEADERS = {
   'Prefer': 'return=minimal'
 };
 
+/** Hanya simpan jika skor LAYAK masuk Top 10 (cek dulu sebelum insert) */
+const TOP_LIMIT = 10;
+
 /**
- * Submit skor pemain ke Supabase (fire-and-forget, tidak block gameplay)
+ * Submit skor pemain ke Supabase.
+ * Hanya mengirim jika skor masuk Top 10 (optimasi: tidak insert data yang tidak perlu).
+ * Trigger di Supabase akan otomatis membersihkan baris di luar Top 10.
  * @param {{ name: string, stage: number, totalMatches: number, difficulty: string }} entry
  */
 export const submitScore = async (entry) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
 
   try {
+    // Cek apakah skor ini layak masuk Top 10 sebelum insert
+    const currentTop = await fetchTopScores(TOP_LIMIT);
+    const lowestTop = currentTop[currentTop.length - 1];
+    const isTableFull = currentTop.length >= TOP_LIMIT;
+
+    // Jika tabel sudah penuh, cek apakah skor ini lebih baik dari yang paling rendah
+    if (isTableFull && lowestTop) {
+      const entryIsWorse =
+        entry.stage < lowestTop.stage ||
+        (entry.stage === lowestTop.stage && (entry.totalMatches || 0) <= lowestTop.total_matches);
+      if (entryIsWorse) return; // Tidak insert, skor tidak cukup tinggi
+    }
+
     await fetch(TABLE_ENDPOINT, {
       method: 'POST',
       headers: HEADERS,
@@ -40,15 +61,15 @@ export const submitScore = async (entry) => {
 };
 
 /**
- * Ambil top N skor global dari Supabase
- * @param {number} limit - Jumlah skor yang diambil (default 25)
+ * Ambil top 10 skor global dari Supabase
+ * @param {number} limit - Jumlah skor yang diambil (default 10)
  * @returns {Promise<Array>} Daftar skor terurut Stage DESC, Total Match DESC
  */
-export const fetchTopScores = async (limit = 25) => {
+export const fetchTopScores = async (limit = TOP_LIMIT) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
   const params = new URLSearchParams({
-    select: 'name,stage,total_matches,difficulty,created_at',
+    select: 'id,name,stage,total_matches,difficulty,created_at',
     order: 'stage.desc,total_matches.desc',
     limit: String(limit)
   });
