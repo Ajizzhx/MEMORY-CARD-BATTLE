@@ -22,7 +22,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
   return (
     <div className="modal-overlay">
       <div className="name-modal-content glass-panel">
-        <h2 className="app-title">MEMORY CARD BATTLE</h2>
+        <h2 className="name-modal-title">MEMORY CARD BATTLE</h2>
         <p className="app-subtitle">Cyberfantasy RPG &amp; Memory Matching Game</p>
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
@@ -43,6 +43,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
             <div className="ai-selector-grid">
               <button
                 type="button"
+                data-mode="AUTO"
                 className={`ai-opt-btn ${selectedAiMode === 'AUTO' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('AUTO')}
               >
@@ -50,21 +51,24 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
               </button>
               <button
                 type="button"
-                className={`ai-opt-btn easy ${selectedAiMode === 'EASY' ? 'active' : ''}`}
+                data-mode="EASY"
+                className={`ai-opt-btn ${selectedAiMode === 'EASY' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('EASY')}
               >
                 🟢 Mudah (35%)
               </button>
               <button
                 type="button"
-                className={`ai-opt-btn medium ${selectedAiMode === 'MEDIUM' ? 'active' : ''}`}
+                data-mode="MEDIUM"
+                className={`ai-opt-btn ${selectedAiMode === 'MEDIUM' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('MEDIUM')}
               >
                 🟡 Sedang (65%)
               </button>
               <button
                 type="button"
-                className={`ai-opt-btn hard ${selectedAiMode === 'HARD' ? 'active' : ''}`}
+                data-mode="HARD"
+                className={`ai-opt-btn ${selectedAiMode === 'HARD' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('HARD')}
               >
                 🔴 Tinggi (88%)
@@ -95,7 +99,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog }) => {
             )}
           </div>
 
-          <button type="submit" className="start-journey-btn" style={{ marginTop: '18px' }}>
+          <button type="submit" className="start-journey-btn">
             ⚔️ Mulai Pertarungan
           </button>
         </form>

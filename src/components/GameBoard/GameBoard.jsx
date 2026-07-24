@@ -846,8 +846,14 @@ const GameBoard = () => {
       {showGameOverModal && (
         <GameOverModal
           stage={stage}
-          totalMatches={totalMatchesMade}
+          totalMatches={playerMatches}
+          enemyName={enemy.name}
+          playerName={playerName}
           onRestartJourney={startNewJourney}
+          onOpenLeaderboard={() => {
+            soundManager.playClickSFX();
+            setShowLeaderboardModal(true);
+          }}
         />
       )}
     </div>
