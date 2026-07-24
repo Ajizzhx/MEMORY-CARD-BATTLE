@@ -12,7 +12,7 @@
 
 <p align="center">
   <b>Gabungan Antara Memory Card Game Klasik, RPG Turn-Based Battle, dan Elemen Roguelike Progression.</b><br>
-  Dibalut dalam Desain UI/UX <b>Cyberfantasy 3D Artwork</b> yang Mewah, Penuh Animasi 3D Flip, Effek Neon Glow, dan Synthesizer BGM.
+  Dibalut dalam Desain UI/UX <b>Cyberfantasy 3D Artwork</b> yang Mewah, Penuh Animasi 3D Flip, Efek Neon Glow, dan Synthesizer BGM.
 </p>
 
 [🎮 Mainkan Langsung di Vercel](https://memory-card-battle.vercel.app/) •
@@ -26,8 +26,9 @@
 ## 🌟 Fitur Utama (Core Features)
 
 ### ⚔️ 1vs1 Turn-Based Memory Battle (Shared Board)
-- **Aksi Berbasis Pasangan Kartu:** Mencocokkan 2 kartu akan memicu efek aksi instan (*Attack, Defense, Heal, Buff, Debuff*).
+- **Aksi Berbasis Pasangan Kartu:** Mencocokkan 2 kartu memicu efek aksi instan (*Attack, True Damage Armor Piercing, Defense, Heal, Buff, Debuff*).
 - **Shared Arena Board Mechanics:** Kartu Loot yang diperoleh pemain masuk ke Deck. Siapa pun yang mencocokkan pasangan kartu di papan 4x4 (Pemain maupun AI), dialah yang mendapatkan efeknya!
+- **Papan Ketat Bebas Duplikat:** Pengocokan papan 4x4 menggunakan penyaringan Map Deduplication untuk menjamin tepat 8 jenis kartu unik (16 kartu tertutup / 8 pasang) di setiap stage.
 - **HP & Armor System:** Perhitungan HP dinamis lengkap dengan bar pertahanan *Block/Armor* untuk menahan damage musuh.
 
 ### 🧠 AI Memory Engine & Stage Enemy Progression
@@ -38,27 +39,27 @@
   - 👹 **Stage 4: Aether Warlord** (140 HP - Tinggi)
   - 🐉 **Stage 5+: Abyss Omega (Boss)** (150+ HP Endless Boss Scaling +30 HP/stage)
 
-### 🛡️ Pity System & Comeback Mechanics
-- Jika HP Pemain **< 50%** dan mengalami 3 *mismatch* berturut-turut, **Pity System Active** akan dipicu:
+### 🚑 Pity System & Risk-vs-Reward Trade-Off
+- Terpicu jika HP Pemain **< 50%** atau mengalami 3 *mismatch* berturut-turut:
   - Meningkatkan peluang drop kartu langka (*Rare/Epic*) sebesar **+25%**.
-  - Memberikan bantuan penunjuk pasangan kartu di papan.
+  - Membuka **Opsi Ke-4 Bantuan Darurat (`🚑 Bio-Shield Medkit`)**: Memberikan pemulihan instant **+35 HP & +25 Armor** untuk menyelamatkan nyawa pemain (dengan konsekuensi +0 kartu baru).
 
-### 🏆 Deck-Building & Roguelike Progression
-- **100% Unified 3D Cyberfantasy Artwork:** Seluruh 13 kartu dalam game memiliki gambar ilustrasi 3D yang unik dan seragam.
-- **Random Deck Sampling:** Papan 4x4 secara acak memilih 8 pasang kartu unik dari koleksi Deck pemain di setiap stage.
-- **Session Leaderboard:** Merekam Skor (*Stage Tertinggi, Total Matches, dan Kesulitan AI*) ke dalam **Session Leaderboard**.
+### 🌐 Online Global Leaderboard (Supabase Integration)
+- **Global Online Top 10:** Merekam Top 10 Skor Teratas Dunia secara real-time via Supabase REST API dengan trigger pembersihan server-side.
+- **Local Session Leaderboard:** Merekam skor terbaik pada sesi bermain lokal.
 
-### 🎵 Web Audio Synthesizer BGM & SFX
-- **Ambient Cyberfantasy BGM:** Musik latar harmonis dengan lowpass filter 1200Hz dan arpeggio melodis yang menenangkan.
+### 📘 Compendium & Dynamic Catalog
+- **100% Unified 3D Cyberfantasy Artwork:** Seluruh 15 kartu dalam game memiliki gambar ilustrasi 3D yang unik dan seragam.
+- **Pembedaan Mode Katalog:** Mode *Buku Panduan & Compendium Utama* di Dashboard Awal VS Mode *Kartu Stage Aktif* di dalam pertarungan.
 
 ---
 
 ## 📂 Dokumentasi Lengkap Proyek
 
-1. [📄 1_REQUIREMENTS.md](docs/1_REQUIREMENTS.md) — Spesifikasi kebutuhan mekanik game & balancing.
-2. [📄 2_ARCHITECTURAL_DESIGN.md](docs/2_ARCHITECTURAL_DESIGN.md) — Arsitektur sistem game & alur data state.
-3. [📄 3_CARDS_CATALOG.md](docs/3_CARDS_CATALOG.md) — Katalog 13 kartu lengkap beserta statistik & gambar 3D.
-4. [📄 4_LOOT_AND_PITY_SYSTEM.md](docs/4_LOOT_AND_PITY_SYSTEM.md) — Mekanisme Loot, Drop Rate, & Pity Comeback.
+1. [📄 1_REQUIREMENTS.md](docs/1_REQUIREMENTS.md) — Spesifikasi kebutuhan mekanik game, balancing, & pity system.
+2. [📄 2_DESIGN_SYSTEM.md](docs/2_DESIGN_SYSTEM.md) — Panduan sistem desain visual & UI tokens.
+3. [📄 3_ROADMAP.md](docs/3_ROADMAP.md) — Roadmap pengembangan dari setup hingga deployment.
+4. [📄 4_CARDS_CATALOG.md](docs/4_CARDS_CATALOG.md) — Katalog 15 kartu lengkap beserta statistik & progresi deck.
 5. [📄 5_TESTING_REPORT.md](docs/5_TESTING_REPORT.md) — Laporan pengujian gameplay & status verifikasi bug.
 
 ---
