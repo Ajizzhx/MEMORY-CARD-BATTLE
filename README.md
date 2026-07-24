@@ -31,26 +31,31 @@
 - **Papan Ketat Bebas Duplikat:** Pengocokan papan 4x4 menggunakan penyaringan Map Deduplication untuk menjamin tepat 8 jenis kartu unik (16 kartu tertutup / 8 pasang) di setiap stage.
 - **HP & Armor System:** Perhitungan HP dinamis lengkap dengan bar pertahanan *Block/Armor* untuk menahan damage musuh.
 
-### 🧠 AI Memory Engine & Stage Enemy Progression
-- **Musuh AI Berdasarkan Stage:**
-  - 🤖 **Stage 1: Cyber Scout** (70 HP - Mudah)
-  - 🦾 **Stage 2: Cybergolem** (90 HP - Sedang)
-  - 👻 **Stage 3: Neon Spectre** (110 HP - Sedang)
-  - 👹 **Stage 4: Aether Warlord** (140 HP - Tinggi)
-  - 🐉 **Stage 5+: Abyss Omega (Boss)** (150+ HP Endless Boss Scaling +30 HP/stage)
+### 📜 15 Kisah Lore Cyberfantasy & Modal Detail Kartu Interaktif
+- **Kisah Lore Hibrida High-Fantasy & Cyberpunk:** 15 kartu game dilengkapi narasi cerita latar belakang mistis-cyberpunk (Sihir, Rune, Alkimia, Jiwa Naga, Perisai Elven, hingga Meriam EMP).
+- **Interactive Card Story Modal (`CardDetailModal`):** Setiap kartu pada Katalog di Dashboard Nama maupun In-Game dapat ditekan untuk melihat foto 3D besar bercahaya neon, statistik spesifik, dan arsip cerita lore.
+
+### 🎭 Custom 3D Rendered Avatars (Player & Stage Enemies)
+- **Visual Avatar 3D Khusus:**
+  - 🧙‍♂️ **Player:** Cyberfantasy Hero Mage Portrait dengan visor neon cyan & tudung penyihir rune.
+  - 🤖 **Stage 1:** Cyber Scout Drone Robot.
+  - 🦾 **Stage 2:** Cybergolem Heavy Mech.
+  - 👻 **Stage 3:** Neon Spectre Phantom Assassin.
+  - 👹 **Stage 4:** Aether Warlord Cosmic Commander.
+  - 🐉 **Stage 5+:** Abyss Omega Cyber Dragon Boss.
+
+### 🧠 AI Memory Engine & Mode Kesulitan
+- **Mode Kesulitan Fleksibel:** Pemain dapat memilih mode kesulitan AI di Dashboard Nama:
+  - 🔄 **Otomatis (Stage Scaling):** Kecerdasan AI naik bertahap dari Stage 1 (35%) hingga Stage 4+ (88%).
+  - 🟢 **Mudah (35%)** • 🟡 **Sedang (65%)** • 🔴 **Tinggi (88%)**
+- **Sistem Ronde Stage:** Hitungan ronde di-reset mulai dari Ronde 1 di setiap stage baru, sedangkan total match pemain dan HP diakumulasi sepanjang perjalanan.
 
 ### 🚑 Pity System & Risk-vs-Reward Trade-Off
 - Terpicu jika HP Pemain **< 50%** atau mengalami 3 *mismatch* berturut-turut:
-  - Meningkatkan peluang drop kartu langka (*Rare/Epic*) sebesar **+25%**.
-  - Membuka **Opsi Ke-4 Bantuan Darurat (`🚑 Bio-Shield Medkit`)**: Memberikan pemulihan instant **+35 HP & +25 Armor** untuk menyelamatkan nyawa pemain (dengan konsekuensi +0 kartu baru).
+  - Membuka **Opsi Ke-4 Bantuan Darurat (`🚑 Bio-Shield Medkit`)**: Memberikan pemulihan instant **+35 HP & +25 Armor** (Terbatas maksimal 2 kali pemakaian per run).
 
 ### 🌐 Online Global Leaderboard (Supabase Integration)
-- **Global Online Top 10:** Merekam Top 10 Skor Teratas Dunia secara real-time via Supabase REST API dengan trigger pembersihan server-side.
-- **Local Session Leaderboard:** Merekam skor terbaik pada sesi bermain lokal.
-
-### 📘 Compendium & Dynamic Catalog
-- **100% Unified 3D Cyberfantasy Artwork:** Seluruh 15 kartu dalam game memiliki gambar ilustrasi 3D yang unik dan seragam.
-- **Pembedaan Mode Katalog:** Mode *Buku Panduan & Compendium Utama* di Dashboard Awal VS Mode *Kartu Stage Aktif* di dalam pertarungan.
+- **Akses Langsung dari Dashboard:** Tombol `🏆 Topskor` di Dashboard Nama memungkinkan pemain melihat daftar peringkat global Supabase & sesi sebelum memulai game.
 
 ---
 
@@ -59,7 +64,7 @@
 1. [📄 1_REQUIREMENTS.md](docs/1_REQUIREMENTS.md) — Spesifikasi kebutuhan mekanik game, balancing, & pity system.
 2. [📄 2_DESIGN_SYSTEM.md](docs/2_DESIGN_SYSTEM.md) — Panduan sistem desain visual & UI tokens.
 3. [📄 3_ROADMAP.md](docs/3_ROADMAP.md) — Roadmap pengembangan dari setup hingga deployment.
-4. [📄 4_CARDS_CATALOG.md](docs/4_CARDS_CATALOG.md) — Katalog 15 kartu lengkap beserta statistik & progresi deck.
+4. [📄 4_CARDS_CATALOG.md](docs/4_CARDS_CATALOG.md) — Katalog 15 kartu lengkap beserta statistik, lore stories, & progresi deck.
 5. [📄 5_TESTING_REPORT.md](docs/5_TESTING_REPORT.md) — Laporan pengujian gameplay & status verifikasi bug.
 
 ---
@@ -74,6 +79,7 @@
 
 2. **Install dependensi:**
    ```bash
+   git checkout main
    npm install
    ```
 
