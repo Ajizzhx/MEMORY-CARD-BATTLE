@@ -1,7 +1,7 @@
 import React from 'react';
 import './PlayerStatus.css';
 
-const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
+const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName, onCycleDifficulty }) => {
   const playerHpPct = Math.max(0, Math.min(100, (player.hp / player.maxHp) * 100));
   const enemyHpPct = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
 
@@ -13,7 +13,10 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
         <div className="entity-info">
           <div className="entity-header">
             <span className="entity-name" title={player.name}>{player.name}</span>
-            {player.block > 0 && <span className="entity-block">🛡️ {player.block}</span>}
+            <div className="entity-badge-group">
+              <span className="entity-matches" title="Total Match Pemain di Stage Ini">✨ {playerMatches} Match</span>
+              {player.block > 0 && <span className="entity-block">🛡️ {player.block}</span>}
+            </div>
           </div>
           <div className="hp-bar-bg">
             <div
@@ -35,7 +38,7 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
           {currentTurn === 'PLAYER' ? 'GILIRAN ANDA' : 'GILIRAN MUSUH'}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag clickable" title="Klik untuk mengubah mode AI">
+          <div className="difficulty-tag clickable" onClick={onCycleDifficulty} title="Klik untuk mengubah mode AI">
             🧠 AI: {difficultyName}
           </div>
         )}
@@ -46,7 +49,10 @@ const PlayerStatus = ({ player, enemy, currentTurn, difficultyName }) => {
         <div className="entity-info">
           <div className="entity-header">
             <span className="entity-name" title={enemy.name}>{enemy.name}</span>
-            {enemy.block > 0 && <span className="entity-block">🛡️ {enemy.block}</span>}
+            <div className="entity-badge-group">
+              <span className="entity-matches enemy-matches" title="Total Match Musuh di Stage Ini">✨ {enemyMatches} Match</span>
+              {enemy.block > 0 && <span className="entity-block">🛡️ {enemy.block}</span>}
+            </div>
           </div>
           <div className="hp-bar-bg">
             <div
