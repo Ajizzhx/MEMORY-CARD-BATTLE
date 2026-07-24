@@ -1,7 +1,7 @@
 import { CARD_DATABASE } from './cardData';
 
 /**
- * Objek Opsi Pity System Bantuan Darurat (Opsi ke-4 saat Pity Active)
+ * Objek Opsi Pity System Bantuan Darurat (Opsi ke-4 saat Pity Active & Kuota Masih Ada)
  * Memberikan Pemulihan HP & Armor instant untuk keselamatan pemain (Risk vs Reward)
  */
 export const PITY_EMERGENCY_OPTION = {
@@ -18,19 +18,22 @@ export const PITY_EMERGENCY_OPTION = {
   color: '#ff0055'
 };
 
+/** Batas maksimal kuota pemakaian Bantuan Darurat Medkit per perjalanan */
+export const MAX_PITY_USES = 2;
+
 /**
  * Menghasilkan pilihan kartu Loot setelah pemain menyelesaikan sebuah Stage
- * ATURAN STRICT & PITY SYSTEM REVISED:
+ * ATURAN STRICT & LIMITED PITY SYSTEM:
  * 1. HANYA menawarkan kartu yang BELUM ADA di Deck Pemain (Tanpa Duplikat!).
- * 2. Jika Pity System Aktif -> Tambahkan Opsi ke-4 "🚑 Bio-Shield Medkit" sebagai pilihan keselamatan!
- * 3. Pemain bebas memilih: High Risk (Kartu Baru) vs Safe Choice (Medkit Darurat).
- * 4. Jika memilih Medkit Darurat, target kelengkapan 15 kartu di Stage 7 akan bergeser mundur (Stage 8+).
+ * 2. Jika Pity System Aktif DAN Kuota Bantuan Darurat Masih Ada (>0) -> Tambahkan Opsi ke-4 "🚑 Bio-Shield Medkit"!
+ * 3. Pemain diberikan batas maksimal 2x Kuota Bantuan Darurat sepanjang perjalanan.
  * 
  * @param {Array} playerDeck - Koleksi deck pemain saat ini
  * @param {boolean} isPityActive - Apakah mekanisme Pity System terpicu
- * @returns {Array} Pilihan kartu hadiah acak + opsi Pity jika aktif
+ * @param {boolean} canUseEmergencyPity - Apakah kuota Bantuan Darurat masih tersedia (>0)
+ * @returns {Array} Pilihan kartu hadiah acak + opsi Pity jika aktif & kuota ada
  */
-export const generateLootChoices = (playerDeck = [], isPityActive = false) => {
+export const generateLootChoices = (playerDeck = [], isPityActive = false, canUseEmergencyPity = true) => {
   const playerCardIds = new Set((playerDeck || []).map((c) => c.id));
   const unownedCards = CARD_DATABASE.filter((c) => !playerCardIds.has(c.id));
 
@@ -82,8 +85,8 @@ export const generateLootChoices = (playerDeck = [], isPityActive = false) => {
     }
   }
 
-  // Jika Pity System Aktif -> Tambahkan Opsi ke-4 "Bio-Shield Medkit" untuk Keselamatan Pemain!
-  if (isPityActive) {
+  // Jika Pity System Aktif DAN Kuota Bantuan Darurat Masih Ada -> Tambahkan Opsi ke-4 "Bio-Shield Medkit"!
+  if (isPityActive && canUseEmergencyPity) {
     choices.push(PITY_EMERGENCY_OPTION);
   }
 

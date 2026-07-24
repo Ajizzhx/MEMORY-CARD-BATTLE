@@ -66,15 +66,17 @@ const GuideModal = ({ onClose }) => {
             </div>
           </div>
 
-          {/* Section 3: Pity System & Bantuan Darurat */}
+          {/* Section 3: Pity System & Bantuan Darurat (Terbatas 2x Usage) */}
           <div className="guide-section pity-section">
-            <h3 className="guide-heading">🚑 Pity System & Bantuan Darurat (Risk vs Reward)</h3>
+            <h3 className="guide-heading">🚑 Pity System &amp; Bantuan Darurat (Terbatas Maksimal 2x per Perjalanan)</h3>
             <p className="pity-explanation">
               Jika HP Anda &lt; 50% atau mengalami Mismatch 3x beruntun, <strong>Pity System Aktif!</strong>
               <br />
               Di layar Loot Stage Clear, terbuka <strong>Opsi Ke-4: 🚑 Bio-Shield Medkit</strong> (+35 HP &amp; +25 Armor instant).
               <br />
-              <em>Dilema Strategi: Memilih Medkit menyelamatkan nyawa Anda, namun TIDAK mendapat kartu baru (+0 progresi) sehingga kelengkapan 15 kartu katalog akan bergeser ke Stage 8+.</em>
+              <strong>⚠️ Pembatasan Keseimbangan Game:</strong> Pemakaian Medkit Darurat <strong>DIBATASI MAKSIMAL 2 KALI (2x Charges)</strong> sepanjang satu perjalanan (per run). Jika kuota 2x sudah habis, opsi ini tidak akan muncul lagi!
+              <br />
+              <em>Dilema Strategi: Memilih Medkit menyelamatkan nyawa Anda &amp; memotong 1 kuota, namun TIDAK mendapat kartu baru (+0 progresi) sehingga kelengkapan 15 kartu katalog akan bergeser ke Stage 8+.</em>
             </p>
           </div>
 

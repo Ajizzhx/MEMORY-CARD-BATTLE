@@ -1,15 +1,15 @@
 import React from 'react';
 import './LootModal.css';
 
-const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
+const LootModal = ({ stage, choices = [], isPityActive, pityUsesLeft = 2, onSelectLoot }) => {
   // Filter pilihan kartu biasa (non-emergency) vs emergency
   const cardChoices = choices.filter((c) => !c.isEmergencyPity);
   const emergencyChoice = choices.find((c) => c.isEmergencyPity);
   const choicesCount = cardChoices.length;
 
   let subtitleText = "Pilih 1 Hadiah untuk Memperkuat Perjalanan Anda:";
-  if (isPityActive) {
-    subtitleText = "⚠️ Pity System Aktif: Pilih Kartu Baru (High-Risk) ATAU Bantuan Darurat (Penyelamat Nyawa)!";
+  if (isPityActive && emergencyChoice) {
+    subtitleText = `⚠️ Pity System Aktif! Opsi ke-4 Terbuka (Sisa Kuota Bantuan: ${pityUsesLeft}/2x)!`;
   } else if (choicesCount === 2) {
     subtitleText = "Tersisa 2 Kartu Baru di Katalog! Pilih 1 dari 2 pilihan berikut:";
   } else if (choicesCount === 1) {
@@ -37,9 +37,9 @@ const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
           <>
             <p className="app-subtitle">{subtitleText}</p>
 
-            {isPityActive && (
+            {isPityActive && emergencyChoice && (
               <div className="pity-notice active-pity-banner">
-                🚑 <strong>Pity Emergency Activated!</strong> HP Rendah / Mismatch Beruntun Terdeteksi. Opsi ke-4 <strong>"Bio-Shield Medkit"</strong> terbuka untuk menyelamatkan Anda (+35 HP & +25 Armor, tanpa menambah kartu baru).
+                🚑 <strong>Pity Emergency Activated!</strong> Opsi <strong>"Bio-Shield Medkit"</strong> terbuka (+35 HP & +25 Armor, tanpa menambah kartu baru). Sisa Kuota Pemakaian: <strong>{pityUsesLeft}/2x</strong> per perjalanan.
               </div>
             )}
 
@@ -61,7 +61,7 @@ const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
                         borderColor: isEmergency ? '#ff0055' : 'transparent'
                       }}
                     >
-                      {isEmergency ? '🚑 PITY SAVIOR' : card.rarity}
+                      {isEmergency ? `🚑 SAVIOR (${pityUsesLeft}/2x)` : card.rarity}
                     </span>
 
                     <div className="loot-card-icon" style={{ color: card.color }}>

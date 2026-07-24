@@ -46,6 +46,7 @@ const GameBoard = () => {
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [lootChoices, setLootChoices] = useState([]);
   const [totalMatchesMade, setTotalMatchesMade] = useState(0);
+  const [pityUsesLeft, setPityUsesLeft] = useState(2);
 
   // Game Board States
   const [cards, setCards] = useState([]);
@@ -250,6 +251,7 @@ const GameBoard = () => {
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
+    setPityUsesLeft(2);
     setShowLootModal(false);
     setShowGameOverModal(false);
     resetBoardForStage(1, CARD_DATABASE.slice(0, 8));
@@ -267,6 +269,7 @@ const GameBoard = () => {
     setMismatchStreak(0);
     setTotalMatchesMade(0);
     setTurnTimer(TURN_TIME_LIMIT);
+    setPityUsesLeft(2);
     setShowLootModal(false);
     setShowGameOverModal(false);
     setPlayerName('');
@@ -594,7 +597,7 @@ const GameBoard = () => {
     soundManager.playVictorySFX();
     recordLeaderboardScore(stage, totalMatchesMade + 1);
     setTimeout(() => {
-      const choices = generateLootChoices(playerDeck, isPityActive);
+      const choices = generateLootChoices(playerDeck, isPityActive, pityUsesLeft > 0);
       setLootChoices(choices);
       setShowLootModal(true);
     }, 600);
@@ -616,7 +619,8 @@ const GameBoard = () => {
     let updatedDeck = playerDeck;
     if (selectedCard) {
       if (selectedCard.isEmergencyPity) {
-        // Pity Emergency Option (Bio-Shield Medkit) Dipilih Pemain!
+        // Pity Emergency Option (Bio-Shield Medkit) Dipilih Pemain! (Potong Kuota 1x)
+        setPityUsesLeft((prev) => Math.max(0, prev - 1));
         soundManager.playHealSFX();
         spawnFloatingText('🚑 BANTUAN DARURAT! +35 HP & +25 ARMOR', 'heal');
         setPlayer((prev) => ({
@@ -804,12 +808,13 @@ const GameBoard = () => {
         />
       )}
 
-      {/* Modal Loot saat Stage Cleared */}
+      {/* Modal Hadiah Loot Stage Clear */}
       {showLootModal && (
         <LootModal
           stage={stage}
           choices={lootChoices}
           isPityActive={isPityActive}
+          pityUsesLeft={pityUsesLeft}
           onSelectLoot={handleSelectLoot}
         />
       )}

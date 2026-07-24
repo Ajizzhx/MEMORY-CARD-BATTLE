@@ -34,10 +34,11 @@ Musuh AI disesuaikan berdasarkan tingkatan Stage:
 ### D. Progresi, Strict Non-Duplicate Loot & Pity System (Risk vs Reward)
 - **Strict Non-Duplicate Loot:** Hadiah Loot HANYA menawarkan kartu yang BELUM dimiliki oleh pemain (tanpa duplikat kartu di deck).
 - **Istirahat Stage (+10 HP):** Memilih kartu loot biasa memberikan pemulihan alami +10 HP.
-- **Pity System Bantuan Darurat (Opsi ke-4):**
+- **Pity System Bantuan Darurat (Opsi ke-4 - Terbatas Maksimal 2x):**
   - Terpicu jika pemain mengalami kesulitan (`HP < 50%` ATAU `Mismatch Streak >= 3`).
   - Terbuka pilihan ke-4: **`🚑 Bio-Shield Medkit`** (+35 HP & +25 Armor instant).
-  - **Risk vs Reward:** Jika memilih Medkit Darurat, pemain TIDAK mendapat kartu baru (+0 kartu). Target kelengkapan 15 kartu katalog yang semula di **Stage 7 Clear** akan bergeser ke **Stage 8, 9, dst.**
+  - **Pembatasan Keseimbangan Game (Max 2x Usage):** Pemakaian Medkit Darurat **DIBATASI MAKSIMAL 2 KALI (2x Charges)** sepanjang satu perjalanan (per run) untuk menjaga keseimbangan dan tantangan game.
+  - **Risk vs Reward:** Jika memilih Medkit Darurat, pemain TIDAK mendapat kartu baru (+0 kartu) dan memotong 1x kuota darurat. Target kelengkapan 15 kartu katalog yang semula di **Stage 7 Clear** akan bergeser ke **Stage 8, 9, dst.**
 
 ## 3. Leaderboard & Panduan Dalam Game
 - **🌐 Online Global Leaderboard (Supabase):** Merekam Top 10 Skor Teratas Dunia secara real-time via Supabase REST API dengan trigger pembersihan server-side.
