@@ -26,7 +26,10 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
 
   return (
     <div className="modal-overlay">
-      <div className="catalog-modal-content glass-panel">
+      <div className="catalog-modal-content glass-panel" style={{ position: 'relative' }}>
+        <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Katalog Kartu">
+          ✕
+        </button>
         {/* Header Modal */}
         {isDashboard ? (
           <>

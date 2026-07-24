@@ -4,7 +4,10 @@ import './GuideModal.css';
 const GuideModal = ({ onClose }) => {
   return (
     <div className="modal-overlay">
-      <div className="guide-modal-content glass-panel">
+      <div className="guide-modal-content glass-panel" style={{ position: 'relative' }}>
+        <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Buku Panduan">
+          ✕
+        </button>
         <h2 className="guide-modal-title">📖 BUKU PANDUAN GAME</h2>
         <p className="app-subtitle">Panduan Lengkap Alur Permainan, Aturan Papan, Pity System, & Musuh AI:</p>
 
