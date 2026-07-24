@@ -1,17 +1,34 @@
 import { CARD_DATABASE } from './cardData';
 
 /**
+ * Objek Opsi Pity System Bantuan Darurat (Opsi ke-4 saat Pity Active)
+ * Memberikan Pemulihan HP & Armor instant untuk keselamatan pemain (Risk vs Reward)
+ */
+export const PITY_EMERGENCY_OPTION = {
+  id: 'pity_medkit_emergency',
+  isEmergencyPity: true,
+  name: 'Bio-Shield Medkit',
+  type: 'EMERGENCY',
+  rarity: 'pity',
+  value: 35,
+  blockValue: 25,
+  icon: '🚑',
+  img: null,
+  description: 'Bantuan Darurat: +35 HP & +25 Armor instant! (Pilih ini untuk selamat, namun TIDAK mendapat kartu baru).',
+  color: '#ff0055'
+};
+
+/**
  * Menghasilkan pilihan kartu Loot setelah pemain menyelesaikan sebuah Stage
- * ATURAN STRICT:
+ * ATURAN STRICT & PITY SYSTEM REVISED:
  * 1. HANYA menawarkan kartu yang BELUM ADA di Deck Pemain (Tanpa Duplikat!).
- * 2. Jika kartu belum dimiliki >= 3 -> Tampilkan 3 Pilihan.
- * 3. Jika kartu belum dimiliki == 2 -> Tampilkan 2 Pilihan!
- * 4. Jika kartu belum dimiliki == 1 -> Tampilkan 1 Pilihan!
- * 5. Jika kartu belum dimiliki == 0 -> Deck 100% Lengkap! Kembalikan [] (Bonus Pemulihan HP).
+ * 2. Jika Pity System Aktif -> Tambahkan Opsi ke-4 "🚑 Bio-Shield Medkit" sebagai pilihan keselamatan!
+ * 3. Pemain bebas memilih: High Risk (Kartu Baru) vs Safe Choice (Medkit Darurat).
+ * 4. Jika memilih Medkit Darurat, target kelengkapan 15 kartu di Stage 7 akan bergeser mundur (Stage 8+).
  * 
  * @param {Array} playerDeck - Koleksi deck pemain saat ini
  * @param {boolean} isPityActive - Apakah mekanisme Pity System terpicu
- * @returns {Array} Pilihan kartu hadiah acak yang belum dimiliki
+ * @returns {Array} Pilihan kartu hadiah acak + opsi Pity jika aktif
  */
 export const generateLootChoices = (playerDeck = [], isPityActive = false) => {
   const playerCardIds = new Set((playerDeck || []).map((c) => c.id));
@@ -63,6 +80,11 @@ export const generateLootChoices = (playerDeck = [], isPityActive = false) => {
       chosenIds.add(randomCard.id);
       choices.push(randomCard);
     }
+  }
+
+  // Jika Pity System Aktif -> Tambahkan Opsi ke-4 "Bio-Shield Medkit" untuk Keselamatan Pemain!
+  if (isPityActive) {
+    choices.push(PITY_EMERGENCY_OPTION);
   }
 
   return choices;

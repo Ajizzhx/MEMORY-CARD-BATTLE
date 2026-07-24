@@ -14,13 +14,13 @@
 }
 
 .loot-modal-content {
-  width: 90%;
-  max-width: 680px;
-  padding: 30px 24px;
+  width: 92%;
+  max-width: 720px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   border: 1px solid rgba(0, 240, 255, 0.3);
   box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
   text-align: center;
@@ -34,13 +34,14 @@
 }
 
 .pity-notice {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #ff0055;
   background: rgba(255, 0, 85, 0.15);
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 0, 85, 0.4);
-  box-shadow: 0 0 12px rgba(255, 0, 85, 0.2);
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 0, 85, 0.5);
+  line-height: 1.4;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.25);
 }
 
 .loot-choices-grid {
@@ -60,8 +61,7 @@
 }
 
 .loot-choices-grid.count-4 .loot-card-item {
-  max-width: 145px;
-  padding: 14px 8px;
+  max-width: 150px;
 }
 
 .loot-card-item {
@@ -98,22 +98,44 @@
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
-/* Pity Emergency Aid Item Styling */
-.loot-card-item.pity-aid-item {
-  border-color: #ff0055;
-  background: rgba(255, 0, 85, 0.14);
+/* Styling Pity Emergency Choice */
+.loot-card-item.emergency-pity-item {
+  background: linear-gradient(145deg, rgba(40, 10, 25, 0.95), rgba(80, 10, 35, 0.9));
+  border: 1px solid #ff0055;
   box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
-  animation: pulsePity 2s infinite alternate;
+  animation: pulsePityGlow 2s infinite ease-in-out;
 }
 
-.loot-card-item.pity-aid-item:hover {
+.loot-card-item.emergency-pity-item:hover {
   border-color: #ff3377;
   box-shadow: 0 0 30px rgba(255, 0, 85, 0.8);
 }
 
-@keyframes pulsePity {
-  from { box-shadow: 0 0 12px rgba(255, 0, 85, 0.3); }
-  to { box-shadow: 0 0 26px rgba(255, 0, 85, 0.7); }
+.emergency-pulse-icon {
+  display: inline-block;
+  animation: emergencyIconBounce 1s infinite alternate ease-in-out;
+}
+
+.emergency-reward-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #ff3377;
+  background: rgba(255, 0, 85, 0.2);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 0, 85, 0.4);
+  margin-top: 4px;
+}
+
+@keyframes pulsePityGlow {
+  0% { box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
+  50% { box-shadow: 0 0 28px rgba(255, 0, 85, 0.7); }
+  100% { box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
+}
+
+@keyframes emergencyIconBounce {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
 }
 
 .loot-card-icon {
@@ -193,7 +215,18 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 640px) {
+  .loot-choices-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .loot-card-item {
+    width: 45%;
+    max-width: 45% !important;
+  }
+}
+
+@media (max-width: 480px) {
   .loot-choices-grid {
     flex-direction: column;
     align-items: center;

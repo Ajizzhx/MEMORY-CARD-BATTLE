@@ -603,20 +603,22 @@ const GameBoard = () => {
     setShowLootModal(false);
 
     let updatedDeck = playerDeck;
-    if (selectedCard && selectedCard.id === 'pity_emergency_aid') {
-      // Pity Emergency Aid Selected! Pemulihan Darurat +35 HP & +20 Armor
-      soundManager.playHealSFX();
-      soundManager.playBlockSFX();
-      spawnFloatingText('🚑 EMERGENCY AID +35 HP & +20 ARMOR!', 'heal');
-      setPlayer((prev) => ({
-        ...prev,
-        hp: Math.min(prev.maxHp, prev.hp + 35),
-        block: prev.block + 20
-      }));
-    } else if (selectedCard) {
-      // Normal Loot Card Selected
-      updatedDeck = [selectedCard, ...playerDeck];
-      setPlayerDeck(updatedDeck);
+    if (selectedCard) {
+      if (selectedCard.isEmergencyPity) {
+        // Pity Emergency Option (Bio-Shield Medkit) Dipilih Pemain!
+        soundManager.playHealSFX();
+        spawnFloatingText('🚑 BANTUAN DARURAT! +35 HP & +25 ARMOR', 'heal');
+        setPlayer((prev) => ({
+          ...prev,
+          hp: Math.min(prev.maxHp, prev.hp + selectedCard.value),
+          block: prev.block + selectedCard.blockValue
+        }));
+        // Deck tidak bertambah kartu baru (updatedDeck tetap playerDeck)
+      } else {
+        // Kartu Loot Baru Dipilih
+        updatedDeck = [selectedCard, ...playerDeck];
+        setPlayerDeck(updatedDeck);
+      }
     } else {
       // Bonus +50 HP jika Deck 100% Lengkap!
       soundManager.playHealSFX();
@@ -657,7 +659,7 @@ const GameBoard = () => {
       {/* Pity Indicator Banner jika Pity Active */}
       {isPityActive && (
         <div className="pity-active-banner">
-          🌟 <strong>Pity System Active!</strong> Bantuan Darurat Diaktifkan: Tersedia Pilihan Ke-4 (+35 HP & +20 Armor) di Loot Stage!
+          🌟 <strong>Pity System Active!</strong> Bantuan Darurat Diaktifkan (+25% Rare/Epic Drop).
         </div>
       )}
 

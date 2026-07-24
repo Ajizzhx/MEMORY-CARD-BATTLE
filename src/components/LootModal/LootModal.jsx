@@ -1,38 +1,27 @@
 import React from 'react';
 import './LootModal.css';
 
-const PITY_AID_CARD = {
-  id: 'pity_emergency_aid',
-  name: 'Emergency Aid',
-  type: 'PITY_AID',
-  rarity: 'epic',
-  value: 35,
-  icon: '🚑',
-  color: '#ff0055',
-  description: 'Bantuan Darurat! Pulihkan +35 HP & +20 Armor (Tidak menambah kartu ke deck).'
-};
-
 const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
-  const choicesCount = choices.length;
+  // Filter pilihan kartu biasa (non-emergency) vs emergency
+  const cardChoices = choices.filter((c) => !c.isEmergencyPity);
+  const emergencyChoice = choices.find((c) => c.isEmergencyPity);
+  const choicesCount = cardChoices.length;
 
-  let subtitleText = "Pilih 1 Kartu Hadiah Baru untuk Perjalanan Selanjutnya:";
-  if (choicesCount === 2) {
+  let subtitleText = "Pilih 1 Hadiah untuk Memperkuat Perjalanan Anda:";
+  if (isPityActive) {
+    subtitleText = "⚠️ Pity System Aktif: Pilih Kartu Baru (High-Risk) ATAU Bantuan Darurat (Penyelamat Nyawa)!";
+  } else if (choicesCount === 2) {
     subtitleText = "Tersisa 2 Kartu Baru di Katalog! Pilih 1 dari 2 pilihan berikut:";
   } else if (choicesCount === 1) {
     subtitleText = "Tersisa 1 Kartu Baru di Katalog! Klaim kartu terakhir Anda:";
   }
-
-  // Jika Pity System Aktif, tambahkan Pity Aid Card sebagai Pilihan Ke-4 (Emergency Aid)
-  const displayChoices = isPityActive && choicesCount > 0
-    ? [...choices, PITY_AID_CARD]
-    : choices;
 
   return (
     <div className="modal-overlay">
       <div className="loot-modal-content glass-panel">
         <h2 className="loot-modal-title">🏆 STAGE {stage} CLEARED!</h2>
 
-        {choicesCount === 0 ? (
+        {choicesCount === 0 && !emergencyChoice ? (
           <div className="deck-full-container">
             <div className="deck-full-badge">🎉 KOLEKSI DECK LENGKAP (15/15)</div>
             <p className="deck-full-desc">
@@ -49,35 +38,48 @@ const LootModal = ({ stage, choices = [], isPityActive, onSelectLoot }) => {
             <p className="app-subtitle">{subtitleText}</p>
 
             {isPityActive && (
-              <div className="pity-notice">
-                🌟 <strong>Pity System Active!</strong> Pilihan Ke-4 "Bantuan Darurat (+35 HP & +20 Armor)" Diaktifkan untuk menyelamatkan Anda!
+              <div className="pity-notice active-pity-banner">
+                🚑 <strong>Pity Emergency Activated!</strong> HP Rendah / Mismatch Beruntun Terdeteksi. Opsi ke-4 <strong>"Bio-Shield Medkit"</strong> terbuka untuk menyelamatkan Anda (+35 HP & +25 Armor, tanpa menambah kartu baru).
               </div>
             )}
 
-            <div className={`loot-choices-grid count-${displayChoices.length}`}>
-              {displayChoices.map((card) => {
-                const isPityCard = card.id === 'pity_emergency_aid';
+            <div className={`loot-choices-grid count-${choices.length}`}>
+              {choices.map((card) => {
+                const isEmergency = card.isEmergencyPity;
 
                 return (
                   <div
                     key={card.id}
-                    className={`loot-card-item ${card.rarity} ${isPityCard ? 'pity-aid-item' : ''}`}
+                    className={`loot-card-item ${isEmergency ? 'emergency-pity-item' : card.rarity}`}
                     onClick={() => onSelectLoot(card)}
                   >
-                    <span className="loot-rarity-tag" style={{ color: card.color }}>
-                      {isPityCard ? 'PITY AID' : card.rarity}
+                    <span
+                      className="loot-rarity-tag"
+                      style={{
+                        color: card.color,
+                        background: isEmergency ? 'rgba(255, 0, 85, 0.25)' : 'rgba(0, 0, 0, 0.5)',
+                        borderColor: isEmergency ? '#ff0055' : 'transparent'
+                      }}
+                    >
+                      {isEmergency ? '🚑 PITY SAVIOR' : card.rarity}
                     </span>
+
                     <div className="loot-card-icon" style={{ color: card.color }}>
                       {card.img ? (
                         <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
                       ) : (
-                        card.icon
+                        <span className={isEmergency ? 'emergency-pulse-icon' : ''}>{card.icon}</span>
                       )}
                     </div>
-                    <div className="loot-card-name" style={{ color: isPityCard ? '#ff0055' : 'inherit' }}>
-                      {card.name}
-                    </div>
+
+                    <div className="loot-card-name" style={{ color: card.color }}>{card.name}</div>
                     <div className="loot-card-desc">{card.description}</div>
+
+                    {isEmergency && (
+                      <div className="emergency-reward-badge">
+                        💖 +35 HP &nbsp;|&nbsp; 🛡️ +25 Armor
+                      </div>
+                    )}
                   </div>
                 );
               })}
