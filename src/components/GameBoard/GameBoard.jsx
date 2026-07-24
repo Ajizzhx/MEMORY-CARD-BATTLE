@@ -140,7 +140,7 @@ const GameBoard = () => {
           console.error("Error parsing saved progress:", err);
         }
       }
-      startNewJourney();
+      initBoardForNewPlayer();
     }
   }, [playerName]);
 
@@ -280,11 +280,27 @@ const GameBoard = () => {
     localStorage.removeItem('memory_player_name');
     setPlayerName('');
     setShowNameModal(true);
-    startNewJourney();
+    returnToDashboard();
   };
 
-  // Mulai Perjalanan Baru dari Stage 1 (kembali ke Dashboard Nama)
-  const startNewJourney = () => {
+  // Inisialisasi papan baru setelah player mengisi nama (pertama kali / fresh start)
+  const initBoardForNewPlayer = () => {
+    localStorage.removeItem('memory_game_saved_state');
+    const enemyConfig = getStageEnemyConfig(1);
+    setStage(1);
+    setPlayerDeck(CARD_DATABASE.slice(0, 8));
+    setPlayer((prev) => ({ ...prev, hp: 100, maxHp: 100, block: 0 }));
+    setEnemy({ name: enemyConfig.name, hp: enemyConfig.hp, maxHp: enemyConfig.maxHp, block: 0 });
+    setMismatchStreak(0);
+    setTotalMatchesMade(0);
+    setTurnTimer(TURN_TIME_LIMIT);
+    setShowLootModal(false);
+    setShowGameOverModal(false);
+    resetBoardForStage(1, CARD_DATABASE.slice(0, 8));
+  };
+
+  // Kembali ke Dashboard Nama (dipanggil dari Game Over / Reset)
+  const returnToDashboard = () => {
     localStorage.removeItem('memory_game_saved_state');
     localStorage.removeItem('memory_player_name');
     const enemyConfig = getStageEnemyConfig(1);
@@ -300,6 +316,9 @@ const GameBoard = () => {
     setPlayerName('');
     setShowNameModal(true);
   };
+
+  // Alias untuk kompatibilitas (dipanggil dari GameOverModal)
+  const startNewJourney = returnToDashboard;
 
   // Reset Board untuk Stage tertentu
   const resetBoardForStage = (stageNum, deckToUse) => {
