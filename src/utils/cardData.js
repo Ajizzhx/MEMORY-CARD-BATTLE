@@ -1,4 +1,4 @@
-// Database Kartu Lengkap (100% Unified 3D Cyberfantasy Render Art Style)
+// Database Kartu Lengkap (100% Unique 3D Cyberfantasy Render Art Style Per Kartu)
 export const CARD_DATABASE = [
   // --- COMMON (Tingkat Biasa) ---
   {
@@ -65,7 +65,7 @@ export const CARD_DATABASE = [
     rarity: 'rare',
     value: 20,
     icon: '💊',
-    img: '/assets/cards/heal_potion.png',
+    img: '/assets/cards/heal_elixir.png',
     description: 'Memulihkan 20 HP.',
     color: '#a855f7'
   },
@@ -99,7 +99,7 @@ export const CARD_DATABASE = [
     value: 18,
     isPiercing: true,
     icon: '🗡️',
-    img: '/assets/cards/atk_dagger.png',
+    img: '/assets/cards/atk_pierce.png',
     description: 'Penetrasi 18 Damage MENEMBUS Armor musuh secara langsung!',
     color: '#00f0ff'
   },
@@ -112,7 +112,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 30,
     icon: '🔱',
-    img: '/assets/cards/atk_plasma.png',
+    img: '/assets/cards/atk_aether.png',
     description: 'Serangan tebasan kosmik sebesar 30 damage!',
     color: '#ec4899'
   },
@@ -123,7 +123,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 32,
     icon: '🏰',
-    img: '/assets/cards/def_shield.png',
+    img: '/assets/cards/def_aegis.png',
     description: 'Benteng energi kokoh sebesar 32 Armor!',
     color: '#8b5cf6'
   },
@@ -134,7 +134,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 35,
     icon: '🔥',
-    img: '/assets/cards/heal_potion.png',
+    img: '/assets/cards/heal_phoenix.png',
     description: 'Pemulihan regenerasi besar 35 HP!',
     color: '#f97316'
   },
@@ -145,7 +145,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 24,
     icon: '👾',
-    img: '/assets/cards/debuff_virus.png',
+    img: '/assets/cards/debuff_glitch.png',
     description: 'Ganggui sistem musuh & berikan 24 Damage.',
     color: '#d946ef'
   },
@@ -156,7 +156,7 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 28,
     icon: '⚡',
-    img: '/assets/cards/debuff_virus.png',
+    img: '/assets/cards/debuff_emp.png',
     description: 'Pulsa EMP melumpuhkan perisai & berikan 28 Damage.',
     color: '#00ffaa'
   },
@@ -169,11 +169,8 @@ export const CARD_DATABASE = [
     rarity: 'epic',
     value: 40,
     icon: '⚡',
-    img: '/assets/cards/atk_plasma.png',
+    img: '/assets/cards/pity_wrath.png',
     description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
     color: '#eab308'
   }
 ];
-
-// Catatan: Pembuatan papan dilakukan oleh fungsi resetBoardForStage di GameBoard.jsx
-// menggunakan Fisher-Yates Shuffle pada deck aktif pemain.
