@@ -91,6 +91,18 @@ export const CARD_DATABASE = [
     description: 'Virus mengikis HP musuh (16 Damage).',
     color: '#ef4444'
   },
+  {
+    id: 'atk_pierce',
+    name: 'Quantum Piercer',
+    type: 'ATTACK',
+    rarity: 'rare',
+    value: 18,
+    isPiercing: true,
+    icon: '🗡️',
+    img: '/assets/cards/atk_dagger.png',
+    description: 'Penetrasi 18 Damage MENEMBUS Armor musuh secara langsung!',
+    color: '#00f0ff'
+  },
 
   // --- EPIC (Tingkat Sangat Langka) ---
   {
@@ -136,6 +148,17 @@ export const CARD_DATABASE = [
     img: '/assets/cards/debuff_virus.png',
     description: 'Ganggui sistem musuh & berikan 24 Damage.',
     color: '#d946ef'
+  },
+  {
+    id: 'debuff_emp',
+    name: 'EMP Disrupter',
+    type: 'DEBUFF',
+    rarity: 'epic',
+    value: 28,
+    icon: '⚡',
+    img: '/assets/cards/debuff_virus.png',
+    description: 'Pulsa EMP melumpuhkan perisai & berikan 28 Damage.',
+    color: '#00ffaa'
   },
 
   // --- LEGENDARY / PITY (Bantuan Darurat Kuno) ---

@@ -50,6 +50,14 @@
   margin-top: 10px;
 }
 
+.loot-choices-grid.count-1 .loot-card-item {
+  max-width: 240px;
+}
+
+.loot-choices-grid.count-2 .loot-card-item {
+  max-width: 200px;
+}
+
 .loot-card-item {
   flex: 1;
   max-width: 160px;
@@ -108,6 +116,54 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
+/* Styling Deck Full Bonus Container */
+.deck-full-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px dashed rgba(0, 255, 136, 0.4);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+}
+
+.deck-full-badge {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.deck-full-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+
+  strong {
+    color: #ff0055;
+  }
+}
+
+.claim-bonus-btn {
+  background: linear-gradient(135deg, #00ff88, #00c3ff);
+  color: #000;
+  font-weight: 900;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+.claim-bonus-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
@@ -120,6 +176,6 @@
   }
   .loot-card-item {
     width: 100%;
-    max-width: 100%;
+    max-width: 100% !important;
   }
 }

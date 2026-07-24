@@ -486,32 +486,49 @@ const GameBoard = () => {
         soundManager.playAttackSFX();
         const damage = card.value;
         triggerScreenShake();
-        spawnFloatingText(`-${damage} HP`, 'damage');
 
-        if (isPlayer) {
-          setEnemy((prev) => {
-            let newBlock = prev.block - damage;
-            let hpDamage = 0;
-            if (newBlock < 0) {
-              hpDamage = Math.abs(newBlock);
-              newBlock = 0;
-            }
-            const updatedHp = Math.max(0, prev.hp - hpDamage);
-            if (updatedHp === 0) triggerStageClear();
-            return { ...prev, block: newBlock, hp: updatedHp };
-          });
+        if (card.isPiercing) {
+          spawnFloatingText(`🗡️ PIERCE -${damage} HP`, 'damage');
+          if (isPlayer) {
+            setEnemy((prev) => {
+              const updatedHp = Math.max(0, prev.hp - damage);
+              if (updatedHp === 0) triggerStageClear();
+              return { ...prev, hp: updatedHp };
+            });
+          } else {
+            setPlayer((prev) => {
+              const updatedHp = Math.max(0, prev.hp - damage);
+              if (updatedHp === 0) triggerGameOver();
+              return { ...prev, hp: updatedHp };
+            });
+          }
         } else {
-          setPlayer((prev) => {
-            let newBlock = prev.block - damage;
-            let hpDamage = 0;
-            if (newBlock < 0) {
-              hpDamage = Math.abs(newBlock);
-              newBlock = 0;
-            }
-            const updatedHp = Math.max(0, prev.hp - hpDamage);
-            if (updatedHp === 0) triggerGameOver();
-            return { ...prev, block: newBlock, hp: updatedHp };
-          });
+          spawnFloatingText(`-${damage} HP`, 'damage');
+          if (isPlayer) {
+            setEnemy((prev) => {
+              let newBlock = prev.block - damage;
+              let hpDamage = 0;
+              if (newBlock < 0) {
+                hpDamage = Math.abs(newBlock);
+                newBlock = 0;
+              }
+              const updatedHp = Math.max(0, prev.hp - hpDamage);
+              if (updatedHp === 0) triggerStageClear();
+              return { ...prev, block: newBlock, hp: updatedHp };
+            });
+          } else {
+            setPlayer((prev) => {
+              let newBlock = prev.block - damage;
+              let hpDamage = 0;
+              if (newBlock < 0) {
+                hpDamage = Math.abs(newBlock);
+                newBlock = 0;
+              }
+              const updatedHp = Math.max(0, prev.hp - hpDamage);
+              if (updatedHp === 0) triggerGameOver();
+              return { ...prev, block: newBlock, hp: updatedHp };
+            });
+          }
         }
         break;
       }
@@ -561,17 +578,17 @@ const GameBoard = () => {
       case 'DEBUFF': {
         soundManager.playAttackSFX();
         triggerScreenShake();
-        spawnFloatingText(`☠️ VIRUS -16 HP!`, 'damage');
+        spawnFloatingText(`☠️ VIRUS -${card.value} HP!`, 'damage');
         if (isPlayer) {
           setIsEmpJammerActive(true);
           setEnemy((prev) => {
-            const updatedHp = Math.max(0, prev.hp - 16);
+            const updatedHp = Math.max(0, prev.hp - card.value);
             if (updatedHp === 0) triggerStageClear();
             return { ...prev, hp: updatedHp };
           });
         } else {
           setPlayer((prev) => {
-            const updatedHp = Math.max(0, prev.hp - 16);
+            const updatedHp = Math.max(0, prev.hp - card.value);
             if (updatedHp === 0) triggerGameOver();
             return { ...prev, hp: updatedHp };
           });
@@ -587,7 +604,7 @@ const GameBoard = () => {
     soundManager.playVictorySFX();
     recordLeaderboardScore(stage, totalMatchesMade + 1);
     setTimeout(() => {
-      const choices = generateLootChoices(isPityActive);
+      const choices = generateLootChoices(playerDeck, isPityActive);
       setLootChoices(choices);
       setShowLootModal(true);
     }, 600);
@@ -605,8 +622,17 @@ const GameBoard = () => {
   const handleSelectLoot = (selectedCard) => {
     soundManager.playClickSFX();
     setShowLootModal(false);
-    const newDeck = [selectedCard, ...playerDeck];
-    setPlayerDeck(newDeck);
+
+    let updatedDeck = playerDeck;
+    if (selectedCard) {
+      updatedDeck = [selectedCard, ...playerDeck];
+      setPlayerDeck(updatedDeck);
+    } else {
+      // Bonus +50 HP jika Deck 100% Lengkap!
+      soundManager.playHealSFX();
+      spawnFloatingText('💖 +50 HP BONUS DECK LENGKAP!', 'heal');
+      setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 50) }));
+    }
 
     const nextStage = stage + 1;
     setStage(nextStage);
@@ -618,9 +644,9 @@ const GameBoard = () => {
       maxHp: nextEnemyConfig.maxHp,
       block: 0
     });
-    setMismatchStreak(0);
 
-    resetBoardForStage(nextStage, newDeck);
+    setMismatchStreak(0);
+    resetBoardForStage(nextStage, updatedDeck);
   };
 
   const isGameOver = player.hp <= 0 || enemy.hp <= 0;
