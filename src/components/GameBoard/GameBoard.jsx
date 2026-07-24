@@ -51,6 +51,9 @@ const GameBoard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusMessage, setStatusMessage] = useState('Pilih 2 kartu untuk menyerang musuh!');
 
+  // Modal UI states
+  const [isCatalogFromDashboard, setIsCatalogFromDashboard] = useState(false);
+
   // Polish UI/UX States
   const [floatingTexts, setFloatingTexts] = useState([]);
   const [isShaking, setIsShaking] = useState(false);
@@ -659,8 +662,16 @@ const GameBoard = () => {
           <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX Suara">
             {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
           </button>
-          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowCatalogModal(true); }} title="Katalog Kartu">
-            📖 Kartu
+          <button
+            className="nav-icon-btn"
+            onClick={() => {
+              soundManager.playClickSFX();
+              setIsCatalogFromDashboard(false);
+              setShowCatalogModal(true);
+            }}
+            title="Kartu Aktif Stage Ini"
+          >
+            🂠 Kartu Stage
           </button>
           <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Leaderboard Sesi">
             🏆 Skor
@@ -707,7 +718,11 @@ const GameBoard = () => {
       {showNameModal && (
         <NameModal
           onSubmitName={handleNameSubmit}
-          onOpenCatalog={() => { soundManager.playClickSFX(); setShowCatalogModal(true); }}
+          onOpenCatalog={() => {
+            soundManager.playClickSFX();
+            setIsCatalogFromDashboard(true);
+            setShowCatalogModal(true);
+          }}
         />
       )}
 
@@ -719,12 +734,12 @@ const GameBoard = () => {
         />
       )}
 
-      {/* Modal Katalog Kartu dengan Mode Dashboard vs Stage In-Game */}
+      {/* Modal Katalog Kartu dengan Indikator Kartu Aktif Stage */}
       {showCatalogModal && (
         <CatalogModal
+          isDashboard={isCatalogFromDashboard}
           activeStageCards={cards}
           stage={stage}
-          isDashboardMode={showNameModal}
           onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }}
         />
       )}

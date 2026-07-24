@@ -92,7 +92,7 @@ const NameModal = ({ onSubmitName, onOpenCatalog }) => {
                 className="guide-catalog-btn"
                 onClick={onOpenCatalog}
               >
-                📖 Katalog Kartu
+                📘 Buku Panduan & Katalog
               </button>
             )}
           </div>
