@@ -5,11 +5,7 @@ import './ResetConfirmModal.css';
 const ResetConfirmModal = ({ onConfirm, onCancel, currentLang = 'ID' }) => {
   return (
     <div className="modal-overlay">
-      <div className="reset-confirm-modal glass-panel" style={{ position: 'relative' }}>
-        <button className="modal-close-icon-btn" onClick={onCancel} title={t('resetCancelBtn', currentLang)}>
-          ✕
-        </button>
-
+      <div className="reset-confirm-modal glass-panel">
         <div className="reset-modal-header">
           <span className="reset-icon-warning">⚠️</span>
           <h3>{t('resetTitle', currentLang)}</h3>
