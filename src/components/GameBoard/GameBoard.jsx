@@ -54,6 +54,7 @@ const GameBoard = () => {
   // Polish UI/UX States
   const [floatingTexts, setFloatingTexts] = useState([]);
   const [isShaking, setIsShaking] = useState(false);
+  const [isShufflingBoard, setIsShufflingBoard] = useState(false);
 
   // Entity States
   const [player, setPlayer] = useState({ name: playerName || 'Cyber Hero', hp: 100, maxHp: 100, block: 0 });
@@ -339,6 +340,13 @@ const GameBoard = () => {
     setCurrentTurn('PLAYER');
     setTurnTimer(TURN_TIME_LIMIT);
     setStatusMessage(`⚔️ Stage ${stageNum}: Pertarungan melawan ${getStageEnemyConfig(stageNum).name}!`);
+
+    // Pemicu Animasi Kocok Kartu 3D Fan Out
+    setIsShufflingBoard(true);
+    soundManager.playFlipSFX();
+    setTimeout(() => {
+      setIsShufflingBoard(false);
+    }, 700);
   };
 
   // AI Turn Handling
@@ -664,9 +672,9 @@ const GameBoard = () => {
         </div>
       </div>
 
-      {/* Grid Kartu */}
-      <div className="cards-grid">
-        {cards.map((card) => {
+      {/* Grid Kartu dengan Animasi Kocok */}
+      <div className={`cards-grid ${isShufflingBoard ? 'shuffling' : ''}`}>
+        {cards.map((card, index) => {
           const isFlipped =
             flippedCards.some((c) => c.uniqueId === card.uniqueId) ||
             matchedCardIds.includes(card.pairId);
@@ -674,15 +682,16 @@ const GameBoard = () => {
           const isXrayVision = temporaryRevealed.includes(card.uniqueId);
 
           return (
-            <Card
-              key={card.uniqueId}
-              card={card}
-              isFlipped={isFlipped}
-              isMatched={isMatched}
-              isXrayVision={isXrayVision}
-              isDisabled={isProcessing || currentTurn !== 'PLAYER' || isGameOver}
-              onClick={handleCardClick}
-            />
+            <div key={card.uniqueId} style={{ animationDelay: `${index * 0.035}s`, height: '100%' }}>
+              <Card
+                card={card}
+                isFlipped={isFlipped}
+                isMatched={isMatched}
+                isXrayVision={isXrayVision}
+                isDisabled={isProcessing || currentTurn !== 'PLAYER' || isGameOver}
+                onClick={handleCardClick}
+              />
+            </div>
           );
         })}
       </div>
@@ -703,9 +712,13 @@ const GameBoard = () => {
         />
       )}
 
-      {/* Modal Katalog Kartu */}
+      {/* Modal Katalog Kartu dengan Indikator Kartu Aktif Stage */}
       {showCatalogModal && (
-        <CatalogModal onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }} />
+        <CatalogModal
+          activeStageCards={cards}
+          stage={stage}
+          onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }}
+        />
       )}
 
       {/* Modal Custom UI Konfirmasi Reset */}

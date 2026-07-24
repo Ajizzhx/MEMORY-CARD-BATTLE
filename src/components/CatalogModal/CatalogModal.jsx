@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { CARD_DATABASE } from '../../utils/cardData';
 import './CatalogModal.css';
 
-const CatalogModal = ({ onClose }) => {
+const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
+
+  // Hitung jumlah kartu yang ada di papan stage saat ini
+  const boardCardCounts = {};
+  activeStageCards.forEach((c) => {
+    const key = c.pairId || c.id;
+    boardCardCounts[key] = (boardCardCounts[key] || 0) + 1;
+  });
 
   const filteredCards =
     activeFilter === 'ALL'
@@ -13,8 +20,8 @@ const CatalogModal = ({ onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="catalog-modal-content glass-panel">
-        <h2 className="catalog-title">📖 KATALOG & PANDUAN GAME</h2>
-        <p className="app-subtitle">Kompendium Efek, Statistik Kartu, dan Panduan Stage Musuh:</p>
+        <h2 className="catalog-title">📖 KATALOG & PANDUAN STAGE</h2>
+        <p className="app-subtitle">Indikator Kartu di Papan Stage {stage} & Kompendium Efek:</p>
 
         <div className="catalog-tabs">
           {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF', 'GUIDE'].map((type) => (
@@ -88,30 +95,51 @@ const CatalogModal = ({ onClose }) => {
                   <p>Kartu Loot yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun AI) dialah yang akan mendapatkan efek dari kartu tersebut!</p>
                 </div>
                 <div className="rule-item">
-                  <strong>3. Kelengkapan Kartu (13 Kartu Katalog):</strong>
-                  <p>Anda memulainya dengan 8 kartu starter dan bisa melengkapi seluruh 13 kartu katalog saat berhasil menyelesaikan hingga Stage 5.</p>
+                  <strong>3. Indikator Kartu Aktif Stage:</strong>
+                  <p>Di halaman Katalog ini, kartu yang hadir di papan Stage saat ini ditandai dengan lencana hijau terang `🟢 Ada di Stage Ini (2 Kartu)`, sedangkan kartu yang sedang tidak ada di papan diberi efek redup/gelap `🌑 Tidak Ada di Stage Ini`.</p>
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <div className="catalog-grid">
-            {filteredCards.map((card) => (
-              <div key={card.id} className="catalog-card-item">
-                <span className="loot-rarity-tag" style={{ color: card.color }}>
-                  {card.rarity}
-                </span>
-                <div className="catalog-card-icon" style={{ color: card.color }}>
-                  {card.img ? (
-                    <img src={card.img} alt={card.name} className="card-art-img" style={{ borderColor: card.color }} />
-                  ) : (
-                    card.icon
-                  )}
+            {filteredCards.map((card) => {
+              const countOnBoard = boardCardCounts[card.id] || 0;
+              const isPresent = countOnBoard > 0;
+
+              return (
+                <div
+                  key={card.id}
+                  className={`catalog-card-item ${isPresent ? 'present-on-stage' : 'absent-on-stage'}`}
+                >
+                  <div className="card-stage-status-badge">
+                    {isPresent ? (
+                      <span className="badge-present">🟢 Ada di Stage ({countOnBoard} Kartu)</span>
+                    ) : (
+                      <span className="badge-absent">🌑 Tidak Ada di Stage</span>
+                    )}
+                  </div>
+
+                  <span className="loot-rarity-tag" style={{ color: isPresent ? card.color : '#888' }}>
+                    {card.rarity}
+                  </span>
+                  <div className="catalog-card-icon" style={{ color: isPresent ? card.color : '#666' }}>
+                    {card.img ? (
+                      <img
+                        src={card.img}
+                        alt={card.name}
+                        className={`card-art-img ${!isPresent ? 'darkened-art' : ''}`}
+                        style={{ borderColor: isPresent ? card.color : '#444' }}
+                      />
+                    ) : (
+                      card.icon
+                    )}
+                  </div>
+                  <div className="catalog-card-name">{card.name}</div>
+                  <div className="catalog-card-desc">{card.description}</div>
                 </div>
-                <div className="catalog-card-name">{card.name}</div>
-                <div className="catalog-card-desc">{card.description}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

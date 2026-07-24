@@ -1,6 +1,6 @@
 .catalog-modal-content {
   width: 95%;
-  max-width: 750px;
+  max-width: 780px;
   max-height: 85vh;
   padding: 24px;
   display: flex;
@@ -48,14 +48,14 @@
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
   width: 100%;
   margin-top: 10px;
 }
 
 .catalog-card-item {
-  padding: 12px;
+  padding: 12px 10px;
   border-radius: 10px;
   background: rgba(15, 20, 35, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -64,6 +64,40 @@
   align-items: center;
   gap: 6px;
   text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.catalog-card-item.present-on-stage {
+  border-color: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.catalog-card-item.absent-on-stage {
+  opacity: 0.42;
+  filter: grayscale(85%) brightness(0.65);
+  border-color: rgba(255, 255, 255, 0.05);
+  background: rgba(8, 10, 18, 0.85);
+}
+
+.card-stage-status-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.badge-present {
+  color: #00ff88;
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+}
+
+.badge-absent {
+  color: #888;
+}
+
+.darkened-art {
+  filter: grayscale(100%) brightness(0.4) !important;
 }
 
 .catalog-card-icon {
