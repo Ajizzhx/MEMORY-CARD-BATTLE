@@ -3,31 +3,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 12px;
+  justify-content: flex-start;
+  padding: 10px 8px;
+  gap: 6px;
 }
 
 .app-header {
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .app-title {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   background: linear-gradient(135deg, #00f0ff 0%, #ffd700 50%, #ff0055 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shineTitle 4s linear infinite;
-  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.45));
+  filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.45));
   text-transform: uppercase;
+  line-height: 1.1;
 }
 
 @keyframes shineTitle {
@@ -38,9 +40,9 @@
 
 .app-subtitle {
   font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
   font-weight: 500;
 }
 
@@ -48,15 +50,17 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
 }
 
 .app-footer {
-  margin-top: 20px;
-  font-size: 0.78rem;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
-  opacity: 0.7;
+  opacity: 0.75;
+  text-align: center;
 }
 
 .app-footer strong {
@@ -65,13 +69,14 @@
 
 @media (max-width: 600px) {
   .app-container {
-    padding: 10px 6px;
+    padding: 6px 4px;
+    gap: 4px;
   }
   .app-title {
-    font-size: 1.6rem;
-    letter-spacing: 1.5px;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
   }
   .app-subtitle {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 }

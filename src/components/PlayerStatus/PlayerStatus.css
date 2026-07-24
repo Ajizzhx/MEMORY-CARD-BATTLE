@@ -3,21 +3,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  padding: 16px 22px;
+  gap: 10px;
+  padding: 10px 14px;
   position: relative;
   border: 1px solid rgba(0, 240, 255, 0.25);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.15);
 }
 
 .entity-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  flex: 1 1 220px;
+  gap: 10px;
+  flex: 1 1 180px;
   min-width: 0;
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 8px 12px;
+  border-radius: 12px;
   background: rgba(12, 16, 32, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -45,51 +45,51 @@
 
 .entity-card.active-turn {
   border-color: var(--color-primary);
-  box-shadow: 0 0 22px rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
   background: rgba(0, 240, 255, 0.08);
 }
 
 .entity-card.active-turn::before {
   opacity: 1;
-  box-shadow: 0 0 10px var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
 }
 
 .entity-card.enemy.active-turn {
   border-color: var(--color-secondary);
-  box-shadow: 0 0 22px rgba(255, 0, 85, 0.4);
+  box-shadow: 0 0 18px rgba(255, 0, 85, 0.4);
   background: rgba(255, 0, 85, 0.08);
 }
 
 .entity-card.enemy.active-turn::before {
   opacity: 1;
-  box-shadow: 0 0 10px var(--color-secondary);
+  box-shadow: 0 0 8px var(--color-secondary);
 }
 
 .entity-avatar {
-  font-size: 2rem;
-  width: 48px;
-  height: 48px;
+  font-size: 1.6rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
   flex-shrink: 0;
   transition: all 0.3s ease;
 }
 
 .entity-avatar.enemy-avatar {
   border-color: rgba(255, 0, 85, 0.4);
-  box-shadow: 0 0 12px rgba(255, 0, 85, 0.2);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
 }
 
 .entity-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -97,15 +97,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .entity-name {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 0.86rem;
   color: var(--color-text);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -113,22 +113,22 @@
 
 .entity-block {
   font-family: var(--font-heading);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 800;
   color: #00f0ff;
   background: rgba(0, 240, 255, 0.15);
-  padding: 2px 8px;
-  border-radius: 10px;
+  padding: 1px 6px;
+  border-radius: 8px;
   border: 1px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
   flex-shrink: 0;
 }
 
 .hp-bar-bg {
   width: 100%;
-  height: 14px;
+  height: 12px;
   background: rgba(5, 8, 20, 0.8);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   position: relative;
@@ -139,8 +139,8 @@
   height: 100%;
   background: linear-gradient(90deg, #00ff88, #00f0ff);
   transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
 }
 
 .hp-bar-fill.enemy {
@@ -149,7 +149,7 @@
 
 .hp-bar-fill.low {
   background: linear-gradient(90deg, #ff0055, #ff5500);
-  box-shadow: 0 0 10px rgba(255, 0, 85, 0.7);
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.7);
   animation: hpPulseDanger 1s infinite alternate ease-in-out;
 }
 
@@ -161,7 +161,7 @@
 .hp-text {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--color-text-muted);
   font-family: var(--font-heading);
 }
@@ -175,30 +175,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .turn-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 16px;
   font-family: var(--font-heading);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 900;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .turn-pulse-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 8px currentColor;
+  box-shadow: 0 0 6px currentColor;
   animation: dotPulse 1.2s infinite ease-in-out;
 }
 
@@ -212,24 +212,24 @@
   background: rgba(0, 240, 255, 0.15);
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
 }
 
 .turn-badge.enemy {
   background: rgba(255, 0, 85, 0.15);
   color: var(--color-secondary);
   border: 1px solid var(--color-secondary);
-  box-shadow: 0 0 14px rgba(255, 0, 85, 0.35);
+  box-shadow: 0 0 12px rgba(255, 0, 85, 0.35);
 }
 
 .difficulty-tag {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--color-accent);
   background: rgba(255, 215, 0, 0.12);
-  padding: 3px 12px;
-  border-radius: 12px;
+  padding: 2px 10px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 215, 0, 0.35);
   transition: all 0.25s ease;
 }
@@ -240,29 +240,29 @@
 
 .difficulty-tag.clickable:hover {
   background: rgba(255, 215, 0, 0.25);
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  transform: scale(1.04);
 }
 
-/* Responsive (< 640px) */
-@media (max-width: 640px) {
+/* Responsive (< 540px) */
+@media (max-width: 540px) {
   .player-status-container {
     flex-wrap: wrap;
-    padding: 12px;
-    gap: 10px;
+    padding: 8px 10px;
+    gap: 8px;
   }
   .entity-card {
-    padding: 10px;
-    gap: 10px;
-    flex: 1 1 140px;
+    padding: 6px 10px;
+    gap: 8px;
+    flex: 1 1 130px;
   }
   .entity-avatar {
-    width: 38px;
-    height: 38px;
-    font-size: 1.5rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1.4rem;
   }
   .entity-name {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
   }
   .status-center-badge {
     width: 100%;
