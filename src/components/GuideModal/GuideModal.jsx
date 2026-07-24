@@ -88,43 +88,53 @@ const GuideModal = ({ onClose }) => {
             <h3 className="guide-heading">👾 Musuh AI Berdasarkan Stage</h3>
             <div className="enemy-guide-grid">
               <div className="enemy-guide-card">
-                <span className="enemy-icon">🛸</span>
+                <div className="enemy-avatar-wrapper">
+                  <img src="/assets/avatars/avatar_scout.png" alt="Cyber Scout" className="enemy-guide-img" />
+                </div>
                 <div className="enemy-info">
                   <strong>Stage 1: Cyber Scout</strong>
                   <span className="enemy-hp">HP: 70 | Kesulitan: Mudah (Memori 35%)</span>
-                  <p>Drone pengintai Cyber cepat untuk pemanasan pertarungan awal.</p>
+                  <p>Musuh pengintai dasar untuk pemanasan pemain baru.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
-                <span className="enemy-icon">🗿</span>
+                <div className="enemy-avatar-wrapper">
+                  <img src="/assets/avatars/avatar_golem.png" alt="Cybergolem" className="enemy-guide-img" />
+                </div>
                 <div className="enemy-info">
                   <strong>Stage 2: Cybergolem</strong>
                   <span className="enemy-hp">HP: 90 | Kesulitan: Sedang (Memori 65%)</span>
-                  <p>Robot Titan Golem kuno dengan pertahanan HP &amp; Perisai yang sangat tebal.</p>
+                  <p>Robot Golem tangguh dengan pertahanan HP &amp; Perisai yang lebih tebal.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
-                <span className="enemy-icon">👾</span>
+                <div className="enemy-avatar-wrapper">
+                  <img src="/assets/avatars/avatar_spectre.png" alt="Neon Spectre" className="enemy-guide-img" />
+                </div>
                 <div className="enemy-info">
                   <strong>Stage 3: Neon Spectre</strong>
                   <span className="enemy-hp">HP: 110 | Kesulitan: Sedang (Memori 65%)</span>
-                  <p>Fantom bayangan neon lincah yang dapat mengingat posisi kartu dengan presisi.</p>
+                  <p>Hantu cyber lincah yang mulai mengingat posisi kartu dengan akurat.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
-                <span className="enemy-icon">🔱</span>
+                <div className="enemy-avatar-wrapper">
+                  <img src="/assets/avatars/avatar_warlord.png" alt="Aether Warlord" className="enemy-guide-img" />
+                </div>
                 <div className="enemy-info">
                   <strong>Stage 4: Aether Warlord</strong>
                   <span className="enemy-hp">HP: 140 | Kesulitan: Tinggi (Memori 88%)</span>
-                  <p>Panglima perang kosmik Aether dengan HP tebal &amp; daya serang mematikan.</p>
+                  <p>Panglima perang kosmik dengan HP tebal &amp; daya serang yang mematikan.</p>
                 </div>
               </div>
               <div className="enemy-guide-card boss">
-                <span className="enemy-icon">🐲</span>
+                <div className="enemy-avatar-wrapper boss">
+                  <img src="/assets/avatars/avatar_dragon.svg" alt="Abyss Omega" className="enemy-guide-img" />
+                </div>
                 <div className="enemy-info">
                   <strong>Stage 5+: Abyss Omega (Bos Akhir)</strong>
                   <span className="enemy-hp">HP: 150+ (Meningkat per Stage) | Kesulitan: Bos Akhir</span>
-                  <p>Raja Naga Cyber legendaris penguasa kegelapan dalam pertarungan tanpa akhir!</p>
+                  <p>Naga Cyber legendaris dalam arena pertarungan tanpa akhir!</p>
                 </div>
               </div>
             </div>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff0055" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#330011" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0a0512" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="hornGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff0055"/>
+    </linearGradient>
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a081a"/>
+      <stop offset="100%" stop-color="#12030b"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background Aura Circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGlow)" stroke="#ff0055" stroke-width="3" filter="url(#glow)"/>
+  
+  <!-- Outer Dragon Horns -->
+  <path d="M 40,80 Q 15,30 5,10 Q 35,25 60,65 Z" fill="url(#hornGrad)" filter="url(#glow)"/>
+  <path d="M 160,80 Q 185,30 195,10 Q 165,25 140,65 Z" fill="url(#hornGrad)" filter="url(#glow)"/>
+
+  <!-- Inner Dragon Horns -->
+  <path d="M 65,60 Q 50,15 40,5 Q 65,15 80,45 Z" fill="#ffd700"/>
+  <path d="M 135,60 Q 150,15 160,5 Q 135,15 120,45 Z" fill="#ffd700"/>
+
+  <!-- Dragon Head Outline -->
+  <polygon points="100,30 145,75 130,135 100,175 70,135 55,75" fill="url(#faceGrad)" stroke="#ff0055" stroke-width="3.5" filter="url(#glow)"/>
+
+  <!-- Dragon Snort Scales -->
+  <polygon points="100,45 125,75 100,110 75,75" fill="#3a0c24" stroke="#ff3377" stroke-width="1.5"/>
+
+  <!-- Glowing Eyes -->
+  <ellipse cx="78" cy="85" rx="12" ry="6" fill="#ffd700" filter="url(#glow)"/>
+  <ellipse cx="122" cy="85" rx="12" ry="6" fill="#ffd700" filter="url(#glow)"/>
+  <polygon points="78,79 80,85 78,91 76,85" fill="#000"/>
+  <polygon points="122,79 124,85 122,91 120,85" fill="#000"/>
+
+  <!-- Dragon Nostrils -->
+  <ellipse cx="90" cy="140" rx="3" ry="5" fill="#ff0055" filter="url(#glow)"/>
+  <ellipse cx="110" cy="140" rx="3" ry="5" fill="#ff0055" filter="url(#glow)"/>
+
+  <!-- Dragon Fangs -->
+  <polygon points="80,155 85,172 90,155" fill="#fff"/>
+  <polygon points="110,155 115,172 120,155" fill="#fff"/>
+  <polygon points="95,155 100,178 105,155" fill="#ffd700" filter="url(#glow)"/>
+</svg>
