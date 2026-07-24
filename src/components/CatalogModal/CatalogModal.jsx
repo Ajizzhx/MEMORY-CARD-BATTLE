@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { CARD_DATABASE } from '../../utils/cardData';
+import { getLocalizedCards } from '../../utils/cardData';
 import { soundManager } from '../../utils/soundSystem';
-import { t, getTranslatedCard } from '../../utils/i18n';
+import { t } from '../../utils/i18n';
 import CardDetailModal from '../CardDetailModal/CardDetailModal';
 import './CatalogModal.css';
 
-const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, onClose }) => {
+const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, onClose, currentLang = 'ID' }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [showAll15CardsInGame, setShowAll15CardsInGame] = useState(false);
   const [selectedCardForDetail, setSelectedCardForDetail] = useState(null);
+
+  const localizedDatabase = getLocalizedCards(currentLang);
 
   // Hitung kartu yang ada di papan stage saat ini
   const boardCardCounts = {};
@@ -19,8 +21,8 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
 
   // Jika di dalam game dan tidak sedang membuka 15 kartu lengkap, FILTER HANYA KARTU YANG ADA DI PAPAN STAGE!
   const baseCards = (!isDashboard && !showAll15CardsInGame)
-    ? CARD_DATABASE.filter((card) => (boardCardCounts[card.id] || 0) > 0)
-    : CARD_DATABASE;
+    ? localizedDatabase.filter((card) => (boardCardCounts[card.id] || 0) > 0)
+    : localizedDatabase;
 
   const filteredCards =
     activeFilter === 'ALL'
@@ -35,25 +37,25 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
   return (
     <div className="modal-overlay">
       <div className="catalog-modal-content glass-panel" style={{ position: 'relative' }}>
-        <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Katalog Kartu">
+        <button className="modal-close-icon-btn" onClick={onClose} title={t('closeCatalogBtn', currentLang)}>
           ✕
         </button>
 
         {/* Header Modal */}
         {isDashboard || showAll15CardsInGame ? (
           <>
-            <h2 className="catalog-title">{t('catalog_title_dashboard')}</h2>
+            <h2 className="catalog-title">{t('catalogTitle15', currentLang)}</h2>
             <p className="app-subtitle">
               {isDashboard
-                ? t('catalog_sub_dashboard')
-                : t('catalog_sub_all_ingame')}
+                ? t('catalogSubDash', currentLang)
+                : t('catalogSubAllGame', currentLang)}
             </p>
           </>
         ) : (
           <>
-            <h2 className="catalog-title">{t('catalog_title_stage', { stage })}</h2>
+            <h2 className="catalog-title">{t('catalogTitleStage', currentLang)}{stage}</h2>
             <p className="app-subtitle">
-              {t('catalog_sub_stage', { count: baseCards.length, stage })}
+              {baseCards.length} {t('catalogSubStage', currentLang)}{stage}:
             </p>
           </>
         )}
@@ -85,16 +87,15 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
               }}
             >
               {showAll15CardsInGame
-                ? t('toggle_view_stage', { stage })
-                : t('toggle_view_all')}
+                ? `${t('toggleBackStage', currentLang)}${stage}`
+                : t('toggleView15', currentLang)}
             </button>
           </div>
         )}
 
         {/* Grid Kartu Katalog */}
         <div className="catalog-grid">
-          {filteredCards.map((rawCard) => {
-            const card = getTranslatedCard(rawCard);
+          {filteredCards.map((card) => {
             const countOnBoard = boardCardCounts[card.id] || 0;
             const isPresent = countOnBoard > 0;
 
@@ -106,12 +107,12 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                   borderColor: card.color || 'rgba(0, 240, 255, 0.5)',
                   boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
                 }}
-                onClick={() => handleCardClick(rawCard)}
-                title={t('click_to_read')}
+                onClick={() => handleCardClick(card)}
+                title="Klik untuk membuka Kisah Lore & Detail Kartu"
               >
                 {!isDashboard && isPresent && (
                   <div className="card-stage-status-badge">
-                    <span className="badge-present">🟢 {countOnBoard} Cards</span>
+                    <span className="badge-present">🟢 {countOnBoard} {t('badgePresent', currentLang)}</span>
                   </div>
                 )}
 
@@ -137,7 +138,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
 
                 {/* Lore Hint Badge */}
                 <div className="card-lore-hint-badge">
-                  <span>{t('lore_hint')}</span>
+                  <span>{t('loreHint', currentLang)}</span>
                 </div>
               </div>
             );
@@ -145,7 +146,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
         </div>
 
         <button className="close-modal-btn" onClick={onClose}>
-          {t('close_catalog_btn')}
+          {t('closeCatalogBtn', currentLang)}
         </button>
       </div>
 
@@ -153,6 +154,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
       {selectedCardForDetail && (
         <CardDetailModal
           card={selectedCardForDetail}
+          currentLang={currentLang}
           onClose={() => setSelectedCardForDetail(null)}
         />
       )}

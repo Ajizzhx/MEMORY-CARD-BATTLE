@@ -1,6 +1,8 @@
-// Database Kartu Lengkap (100% Unique 3D Cyberfantasy Render Art Style Per Kartu)
+import { TRANSLATIONS } from './i18n';
+
+// Database Base Kartu Lengkap
 export const CARD_DATABASE = [
-  // --- COMMON (Tingkat Biasa) ---
+  // --- COMMON ---
   {
     id: 'atk_dagger',
     name: 'Cyber Dagger',
@@ -38,7 +40,7 @@ export const CARD_DATABASE = [
     color: '#00ffaa'
   },
 
-  // --- RARE (Tingkat Langka) ---
+  // --- RARE ---
   {
     id: 'atk_plasma',
     name: 'Plasma Blade',
@@ -113,7 +115,7 @@ export const CARD_DATABASE = [
     color: '#00f0ff'
   },
 
-  // --- EPIC (Tingkat Sangat Langka) ---
+  // --- EPIC ---
   {
     id: 'atk_aether',
     name: 'Aether Strike',
@@ -175,7 +177,7 @@ export const CARD_DATABASE = [
     color: '#00ffaa'
   },
 
-  // --- LEGENDARY / PITY (Bantuan Darurat Kuno) ---
+  // --- LEGENDARY / PITY ---
   {
     id: 'pity_wrath',
     name: 'Divine Wrath',
@@ -189,3 +191,20 @@ export const CARD_DATABASE = [
     color: '#eab308'
   }
 ];
+
+/**
+ * Mengambil daftar kartu yang sudah disesuaikan dengan bahasa terpilih (ID / EN)
+ * @param {string} lang - Bahasa ('ID' | 'EN')
+ */
+export const getLocalizedCards = (lang = 'ID') => {
+  const cardDict = (TRANSLATIONS[lang] || TRANSLATIONS.ID).cards || {};
+  return CARD_DATABASE.map((card) => {
+    const loc = cardDict[card.id];
+    if (!loc) return card;
+    return {
+      ...card,
+      description: loc.description || card.description,
+      lore: loc.lore || card.lore
+    };
+  });
+};

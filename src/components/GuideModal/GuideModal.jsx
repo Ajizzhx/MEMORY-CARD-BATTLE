@@ -2,50 +2,50 @@ import React from 'react';
 import { t } from '../../utils/i18n';
 import './GuideModal.css';
 
-const GuideModal = ({ onClose }) => {
+const GuideModal = ({ onClose, currentLang = 'ID' }) => {
   return (
     <div className="modal-overlay">
       <div className="guide-modal-content glass-panel" style={{ position: 'relative' }}>
-        <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Buku Panduan">
+        <button className="modal-close-icon-btn" onClick={onClose} title={t('closeGuideBtn', currentLang)}>
           ✕
         </button>
-        <h2 className="guide-modal-title">{t('guide_modal_title')}</h2>
-        <p className="app-subtitle">{t('guide_modal_subtitle')}</p>
+        <h2 className="guide-modal-title">{t('guideTitle', currentLang)}</h2>
+        <p className="app-subtitle">{t('guideSub', currentLang)}</p>
 
         <div className="guide-modal-body">
           {/* Section 1: Alur & Cara Bermain */}
           <div className="guide-section">
-            <h3 className="guide-heading">{t('section_flow')}</h3>
+            <h3 className="guide-heading">{t('guideSec1Title', currentLang)}</h3>
             <div className="guide-steps-grid">
               <div className="guide-step-card">
                 <div className="step-number">1</div>
                 <div className="step-content">
-                  <strong>{t('step1_title')}</strong>
-                  <p>{t('step1_desc')}</p>
+                  <strong>{t('guideStep1Title', currentLang)}</strong>
+                  <p>{t('guideStep1Desc', currentLang)}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">2</div>
                 <div className="step-content">
-                  <strong>{t('step2_title')}</strong>
-                  <p>{t('step2_desc')}</p>
+                  <strong>{t('guideStep2Title', currentLang)}</strong>
+                  <p>{t('guideStep2Desc', currentLang)}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">3</div>
                 <div className="step-content">
-                  <strong>{t('step3_title')}</strong>
-                  <p>{t('step3_desc')}</p>
+                  <strong>{t('guideStep3Title', currentLang)}</strong>
+                  <p>{t('guideStep3Desc', currentLang)}</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <strong>{t('step4_title')}</strong>
-                  <p>{t('step4_desc')}</p>
+                  <strong>{t('guideStep4Title', currentLang)}</strong>
+                  <p>{t('guideStep4Desc', currentLang)}</p>
                 </div>
               </div>
             </div>
@@ -53,40 +53,43 @@ const GuideModal = ({ onClose }) => {
 
           {/* Section 2: Aturan Papan & Arena */}
           <div className="guide-section">
-            <h3 className="guide-heading">{t('section_rules')}</h3>
+            <h3 className="guide-heading">{t('guideSec2Title', currentLang)}</h3>
             <div className="guide-rules-list">
               <div className="rule-item">
-                <strong>{t('rule1_title')}</strong>
-                <p>{t('rule1_desc')}</p>
+                <strong>{t('guideRule1Title', currentLang)}</strong>
+                <p>{t('guideRule1Desc', currentLang)}</p>
               </div>
               <div className="rule-item">
-                <strong>{t('rule2_title')}</strong>
-                <p>{t('rule2_desc')}</p>
+                <strong>{t('guideRule2Title', currentLang)}</strong>
+                <p>{t('guideRule2Desc', currentLang)}</p>
               </div>
               <div className="rule-item">
-                <strong>{t('rule3_title')}</strong>
-                <p>{t('rule3_desc')}</p>
+                <strong>{t('guideRule3Title', currentLang)}</strong>
+                <p>{t('guideRule3Desc', currentLang)}</p>
               </div>
             </div>
           </div>
 
           {/* Section 3: Fitur Pertolongan & Medkit Darurat */}
           <div className="guide-section pity-section">
-            <h3 className="guide-heading">{t('section_pity')}</h3>
+            <h3 className="guide-heading">{t('guideSec3Title', currentLang)}</h3>
             <p className="pity-explanation">
-              {t('pity_text1')}<strong>{t('pity_text2')}</strong>
+              {t('guidePityDesc1', currentLang)}
+              <strong>{t('guidePityDesc1Bold', currentLang)}</strong>
               <br />
-              {t('pity_text3')}<strong>{t('pity_medkit_label')}</strong>
+              {t('guidePityDesc2', currentLang)}
+              <strong>{t('guidePityDesc2Bold', currentLang)}</strong>
               <br />
-              <strong>{t('pity_limit')}</strong>
+              <strong>{t('guidePityQuotaBold', currentLang)}</strong>
+              {t('guidePityQuotaDesc', currentLang)}
               <br />
-              <em>{t('pity_strategy')}</em>
+              <em>{t('guidePityTip', currentLang)}</em>
             </p>
           </div>
 
-          {/* Section 4: Musuh AI per Stage */}
+          {/* Section 4: Musuh AI Berdasarkan Stage */}
           <div className="guide-section">
-            <h3 className="guide-heading">{t('section_enemies')}</h3>
+            <h3 className="guide-heading">{t('guideSec4Title', currentLang)}</h3>
             <div className="enemy-guide-grid">
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
@@ -94,8 +97,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 1: Cyber Scout</strong>
-                  <span className="enemy-hp">HP: 70 | Easy (Memory 35%)</span>
-                  <p>Basic reconnaissance drone for player warmup.</p>
+                  <span className="enemy-hp">HP: 70 | {currentLang === 'ID' ? 'Kesulitan: Mudah (Memori 35%)' : 'Difficulty: Easy (Memory 35%)'}</span>
+                  <p>{t('enemy1Desc', currentLang)}</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -104,8 +107,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 2: Cybergolem</strong>
-                  <span className="enemy-hp">HP: 90 | Medium (Memory 65%)</span>
-                  <p>Sturdy Golem robot with thick HP &amp; Shield defense.</p>
+                  <span className="enemy-hp">HP: 90 | {currentLang === 'ID' ? 'Kesulitan: Sedang (Memori 65%)' : 'Difficulty: Medium (Memory 65%)'}</span>
+                  <p>{t('enemy2Desc', currentLang)}</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -114,8 +117,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 3: Neon Spectre</strong>
-                  <span className="enemy-hp">HP: 110 | Medium (Memory 65%)</span>
-                  <p>Agile cyber phantom with sharp card memory accuracy.</p>
+                  <span className="enemy-hp">HP: 110 | {currentLang === 'ID' ? 'Kesulitan: Sedang (Memori 65%)' : 'Difficulty: Medium (Memory 65%)'}</span>
+                  <p>{t('enemy3Desc', currentLang)}</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -124,8 +127,8 @@ const GuideModal = ({ onClose }) => {
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 4: Aether Warlord</strong>
-                  <span className="enemy-hp">HP: 140 | Hard (Memory 88%)</span>
-                  <p>Cosmic commander with massive HP &amp; deadly firepower.</p>
+                  <span className="enemy-hp">HP: 140 | {currentLang === 'ID' ? 'Kesulitan: Tinggi (Memori 88%)' : 'Difficulty: Hard (Memory 88%)'}</span>
+                  <p>{t('enemy4Desc', currentLang)}</p>
                 </div>
               </div>
               <div className="enemy-guide-card boss">
@@ -133,9 +136,9 @@ const GuideModal = ({ onClose }) => {
                   <img src="/assets/avatars/avatar_dragon.png" alt="Abyss Omega" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
-                  <strong>Stage 5+: Abyss Omega (Final Boss)</strong>
-                  <span className="enemy-hp">HP: 150+ (Scales per Stage) | Final Boss</span>
-                  <p>Legendary Cyber Dragon in an endless arena battle!</p>
+                  <strong>Stage 5+: Abyss Omega ({currentLang === 'ID' ? 'Bos Akhir' : 'Final Boss'})</strong>
+                  <span className="enemy-hp">HP: 150+ ({currentLang === 'ID' ? 'Meningkat per Stage' : 'Scales per Stage'}) | {currentLang === 'ID' ? 'Kesulitan: Bos Akhir' : 'Difficulty: Boss'}</span>
+                  <p>{t('enemy5Desc', currentLang)}</p>
                 </div>
               </div>
             </div>
@@ -143,7 +146,7 @@ const GuideModal = ({ onClose }) => {
         </div>
 
         <button className="close-modal-btn" onClick={onClose}>
-          {t('close_guide_btn')}
+          {t('closeGuideBtn', currentLang)}
         </button>
       </div>
     </div>

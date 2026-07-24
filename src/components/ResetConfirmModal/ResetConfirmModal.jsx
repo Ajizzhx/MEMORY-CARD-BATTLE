@@ -2,19 +2,26 @@ import React from 'react';
 import { t } from '../../utils/i18n';
 import './ResetConfirmModal.css';
 
-const ResetConfirmModal = ({ onConfirm, onCancel }) => {
+const ResetConfirmModal = ({ onConfirm, onCancel, currentLang = 'ID' }) => {
   return (
     <div className="modal-overlay">
-      <div className="reset-confirm-modal glass-panel">
-        <h2 className="reset-title">{t('reset_title')}</h2>
-        <p className="reset-desc">{t('reset_desc')}</p>
+      <div className="reset-confirm-modal glass-panel" style={{ position: 'relative' }}>
+        <button className="modal-close-icon-btn" onClick={onCancel} title={t('resetCancelBtn', currentLang)}>
+          ✕
+        </button>
 
-        <div className="reset-actions">
-          <button className="confirm-btn" onClick={onConfirm}>
-            {t('confirm_reset_btn')}
+        <h2 className="reset-confirm-title">{t('resetTitle', currentLang)}</h2>
+
+        <p className="reset-confirm-body">
+          {t('resetBody', currentLang)}
+        </p>
+
+        <div className="reset-confirm-actions">
+          <button className="reset-action-btn cancel" onClick={onCancel}>
+            {t('resetCancelBtn', currentLang)}
           </button>
-          <button className="cancel-btn" onClick={onCancel}>
-            {t('cancel_btn')}
+          <button className="reset-action-btn confirm" onClick={onConfirm}>
+            {t('resetConfirmBtn', currentLang)}
           </button>
         </div>
       </div>

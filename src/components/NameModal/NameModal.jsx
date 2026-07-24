@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { soundManager } from '../../utils/soundSystem';
-import { t, getLanguage, setLanguage, LANGUAGES } from '../../utils/i18n';
+import { t } from '../../utils/i18n';
 import './NameModal.css';
 
-const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard, onLanguageChange }) => {
+const NameModal = ({
+  onSubmitName,
+  onOpenGuide,
+  onOpenCatalog,
+  onOpenLeaderboard,
+  currentLang = 'ID',
+  onToggleLang
+}) => {
   const [nameInput, setNameInput] = useState(() => localStorage.getItem('memory_player_name') || '');
   const [selectedAiMode, setSelectedAiMode] = useState('AUTO');
-  const [currentLang, setCurrentLang] = useState(getLanguage());
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,42 +27,39 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
     setSelectedAiMode(mode);
   };
 
-  const handleToggleLanguage = () => {
-    soundManager.playClickSFX();
-    const nextLang = currentLang === LANGUAGES.ID ? LANGUAGES.EN : LANGUAGES.ID;
-    setLanguage(nextLang);
-    setCurrentLang(nextLang);
-    if (onLanguageChange) onLanguageChange(nextLang);
-  };
-
   return (
     <div className="modal-overlay">
       <div className="name-modal-content glass-panel" style={{ position: 'relative' }}>
-        {/* Language Switcher Button Top Left */}
-        <button
-          type="button"
-          className="dash-lang-toggle-btn"
-          onClick={handleToggleLanguage}
-          title="Ganti Bahasa / Switch Language"
-        >
-          {currentLang === LANGUAGES.ID ? '🌐 ID 🇮🇩' : '🌐 EN 🇬🇧'}
-        </button>
+        {/* Language Switcher Button Top Right */}
+        {onToggleLang && (
+          <button
+            type="button"
+            className="dash-lang-toggle-btn"
+            onClick={() => {
+              soundManager.playClickSFX();
+              onToggleLang();
+            }}
+            title="Ganti Bahasa / Change Language"
+          >
+            {currentLang === 'ID' ? '🌐 ID' : '🌐 EN'}
+          </button>
+        )}
 
-        <h2 className="name-modal-title">{t('app_title')}</h2>
-        <p className="app-subtitle">{t('app_subtitle')}</p>
+        <h2 className="name-modal-title">{t('dashTitle', currentLang)}</h2>
+        <p className="app-subtitle">{t('dashSubtitle', currentLang)}</p>
 
         {/* Feature Badges Summary */}
         <div className="dash-features-bar">
-          <span className="feature-pill">{t('feat_battle')}</span>
-          <span className="feature-pill">{t('feat_cards')}</span>
-          <span className="feature-pill">{t('feat_pity')}</span>
+          <span className="feature-pill">{t('featRpg', currentLang)}</span>
+          <span className="feature-pill">{t('featCards', currentLang)}</span>
+          <span className="feature-pill">{t('featPity', currentLang)}</span>
         </div>
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <input
             type="text"
             className="name-input-field"
-            placeholder={t('input_placeholder')}
+            placeholder={t('nameInputPlaceholder', currentLang)}
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             maxLength={15}
@@ -66,7 +69,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
 
           {/* AI Difficulty Selector */}
           <div className="ai-selector-container">
-            <label className="ai-selector-label">{t('ai_mode_label')}</label>
+            <label className="ai-selector-label">{t('aiSelectorLabel', currentLang)}</label>
             <div className="ai-selector-grid">
               <button
                 type="button"
@@ -74,7 +77,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'AUTO' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('AUTO')}
               >
-                {t('ai_auto')}
+                {t('aiModeAuto', currentLang)}
               </button>
               <button
                 type="button"
@@ -82,7 +85,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'EASY' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('EASY')}
               >
-                {t('ai_easy')}
+                {t('aiModeEasy', currentLang)}
               </button>
               <button
                 type="button"
@@ -90,7 +93,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'MEDIUM' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('MEDIUM')}
               >
-                {t('ai_medium')}
+                {t('aiModeMedium', currentLang)}
               </button>
               <button
                 type="button"
@@ -98,20 +101,20 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className={`ai-opt-btn ${selectedAiMode === 'HARD' ? 'active' : ''}`}
                 onClick={() => handleSelectAi('HARD')}
               >
-                {t('ai_hard')}
+                {t('aiModeHard', currentLang)}
               </button>
             </div>
           </div>
 
           {/* Dynamic AI Mode Explanation Text */}
           <div className="ai-mode-desc-banner">
-            {selectedAiMode === 'AUTO' && t('ai_desc_auto')}
-            {selectedAiMode === 'EASY' && t('ai_desc_easy')}
-            {selectedAiMode === 'MEDIUM' && t('ai_desc_medium')}
-            {selectedAiMode === 'HARD' && t('ai_desc_hard')}
+            {selectedAiMode === 'AUTO' && t('aiDescAuto', currentLang)}
+            {selectedAiMode === 'EASY' && t('aiDescEasy', currentLang)}
+            {selectedAiMode === 'MEDIUM' && t('aiDescMedium', currentLang)}
+            {selectedAiMode === 'HARD' && t('aiDescHard', currentLang)}
           </div>
 
-          {/* Navigasi Terpisah: Buku Panduan Game vs Katalog Kartu vs Leaderboard */}
+          {/* Navigasi Terpisah */}
           <div className="game-guide-actions">
             {onOpenGuide && (
               <button
@@ -119,7 +122,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-toggle-btn"
                 onClick={onOpenGuide}
               >
-                {t('nav_guide')}
+                {t('dashGuideBtn', currentLang)}
               </button>
             )}
 
@@ -129,7 +132,7 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-catalog-btn"
                 onClick={onOpenCatalog}
               >
-                {t('nav_catalog')}
+                {t('dashCatalogBtn', currentLang)}
               </button>
             )}
 
@@ -139,18 +142,18 @@ const NameModal = ({ onSubmitName, onOpenGuide, onOpenCatalog, onOpenLeaderboard
                 className="guide-leaderboard-btn"
                 onClick={onOpenLeaderboard}
               >
-                {t('nav_scores')}
+                {t('dashTopscoreBtn', currentLang)}
               </button>
             )}
           </div>
 
           {/* Dashboard Info Box */}
           <div className="dash-info-box">
-            <span>{t('dash_tip')}</span>
+            <span>{t('dashTipsBox', currentLang)}</span>
           </div>
 
           <button type="submit" className="start-journey-btn">
-            {t('start_battle_btn')}
+            {t('startBattleBtn', currentLang)}
           </button>
         </form>
       </div>

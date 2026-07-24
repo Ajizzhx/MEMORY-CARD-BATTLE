@@ -1,40 +1,82 @@
 import React from 'react';
+import { soundManager } from '../../utils/soundSystem';
 import { t } from '../../utils/i18n';
 import './GameOverModal.css';
 
-const GameOverModal = ({ stage, totalMatches, isVictory = false, onRestart, onViewLeaderboard }) => {
+const GameOverModal = ({
+  stage,
+  totalMatches,
+  difficultyName,
+  isVictory = false,
+  onPlayAgain,
+  onOpenLeaderboard,
+  onBackToDashboard,
+  currentLang = 'ID'
+}) => {
   return (
     <div className="modal-overlay">
       <div className={`gameover-modal-content glass-panel ${isVictory ? 'victory' : 'defeat'}`}>
         <h2 className="gameover-title">
-          {isVictory ? t('victory_title') : t('defeat_title')}
+          {isVictory ? t('victoryTitle', currentLang) : t('defeatTitle', currentLang)}
         </h2>
-        <p className="gameover-subtitle">
-          {isVictory
-            ? 'Selamat! Anda berhasil menaklukkan seluruh musuh cyber arena!'
-            : 'HP Pemain telah habis di arena pertarungan.'}
+
+        <p className="app-subtitle">
+          {isVictory ? t('victorySub', currentLang) : t('defeatSub', currentLang)}
         </p>
 
-        <div className="gameover-stats-container">
-          <div className="stat-card">
-            <span className="stat-label">{t('final_stage')}</span>
-            <span className="stat-value stage-val">Stage {stage}</span>
+        {/* Ringkasan Statistik */}
+        <div className="gameover-stats-grid">
+          <div className="gameover-stat-card">
+            <span className="stat-label">{t('statFinalStage', currentLang)}</span>
+            <span className="stat-value">Stage {stage}</span>
           </div>
-          <div className="stat-card">
-            <span className="stat-label">{t('total_matches_stat')}</span>
-            <span className="stat-value match-val">✨ {totalMatches}</span>
+
+          <div className="gameover-stat-card">
+            <span className="stat-label">{t('statTotalMatches', currentLang)}</span>
+            <span className="stat-value">✨ {totalMatches}</span>
+          </div>
+
+          <div className="gameover-stat-card">
+            <span className="stat-label">{t('statAiMode', currentLang)}</span>
+            <span className="stat-value">{difficultyName || 'Auto'}</span>
           </div>
         </div>
 
+        {/* Action Buttons */}
         <div className="gameover-actions">
-          {onViewLeaderboard && (
-            <button className="gameover-btn leaderboard-btn" onClick={onViewLeaderboard}>
-              {t('view_leaderboard_btn')}
+          {onOpenLeaderboard && (
+            <button
+              className="lb-btn-secondary"
+              onClick={() => {
+                soundManager.playClickSFX();
+                onOpenLeaderboard();
+              }}
+            >
+              {t('viewLeaderboardBtn', currentLang)}
             </button>
           )}
-          <button className="gameover-btn restart-btn" onClick={onRestart}>
-            {t('restart_btn')}
+
+          <button
+            className="play-again-btn"
+            onClick={() => {
+              soundManager.playClickSFX();
+              onPlayAgain();
+            }}
+          >
+            {t('playAgainBtn', currentLang)}
           </button>
+
+          {onBackToDashboard && (
+            <button
+              className="dash-return-btn"
+              onClick={() => {
+                soundManager.playClickSFX();
+                onBackToDashboard();
+              }}
+            >
+              {t('backDashBtn', currentLang)}
+            </button>
+          )}
         </div>
       </div>
     </div>

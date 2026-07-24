@@ -14,25 +14,16 @@ import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../ut
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
 import { submitScore } from '../../utils/leaderboardService';
 import { soundManager } from '../../utils/soundSystem';
-import { t, getLanguage, setLanguage, LANGUAGES } from '../../utils/i18n';
+import { getCurrentLang, setGameLang, t } from '../../utils/i18n';
 import './GameBoard.css';
 
 const TURN_TIME_LIMIT = 15; // 15 detik batas waktu berpikir
 
 const GameBoard = () => {
-  // Audio Controls State
+  // Audio & Language Controls State
   const [isBgmMuted, setIsBgmMuted] = useState(soundManager.isBgmMuted);
   const [isSfxMuted, setIsSfxMuted] = useState(soundManager.isSfxMuted);
-
-  // Language i18n State
-  const [currentLang, setCurrentLang] = useState(getLanguage());
-
-  const handleToggleLanguage = () => {
-    soundManager.playClickSFX();
-    const nextLang = currentLang === LANGUAGES.ID ? LANGUAGES.EN : LANGUAGES.ID;
-    setLanguage(nextLang);
-    setCurrentLang(nextLang);
-  };
+  const [currentLang, setCurrentLangState] = useState(getCurrentLang());
 
   // Player Name & Leaderboard States
   const [playerName, setPlayerName] = useState(localStorage.getItem('memory_player_name') || '');
@@ -109,6 +100,13 @@ const GameBoard = () => {
     soundManager.playClickSFX();
     const isNowActive = soundManager.toggleSfx();
     setIsSfxMuted(!isNowActive);
+  };
+
+  const handleToggleLang = () => {
+    soundManager.playClickSFX();
+    const nextLang = currentLang === 'ID' ? 'EN' : 'ID';
+    setGameLang(nextLang);
+    setCurrentLangState(nextLang);
   };
 
   // Always clear any leftover saved state on mount (Refreshing resets progress back to clean start)
@@ -719,6 +717,7 @@ const GameBoard = () => {
         enemyMatches={enemyMatches}
         currentTurn={currentTurn}
         difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}
+        currentLang={currentLang}
       />
 
       {/* Pity Indicator Banner jika Pity Active */}
@@ -740,14 +739,14 @@ const GameBoard = () => {
         </div>
 
         <div className="header-controls">
-          <button className="nav-icon-btn lang-btn" onClick={handleToggleLanguage} title="Ganti Bahasa / Switch Language">
-            {currentLang === LANGUAGES.ID ? '🌐 ID' : '🌐 EN'}
+          <button className="nav-icon-btn" onClick={handleToggleBgm} title="Toggle BGM">
+            {isBgmMuted ? '🔇 BGM' : '🔊 BGM'}
           </button>
-          <button className="nav-icon-btn" onClick={handleToggleBgm} title="Toggle Musik BGM">
-            {isBgmMuted ? `🔇 ${t('music_btn')}` : `🔊 ${t('music_btn')}`}
+          <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX">
+            {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
           </button>
-          <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX Suara">
-            {isSfxMuted ? `🔕 ${t('sfx_btn')}` : `🔔 ${t('sfx_btn')}`}
+          <button className="nav-icon-btn lang-btn" onClick={handleToggleLang} title="Ganti Bahasa / Switch Language">
+            {t('langToggle', currentLang)}
           </button>
           <button
             className="nav-icon-btn"
@@ -755,9 +754,9 @@ const GameBoard = () => {
               soundManager.playClickSFX();
               setShowGuideModal(true);
             }}
-            title="Buku Panduan Game"
+            title="Guide"
           >
-            📖 {t('guide_btn')}
+            {t('guideBtn', currentLang)}
           </button>
           <button
             className="nav-icon-btn"
@@ -766,15 +765,15 @@ const GameBoard = () => {
               setIsCatalogFromDashboard(false);
               setShowCatalogModal(true);
             }}
-            title="Kartu Aktif Stage Ini"
+            title="Stage Cards"
           >
-            🂠 {t('catalog_btn')}
+            {t('catalogBtn', currentLang)}
           </button>
-          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Leaderboard Sesi">
-            🏆 {t('scores_btn')}
+          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Scores">
+            {t('scoreBtn', currentLang)}
           </button>
           <button className="reset-btn" onClick={handleResetButtonClick}>
-            {t('reset_btn')}
+            {t('resetBtn', currentLang)}
           </button>
         </div>
       </div>
@@ -815,6 +814,8 @@ const GameBoard = () => {
       {showNameModal && (
         <NameModal
           onSubmitName={handleNameSubmit}
+          currentLang={currentLang}
+          onToggleLang={handleToggleLang}
           onOpenGuide={() => {
             soundManager.playClickSFX();
             setShowGuideModal(true);
@@ -836,6 +837,7 @@ const GameBoard = () => {
         <LeaderboardModal
           leaderboard={leaderboard}
           currentPlayerName={playerName}
+          currentLang={currentLang}
           onClose={() => {
             soundManager.playClickSFX();
             setShowLeaderboardModal(false);
@@ -849,6 +851,7 @@ const GameBoard = () => {
       {/* Modal Buku Panduan Game */}
       {showGuideModal && (
         <GuideModal
+          currentLang={currentLang}
           onClose={() => { soundManager.playClickSFX(); setShowGuideModal(false); }}
         />
       )}
@@ -859,6 +862,7 @@ const GameBoard = () => {
           isDashboard={isCatalogFromDashboard}
           activeStageCards={cards}
           stage={stage}
+          currentLang={currentLang}
           onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }}
         />
       )}
@@ -866,6 +870,7 @@ const GameBoard = () => {
       {/* Modal Custom UI Konfirmasi Reset */}
       {showResetConfirmModal && (
         <ResetConfirmModal
+          currentLang={currentLang}
           onConfirm={handleConfirmReset}
           onCancel={() => { soundManager.playClickSFX(); setShowResetConfirmModal(false); }}
         />
@@ -878,6 +883,7 @@ const GameBoard = () => {
           choices={lootChoices}
           isPityActive={isPityActive}
           pityUsesLeft={pityUsesLeft}
+          currentLang={currentLang}
           onSelectLoot={handleSelectLoot}
         />
       )}
@@ -889,6 +895,7 @@ const GameBoard = () => {
           totalMatches={playerMatches}
           enemyName={enemy.name}
           playerName={playerName}
+          currentLang={currentLang}
           onRestartJourney={startNewJourney}
           onOpenLeaderboard={() => {
             soundManager.playClickSFX();

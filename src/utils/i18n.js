@@ -1,378 +1,462 @@
 /**
- * Sistem Pengaturan Bahasa (i18n - Internationalization)
- * Mendukung Bahasa Indonesia (id) 🇮🇩 & English (en) 🇬🇧
+ * System Internationalization (i18n) - Dual Language (ID & EN)
+ * Mengelola kamus terjemahan Bahasa Indonesia & English secara terpusat
  */
 
-export const LANGUAGES = {
-  ID: 'id',
-  EN: 'en'
-};
-
-export const getLanguage = () => {
-  return localStorage.getItem('memory_game_lang') || LANGUAGES.ID;
-};
-
-export const setLanguage = (lang) => {
-  localStorage.setItem('memory_game_lang', lang);
-};
-
 export const TRANSLATIONS = {
-  id: {
+  ID: {
+    // ── Global & Controls ──
+    langName: 'Indonesia',
+    langToggle: '🌐 ID',
+    musicBtn: '🎵 Musik',
+    sfxBtn: '🔔 SFX',
+    guideBtn: '📖 Panduan',
+    catalogBtn: '🂠 Kartu Stage',
+    scoreBtn: '🏆 Skor',
+    resetBtn: 'Reset',
+
+    // ── Player & Enemy Status ──
+    yourTurn: 'GILIRAN ANDA',
+    enemyTurn: 'GILIRAN MUSUH',
+    matchesLabel: 'Match',
+    aiDifficultyLabel: 'AI',
+
     // ── NameModal / Dashboard ──
-    app_title: 'MEMORY CARD BATTLE',
-    app_subtitle: 'Cyberfantasy RPG & Memory Matching Game',
-    feat_battle: '⚔️ 1v1 Battle RPG',
-    feat_cards: '🃏 15 Kartu Cyber',
-    feat_pity: '🛡️ Pity System',
-    input_placeholder: 'Ketik Nama Pemain...',
-    ai_mode_label: '🧠 Mode Kesulitan AI Musuh:',
-    ai_auto: '🔄 Otomatis (Stage)',
-    ai_easy: '🟢 Mudah (35%)',
-    ai_medium: '🟡 Sedang (65%)',
-    ai_hard: '🔴 Tinggi (88%)',
-    ai_desc_auto: 'ℹ️ Otomatis: Kesulitan AI naik bertahap dari Stage 1 (35%) hingga Stage 5+ (88%).',
-    ai_desc_easy: 'ℹ️ Mudah: AI Musuh mengingat 35% posisi kartu. Cocok untuk pemain baru!',
-    ai_desc_medium: 'ℹ️ Sedang: AI Musuh mengingat 65% posisi kartu. Pertarungan seimbang!',
-    ai_desc_hard: 'ℹ️ Tinggi: AI Musuh mengingat 88% posisi kartu. Tantangan memori tingkat dewa!',
-    nav_guide: '📖 Panduan',
-    nav_catalog: '🂠 Katalog',
-    nav_scores: '🏆 Topskor',
-    dash_tip: '💡 Tips Arena: Kumpulkan 15 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
-    start_battle_btn: '⚔️ Mulai Pertarungan',
-    lang_toggle_btn: '🌐 Bahasa: Indonesia 🇮🇩',
-
-    // ── GameBoard HUD ──
-    turn_player_banner: '• GILIRAN ANDA',
-    turn_enemy_banner: '• GILIRAN MUSUH',
-    ai_badge: '🧠 AI:',
-    stage_label: 'STAGE',
-    round_label: 'RONDE',
-    music_btn: 'Musik',
-    sfx_btn: 'SFX',
-    guide_btn: 'Panduan',
-    catalog_btn: 'Kartu Stage',
-    scores_btn: 'Skor',
-    reset_btn: 'Reset',
-    status_initial: 'Stage {stage}: Pertarungan melawan {enemy}!',
-    status_mismatch_player: '❌ Mismatch! Giliran Anda berakhir.',
-    status_mismatch_enemy: '❌ Mismatch! Giliran {enemy} berakhir.',
-    status_timeout: '⏰ Waktu 15 detik habis! Giliran berpindah.',
-
-    // ── PlayerStatus ──
-    matches_count: '✨ {count} Match',
-    total_match_global: 'Total Match: {count}',
-
-    // ── Catalog & Detail Modal ──
-    catalog_title_dashboard: '🂠 KATALOG 15 KARTU GAME',
-    catalog_sub_dashboard: 'Kompendium Koleksi Statistik, Efek, & Gambar 3D Render 15 Kartu Cyberfantasy (Klik kartu untuk baca Kisah Lore):',
-    catalog_title_stage: '🂠 KARTU AKTIF STAGE {stage}',
-    catalog_sub_stage: 'Menampilkan {count} jenis kartu di papan Stage {stage} (Klik kartu untuk baca Kisah Lore):',
-    catalog_sub_all_ingame: 'Menampilkan seluruh 15 jenis kartu kompendium katalog (Klik kartu untuk cerita detail):',
-    toggle_view_stage: '🎯 Kembali ke Kartu Stage {stage}',
-    toggle_view_all: '🂠 Lihat Semua 15 Kartu Katalog',
-    close_catalog_btn: 'Tutup Katalog',
-    lore_hint: '📜 Kisah Lore',
-    lore_archive_header: 'CYBER LORE ARCHIVE',
-    effect_val: 'NILAI EFEK',
-    special_piercing: '🗡️ Kuantum Penetrasik',
-    close_detail_btn: 'Tutup Detail Kartu',
-    click_to_read: 'Klik untuk membuka Kisah Lore & Detail Kartu',
+    dashTitle: 'MEMORY CARD BATTLE',
+    dashSubtitle: 'Cyberfantasy RPG & Memory Matching Game',
+    featRpg: '⚔️ 1v1 Battle RPG',
+    featCards: '🃏 15 Kartu Cyber',
+    featPity: '🛡️ Pity System',
+    nameInputPlaceholder: 'Ketik Nama Pemain...',
+    aiSelectorLabel: '🧠 Mode Kesulitan AI Musuh:',
+    aiModeAuto: '🔄 Otomatis (Stage)',
+    aiModeEasy: '🟢 Mudah (35%)',
+    aiModeMedium: '🟡 Sedang (65%)',
+    aiModeHard: '🔴 Tinggi (88%)',
+    aiDescAuto: 'ℹ️ Otomatis: Kesulitan AI naik bertahap dari Stage 1 (35%) hingga Stage 5+ (88%).',
+    aiDescEasy: 'ℹ️ Mudah: AI Musuh mengingat 35% posisi kartu. Cocok untuk pemain baru!',
+    aiDescMedium: 'ℹ️ Sedang: AI Musuh mengingat 65% posisi kartu. Pertarungan seimbang!',
+    aiDescHard: 'ℹ️ Tinggi: AI Musuh mengingat 88% posisi kartu. Tantangan memori tingkat dewa!',
+    dashGuideBtn: '📖 Panduan',
+    dashCatalogBtn: '🂠 Katalog',
+    dashTopscoreBtn: '🏆 Topskor',
+    dashTipsBox: '💡 Tips Arena: Kumpulkan 15 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
+    startBattleBtn: '⚔️ Mulai Pertarungan',
 
     // ── GuideModal ──
-    guide_modal_title: '📖 BUKU PANDUAN GAME',
-    guide_modal_subtitle: 'Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, & Musuh AI:',
-    section_flow: '⚔️ Alur & Cara Bermain',
-    step1_title: 'Pilih Nama & Mode AI:',
-    step1_desc: 'Ketik nama pemain dan pilih tingkat kecerdasan AI Musuh (Otomatis, Mudah 35%, Sedang 65%, atau Tinggi 88%).',
-    step2_title: 'Buka Pasangan Kartu di Papan:',
-    step2_desc: 'Di setiap giliran, klik 2 kartu tertutup di papan 4x4. Jika 2 kartu cocok (Match), efek kartu langsung aktif!',
-    step3_title: 'Giliran Ekstra & Batas Waktu 15 Detik:',
-    step3_desc: 'Pemain yang berhasil mencocokkan kartu mendapatkan giliran tambahan. Jika kartu tidak cocok atau waktu 15 detik habis, giliran berpindah ke lawan.',
-    step4_title: 'Hadiah Kartu & Stage Baru:',
-    step4_desc: 'Kalahkan musuh untuk memilih 1 Kartu Hadiah baru yang belum Anda miliki dan lanjut bertualang ke Stage berikutnya!',
-    section_rules: '🎲 Aturan Papan & Arena Pertarungan',
-    rule1_title: '1. Papan Arena 4x4 (16 Kartu / 8 Pasang):',
-    rule1_desc: 'Di setiap stage, arena memilih 8 jenis kartu dari koleksi Deck Anda untuk membentuk 8 pasang kartu tertutup (total 16 kartu di papan).',
-    rule2_title: '2. Arena Milik Bersama (Shared Board):',
-    rule2_desc: 'Kartu hadiah yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun Musuh AI) dialah yang memperoleh efek dari kartu tersebut!',
-    rule3_title: '3. Kelengkapan Kartu (15 Kartu Katalog):',
-    rule3_desc: 'Anda memulai perjalanan dengan 8 kartu awal dan dapat melengkapi seluruh 15 kartu katalog saat berhasil menaklukkan stage demi stage.',
-    section_pity: '🚑 Fitur Pertolongan & Medkit Darurat (Maksimal 2x Pemakaian)',
-    pity_text1: 'Jika HP Anda berada di bawah 50% atau mengalami kegagalan cocok 3 kali berturut-turut, ',
-    pity_text2: 'Fitur Pertolongan Aktif!',
-    pity_text3: 'Di layar Hadiah Kelulusan Stage, akan terbuka ',
-    pity_medkit_label: 'Opsi Ke-4: 🚑 Bio-Shield Medkit (+35 HP & +25 Perisai instan).',
-    pity_limit: '⚠️ Kuota Medkit Darurat: Penggunaan Medkit Darurat dibatasi maksimal 2 kali sepanjang satu perjalanan bertarung. Jika kuota 2 kali sudah habis terpakai, opsi ini tidak akan muncul lagi.',
-    pity_strategy: 'Pertimbangan Strategi: Mengambil Medkit akan menyelamatkan HP Anda, namun Anda tidak memperoleh kartu baru sehingga penambahan koleksi kartu katalog Anda berjalan lebih lambat.',
-    section_enemies: '👾 Musuh AI Berdasarkan Stage',
-    close_guide_btn: 'Tutup Buku Panduan',
+    guideTitle: '📖 BUKU PANDUAN GAME',
+    guideSub: 'Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, & Musuh AI:',
+    guideSec1Title: '⚔️ Alur & Cara Bermain',
+    guideStep1Title: 'Pilih Nama & Mode AI:',
+    guideStep1Desc: 'Ketik nama pemain dan pilih tingkat kecerdasan AI Musuh (Otomatis, Mudah 35%, Sedang 65%, atau Tinggi 88%).',
+    guideStep2Title: 'Buka Pasangan Kartu di Papan:',
+    guideStep2Desc: 'Di setiap giliran, klik 2 kartu tertutup di papan 4x4. Jika 2 kartu cocok (Match), efek kartu langsung aktif!',
+    guideStep3Title: 'Giliran Ekstra & Batas Waktu 15 Detik:',
+    guideStep3Desc: 'Pemain yang berhasil mencocokkan kartu mendapatkan giliran tambahan. Jika kartu tidak cocok atau waktu 15 detik habis, giliran berpindah ke lawan.',
+    guideStep4Title: 'Hadiah Kartu & Stage Baru:',
+    guideStep4Desc: 'Kalahkan musuh untuk memilih 1 Kartu Hadiah baru yang belum Anda miliki dan lanjut bertualang ke Stage berikutnya!',
+    guideSec2Title: '🎲 Aturan Papan & Arena Pertarungan',
+    guideRule1Title: '1. Papan Arena 4x4 (16 Kartu / 8 Pasang):',
+    guideRule1Desc: 'Di setiap stage, arena memilih 8 jenis kartu dari koleksi Deck Anda untuk membentuk 8 pasang kartu tertutup (total 16 kartu di papan).',
+    guideRule2Title: '2. Arena Milik Bersama (Shared Board):',
+    guideRule2Desc: 'Kartu hadiah yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun Musuh AI) dialah yang memperoleh efek dari kartu tersebut!',
+    guideRule3Title: '3. Kelengkapan Kartu (15 Kartu Katalog):',
+    guideRule3Desc: 'Anda memulai perjalanan dengan 8 kartu awal dan dapat melengkapi seluruh 15 kartu katalog saat berhasil menaklukkan stage demi stage.',
+    guideSec3Title: '🚑 Fitur Pertolongan & Medkit Darurat (Maksimal 2x Pemakaian)',
+    guidePityDesc1: 'Jika HP Anda berada di bawah 50% atau mengalami kegagalan cocok 3 kali berturut-turut, ',
+    guidePityDesc1Bold: 'Fitur Pertolongan Aktif!',
+    guidePityDesc2: 'Di layar Hadiah Kelulusan Stage, akan terbuka ',
+    guidePityDesc2Bold: 'Opsi Ke-4: 🚑 Bio-Shield Medkit (+35 HP & +25 Perisai instan).',
+    guidePityQuotaBold: '⚠️ Kuota Medkit Darurat: ',
+    guidePityQuotaDesc: 'Penggunaan Medkit Darurat dibatasi maksimal 2 kali sepanjang satu perjalanan bertarung. Jika kuota 2 kali sudah habis terpakai, opsi ini tidak akan muncul lagi.',
+    guidePityTip: 'Pertimbangan Strategi: Mengambil Medkit akan menyelamatkan HP Anda, namun Anda tidak memperoleh kartu baru sehingga penambahan koleksi kartu katalog Anda berjalan lebih lambat.',
+    guideSec4Title: '👾 Musuh AI Berdasarkan Stage',
+    enemy1Desc: 'Musuh pengintai dasar untuk pemanasan pemain baru.',
+    enemy2Desc: 'Robot Golem tangguh dengan pertahanan HP & Perisai yang lebih tebal.',
+    enemy3Desc: 'Hantu cyber lincah yang mulai mengingat posisi kartu dengan akurat.',
+    enemy4Desc: 'Panglima perang kosmik dengan HP tebal & daya serang yang mematikan.',
+    enemy5Desc: 'Naga Cyber legendaris dalam arena pertarungan tanpa akhir!',
+    closeGuideBtn: 'Tutup Buku Panduan',
 
-    // ── GameOverModal ──
-    victory_title: '🏆 KEMENANGAN ARENA!',
-    defeat_title: '💀 GAME OVER',
-    final_stage: 'Stage Terakhir Dijangkau:',
-    total_matches_stat: 'Total Match Pemain:',
-    view_leaderboard_btn: '🏆 Lihat Topskor Global',
-    restart_btn: '🔄 Main Lagi / Kembali ke Dashboard',
+    // ── CatalogModal ──
+    catalogTitle15: '🂠 KATALOG 15 KARTU GAME',
+    catalogSubDash: 'Kompendium Koleksi Statistik, Efek, & Gambar 3D Render 15 Kartu Cyberfantasy (Klik kartu untuk baca Kisah Lore):',
+    catalogSubAllGame: 'Menampilkan seluruh 15 jenis kartu kompendium katalog (Klik kartu untuk cerita detail):',
+    catalogTitleStage: '🂠 KARTU AKTIF STAGE ',
+    catalogSubStage: 'jenis kartu di papan Stage ',
+    toggleBackStage: '🎯 Kembali ke Kartu Stage ',
+    toggleView15: '🂠 Lihat Semua 15 Kartu Katalog',
+    badgePresent: 'Kartu di Papan',
+    loreHint: '📜 Kisah Lore',
+    closeCatalogBtn: 'Tutup Katalog',
 
-    // ── ResetConfirmModal ──
-    reset_title: '⚠️ KONFIRMASI RESET PERMAINAN',
-    reset_desc: 'Apakah Anda yakin ingin mengulang permainan dari Stage 1? Progresi stage dan match saat ini akan di-reset.',
-    confirm_reset_btn: 'Ya, Reset Game',
-    cancel_btn: 'Batal',
-
-    // ── LootModal ──
-    loot_title: '🎁 HADIAH KELULUSAN STAGE {stage}',
-    loot_subtitle: 'Selamat! Pilih 1 Kartu Baru untuk Ditambahkan ke Deck Anda:',
-    pity_badge: '🛡️ PITY SYSTEM AKTIF!',
+    // ── CardDetailModal ──
+    cardDetailTypeAttack: '⚔️ SERANGAN',
+    cardDetailTypeDefense: '🛡️ PERTAHANAN',
+    cardDetailTypeHeal: '🧪 PEMULIHAN',
+    cardDetailTypeBuff: '👁️ BUFF PANTAU',
+    cardDetailTypeDebuff: '☠️ DEBUFF GLITCH',
+    cardDetailTypeEmergency: '🚑 MEDKIT DARURAT',
+    loreArchiveHeader: 'CYBER LORE ARCHIVE',
+    statEffectValue: 'NILAI EFEK',
+    statPoints: 'Poin',
+    statInspectEffect: 'Efek Pengintip',
+    statFeature: 'KEISTIMEWAAN',
+    statQuantumPiercing: '🗡️ Kuantum Penetrasik',
+    closeCardDetailBtn: 'Tutup Detail Kartu',
 
     // ── LeaderboardModal ──
-    lb_title: '🏆 PAPAN SKOR GLOBAL & SESI',
-    tab_global: '🌐 Top 10 Global (Online)',
-    tab_session: '💻 Skor Sesi Lokal',
-    col_rank: 'PERINGKAT',
-    col_name: 'NAMA PEMAIN',
-    col_diff: 'DIFFICULTY',
-    col_stage: 'STAGE',
-    col_matches: 'TOTAL MATCH',
-    empty_global: 'Belum ada data skor global. Jadilah yang pertama mencapai puncak!',
-    empty_session: 'Belum ada skor sesi lokal tercatat.',
-    close_scores_btn: 'Tutup Papan Skor'
+    leaderboardTitle: '🏆 PAPAN SKOR TOP GLOBAL',
+    tabGlobal: '🌐 Top 10 Global (Supabase)',
+    tabSession: '💻 Sesi Lokal Ini',
+    thRank: 'Peringkat',
+    thPlayer: 'Pemain',
+    thDiff: 'Mode AI',
+    thStage: 'Stage Clear',
+    thMatches: 'Total Match',
+    thDate: 'Tanggal',
+    noGlobalData: 'Belum ada data skor global.',
+    noSessionData: 'Belum ada record skor pada sesi ini.',
+    closeLeaderboardBtn: 'Tutup Leaderboard',
+
+    // ── LootModal ──
+    lootTitle: '🎉 STAGE CLEAR!',
+    lootSub: 'Selamat! Anda mengalahkan musuh. Pilih 1 Kartu Hadiah baru untuk memperkuat Deck Anda:',
+    emergencyPityTag: 'BANTUAN DARURAT (PITY)',
+    emergencyPityNotice: '🚑 Opsi Pity Medkit Aktif! Memberikan +35 HP & +25 Armor (Sisa kuota: ',
+    emergencyPityNoticeEnd: 'x). Memilih Medkit tidak memberikan kartu baru.',
+    claimCardBtn: 'Klaim Kartu',
+
+    // ── GameOverModal ──
+    victoryTitle: '🏆 KEMENANGAN ABADI!',
+    victorySub: 'Luar Biasa! Anda berhasil menaklukkan seluruh Stage Pertarungan Cyber!',
+    defeatTitle: '💥 PERTARUNGAN BERAKHIR',
+    defeatSub: 'HP Anda habis tergerus serangan musuh. Jangan menyerah, bangun strategi baru!',
+    statFinalStage: 'Stage Terakhir Reach',
+    statTotalMatches: 'Total Match Terkumpul',
+    statAiMode: 'Mode Kesulitan AI',
+    viewLeaderboardBtn: '🏆 Lihat Topskor Global',
+    playAgainBtn: '⚔️ Main Lagi (Stage 1)',
+    backDashBtn: '🏠 Halaman Depan',
+
+    // ── ResetConfirmModal ──
+    resetTitle: '⚠️ KONFIRMASI RESET GAME',
+    resetBody: 'Apakah Anda yakin ingin mengulang permainan dari Stage 1? Progresi HP, Armor, dan Deck kartu Anda saat ini akan di-reset.',
+    resetConfirmBtn: 'Ya, Reset dari Stage 1',
+    resetCancelBtn: 'Batal',
+
+    // ── Game Messages & Floating Texts ──
+    msgStageStart: 'Stage {stage}: Pertarungan melawan {enemy}!',
+    msgMatched: '{name} mencocokkan {card}! ({effect})',
+    msgMismatch: 'Mismatch! Giliran {name} berakhir.',
+    msgTimeOut: 'Waktu 15 Detik Habis! Giliran berpindah.',
+    msgStageCleared: '🎉 Stage {stage} Clear! Musuh dikalahkan.',
+    floatTurnPlayer: '⚔️ Giliran Anda!',
+    floatTurnEnemy: '🤖 Giliran Musuh!',
+    floatExtraTurn: '✨ Match! Giliran Ekstra!',
+    floatDamage: '-{val} HP',
+    floatBlock: '+{val} Armor',
+    floatHeal: '+{val} HP',
+    floatScan: '👁️ Mengintip Papan!',
+
+    // ── Card Descriptions & Lore Stories ──
+    cards: {
+      atk_dagger: {
+        description: 'Menyerang musuh sebesar 12 damage.',
+        lore: 'Belati sihir foton yang ditempa oleh Penyihir Rune di Laboratorium Alkimia Neo-Veridia. Diukir dengan inskripsi mantra suci kuno yang dialiri energi neon, senjata ini menembus jiwa dan memori musuh dalam sekejap.'
+      },
+      def_nano: {
+        description: 'Memberikan 10 Armor/Block.',
+        lore: 'Perisai gaib gabungan Sihir Perlindungan Elven dan matriks Nanobot. Diciptakan oleh Para Penyihir Cybermedis, jaring kristal ini memancarkan mantra pelindung suci secara instan saat ancaman bahaya mendekat.'
+      },
+      heal_nectar: {
+        description: 'Memulihkan 10 HP.',
+        lore: 'Cairan mana bioluminesensi murni yang diekstrak dari Bunga Abadi Hutan Aether. Dikenal oleh para Penyihir Cyber sebagai ramuan mukjizat penyembuh jiwa yang mampu menutup luka fusi sel dalam sekejap.'
+      },
+      atk_plasma: {
+        description: 'Menyerang musuh sebesar 22 damage.',
+        lore: 'Pedang plasma terionisasi yang disuntikkan Jiwa Naga Api Kuno. Senjata pusaka garapan Pandai Besi Alkemis ini memancarkan kobaran api magis 10.000°C yang mampu membelah inti matriks kegelapan.'
+      },
+      def_aura: {
+        description: 'Memberikan 18 Armor/Block.',
+        lore: 'Tameng energi bertuliskan Geometri Suci Mandala yang dipancarkan dari jimat intan sihir kuno. Pelindung bertuah ini membiaskan kutukan musuh dan menahan gempuran fisik dengan benteng aura mistik.'
+      },
+      heal_elixir: {
+        description: 'Memulihkan 20 HP.',
+        lore: 'Elixir rahasia ciptaan para Alkemis Takdir dari Kuil Digital Neo-Kyoto. Meramu sari benih kehidupan mistis dengan molekul regeneratif untuk membangkitkan vitalitas jiwa dan fisik penggunanya secara dramatis.'
+      },
+      buff_vision: {
+        description: 'Mengintip 2 kartu tertutup di papan.',
+        lore: 'Relik mata peramal suci milik Sang Oracle Kuno dari Kuil Sektor 0. Menggabungkan penglihatan gaib dengan pindaian spektral dimensi tinggi, mata mistik ini menembus tabir takdir untuk menyingkap rahasia kartu tertutup.'
+      },
+      debuff_poison: {
+        description: 'Virus mengikis HP musuh (16 Damage).',
+        lore: 'Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.'
+      },
+      atk_pierce: {
+        description: 'Penetrasi 18 Damage MENEMBUS Armor musuh secara langsung!',
+        lore: 'Tombak kuantum bertatahkan Rune Valkyrie berenergi foton suci. Membelah takdir ruang dan waktu untuk mengabaikan segala armor fisik maupun perisai sihir musuh, menghantam titik vital secara mematikan.'
+      },
+      atk_aether: {
+        description: 'Serangan tebasan kosmik sebesar 30 damage!',
+        lore: 'Tebasan pedang kosmik Malaikat Agung bertatahkan Kristal Aether Murni. Membelah dimensi astral dan melepaskan ledakan sihir kosmik berkekuatan tinggi yang meremukkan musuh paling tangguh.'
+      },
+      def_aegis: {
+        description: 'Benteng energi kokoh sebesar 32 Armor!',
+        lore: 'Mantra pertahanan tertinggi ciptaan Parlemen Penyihir Agung Sektor Atas. Memanggil Sanctuary bertatahkan kristal pelindung suci yang memantulkan gempuran musuh dalam keabadian benteng sihir.'
+      },
+      heal_phoenix: {
+        description: 'Pemulihan regenerasi besar 35 HP!',
+        lore: 'Relik suci yang menyimpan Jiwa Api Burung Phoenix Abadi. Saat dipicu dalam ritual pertarungan, gelombang kobaran api regenerasi membakar seluruh sel mati dan memulihkan 35 HP secara sempurna.'
+      },
+      debuff_glitch: {
+        description: 'Ganggui sistem musuh & berikan 24 Damage.',
+        lore: 'Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.'
+      },
+      debuff_emp: {
+        description: 'Pulsa EMP melumpuhkan perisai & berikan 28 Damage.',
+        lore: 'Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.'
+      },
+      pity_wrath: {
+        description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
+        lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.'
+      }
+    }
   },
 
-  en: {
+  EN: {
+    // ── Global & Controls ──
+    langName: 'English',
+    langToggle: '🌐 EN',
+    musicBtn: '🎵 Music',
+    sfxBtn: '🔔 SFX',
+    guideBtn: '📖 Guide',
+    catalogBtn: '🂠 Stage Cards',
+    scoreBtn: '🏆 Scores',
+    resetBtn: 'Reset',
+
+    // ── Player & Enemy Status ──
+    yourTurn: 'YOUR TURN',
+    enemyTurn: 'ENEMY TURN',
+    matchesLabel: 'Matches',
+    aiDifficultyLabel: 'AI',
+
     // ── NameModal / Dashboard ──
-    app_title: 'MEMORY CARD BATTLE',
-    app_subtitle: 'Cyberfantasy RPG & Memory Matching Game',
-    feat_battle: '⚔️ 1v1 Battle RPG',
-    feat_cards: '🃏 15 Cyber Cards',
-    feat_pity: '🛡️ Pity System',
-    input_placeholder: 'Enter Player Name...',
-    ai_mode_label: '🧠 Enemy AI Difficulty Mode:',
-    ai_auto: '🔄 Auto (Stage Scaling)',
-    ai_easy: '🟢 Easy (35%)',
-    ai_medium: '🟡 Medium (65%)',
-    ai_hard: '🔴 Hard (88%)',
-    ai_desc_auto: 'ℹ️ Auto: AI difficulty scales dynamically from Stage 1 (35%) to Stage 5+ (88%).',
-    ai_desc_easy: 'ℹ️ Easy: Enemy AI remembers 35% of card positions. Perfect for beginners!',
-    ai_desc_medium: 'ℹ️ Medium: Enemy AI remembers 65% of card positions. Balanced battle!',
-    ai_desc_hard: 'ℹ️ Hard: Enemy AI remembers 88% of card positions. Extreme memory challenge!',
-    nav_guide: '📖 Guide',
-    nav_catalog: '🂠 Catalog',
-    nav_scores: '🏆 Scores',
-    dash_tip: '💡 Arena Tip: Collect 15 unique cards via Stage Clear Loot and activate Bio-Shield Medkit when HP is Critical!',
-    start_battle_btn: '⚔️ Start Battle',
-    lang_toggle_btn: '🌐 Language: English 🇬🇧',
-
-    // ── GameBoard HUD ──
-    turn_player_banner: '• YOUR TURN',
-    turn_enemy_banner: '• ENEMY TURN',
-    ai_badge: '🧠 AI:',
-    stage_label: 'STAGE',
-    round_label: 'ROUND',
-    music_btn: 'Music',
-    sfx_btn: 'SFX',
-    guide_btn: 'Guide',
-    catalog_btn: 'Stage Cards',
-    scores_btn: 'Scores',
-    reset_btn: 'Reset',
-    status_initial: 'Stage {stage}: Battle against {enemy}!',
-    status_mismatch_player: '❌ Mismatch! Your turn has ended.',
-    status_mismatch_enemy: '❌ Mismatch! {enemy}\'s turn has ended.',
-    status_timeout: '⏰ Time\'s up! Turn switched.',
-
-    // ── PlayerStatus ──
-    matches_count: '✨ {count} Matches',
-    total_match_global: 'Total Matches: {count}',
-
-    // ── Catalog & Detail Modal ──
-    catalog_title_dashboard: '🂠 15 CARD COMPENDIUM',
-    catalog_sub_dashboard: 'Full Stats, Effects, & 3D Render Artwork of 15 Cyberfantasy Cards (Click card to read Lore):',
-    catalog_title_stage: '🂠 ACTIVE CARDS STAGE {stage}',
-    catalog_sub_stage: 'Showing {count} card types currently on Stage {stage} board (Click card to read Lore):',
-    catalog_sub_all_ingame: 'Showing all 15 catalog compendium cards (Click card for detailed story):',
-    toggle_view_stage: '🎯 Back to Stage {stage} Cards',
-    toggle_view_all: '🂠 View All 15 Catalog Cards',
-    close_catalog_btn: 'Close Catalog',
-    lore_hint: '📜 Lore Story',
-    lore_archive_header: 'CYBER LORE ARCHIVE',
-    effect_val: 'EFFECT VALUE',
-    special_piercing: '🗡️ Quantum Armor Piercing',
-    close_detail_btn: 'Close Card Detail',
-    click_to_read: 'Click to open Lore Story & Card Details',
+    dashTitle: 'MEMORY CARD BATTLE',
+    dashSubtitle: 'Cyberfantasy RPG & Memory Matching Game',
+    featRpg: '⚔️ 1v1 Battle RPG',
+    featCards: '🃏 15 Cyber Cards',
+    featPity: '🛡️ Pity System',
+    nameInputPlaceholder: 'Enter Player Name...',
+    aiSelectorLabel: '🧠 Enemy AI Difficulty Mode:',
+    aiModeAuto: '🔄 Auto (Stage)',
+    aiModeEasy: '🟢 Easy (35%)',
+    aiModeMedium: '🟡 Medium (65%)',
+    aiModeHard: '🔴 Hard (88%)',
+    aiDescAuto: 'ℹ️ Auto: AI difficulty scales progressively from Stage 1 (35%) up to Stage 5+ (88%).',
+    aiDescEasy: 'ℹ️ Easy: Enemy AI remembers 35% of flipped cards. Great for beginners!',
+    aiDescMedium: 'ℹ️ Medium: Enemy AI remembers 65% of flipped cards. Balanced battle!',
+    aiDescHard: 'ℹ️ Hard: Enemy AI remembers 88% of flipped cards. Ultimate memory challenge!',
+    dashGuideBtn: '📖 Guide',
+    dashCatalogBtn: '🂠 Catalog',
+    dashTopscoreBtn: '🏆 Top Scores',
+    dashTipsBox: '💡 Arena Tip: Collect 15 unique cards through Stage Clear Loot and activate Bio-Shield Medkit when HP is critical!',
+    startBattleBtn: '⚔️ Start Battle',
 
     // ── GuideModal ──
-    guide_modal_title: '📖 GAME GUIDEBOOK',
-    guide_modal_subtitle: 'Complete Guide to Gameplay Flow, Board Rules, Pity System, & AI Enemies:',
-    section_flow: '⚔️ Flow & How to Play',
-    step1_title: 'Set Name & AI Mode:',
-    step1_desc: 'Type player name and select Enemy AI memory accuracy (Auto, Easy 35%, Medium 65%, or Hard 88%).',
-    step2_title: 'Flip Card Pairs on Board:',
-    step2_desc: 'On each turn, click 2 face-down cards on the 4x4 board. Matching pairs instantly activate card effects!',
-    step3_title: 'Extra Turn & 15s Time Limit:',
-    step3_desc: 'Matching a pair grants an extra turn. Mismatching or timing out (15s) passes the turn to your opponent.',
-    step4_title: 'Loot Rewards & Stage Clear:',
-    step4_desc: 'Defeat enemies to select 1 unowned new Loot Card and advance to the next Stage!',
-    section_rules: '🎲 Arena & Board Mechanics',
-    rule1_title: '1. 4x4 Arena Board (16 Cards / 8 Pairs):',
-    rule1_desc: 'On each stage, the arena picks 8 unique card types from your Deck to form 8 pairs (16 face-down cards).',
-    rule2_title: '2. Shared Board Mechanics:',
-    rule2_desc: 'Loot cards are added to your Deck. However, during battle, whoever matches the pair (Player or AI) activates its effect!',
-    rule3_title: '3. Full Collection (15 Catalog Cards):',
-    rule3_desc: 'You start with 8 starter cards and can collect all 15 catalog cards as you conquer stage after stage.',
-    section_pity: '🚑 Emergency Medkit & Pity System (Max 2 Uses)',
-    pity_text1: 'If your HP drops below 50% or you suffer 3 consecutive mismatches, ',
-    pity_text2: 'Pity System Activates!',
-    pity_text3: 'On the Stage Clear reward screen, ',
-    pity_medkit_label: 'Option 4 opens: 🚑 Bio-Shield Medkit (+35 HP & +25 Shield instant).',
-    pity_limit: '⚠️ Emergency Medkit Limit: Usage is strictly limited to 2 times per battle run. Once 2 charges are spent, this option won\'t appear again.',
-    pity_strategy: 'Strategic Trade-off: Taking Medkit saves your life, but grants no new card, slowing down your 15-card collection progress.',
-    section_enemies: '👾 AI Enemies by Stage',
-    close_guide_btn: 'Close Guidebook',
+    guideTitle: '📖 GAME GUIDEBOOK',
+    guideSub: 'Comprehensive Guide to Gameplay Flow, Arena Rules, Emergency Pity & Enemy AIs:',
+    guideSec1Title: '⚔️ Gameplay Flow & Mechanics',
+    guideStep1Title: 'Choose Name & AI Mode:',
+    guideStep1Desc: 'Enter your player name and choose enemy AI difficulty (Auto, Easy 35%, Medium 65%, or Hard 88%).',
+    guideStep2Title: 'Flip Card Pairs on the Board:',
+    guideStep2Desc: 'On your turn, click 2 face-down cards on the 4x4 grid. Matching 2 cards immediately triggers their action effect!',
+    guideStep3Title: 'Extra Turn & 15s Time Limit:',
+    guideStep3Desc: 'Making a match grants an extra turn. If you mismatch or the 15-second timer runs out, turn switches to your opponent.',
+    guideStep4Title: 'Loot Rewards & New Stages:',
+    guideStep4Desc: 'Defeat enemies to select 1 new unowned Loot Card from the catalog and advance to the next stage!',
+    guideSec2Title: '🎲 Board & Arena Rules',
+    guideRule1Title: '1. 4x4 Arena Grid (16 Cards / 8 Pairs):',
+    guideRule1Desc: 'In each stage, the arena picks 8 unique card types from your deck to form 8 face-down pairs (16 cards total).',
+    guideRule2Title: '2. Shared Board Mechanics:',
+    guideRule2Desc: 'Loot cards you earn are added to your deck. However during battle, whoever matches a pair on the board (Player or AI) gets its effect!',
+    guideRule3Title: '3. Full Card Collection (15 Catalog Cards):',
+    guideRule3Desc: 'You start with 8 starter cards and can complete all 15 catalog cards as you conquer stage after stage.',
+    guideSec3Title: '🚑 Emergency Pity & Medkit (Max 2 Uses Per Run)',
+    guidePityDesc1: 'If your HP drops below 50% or you encounter 3 consecutive mismatches, ',
+    guidePityDesc1Bold: 'Pity Feature Activates!',
+    guidePityDesc2: 'On the Stage Clear reward screen, option #4 unlocks: ',
+    guidePityDesc2Bold: '🚑 Bio-Shield Medkit (+35 HP & +25 Shield instantly).',
+    guidePityQuotaBold: '⚠️ Emergency Medkit Quota: ',
+    guidePityQuotaDesc: 'Emergency Medkit usage is limited to a maximum of 2 times per run. Once the 2-use quota is exhausted, this option will no longer appear.',
+    guidePityTip: 'Strategy Trade-Off: Choosing the Medkit saves your life but awards no new card, slowing down your 15-card catalog progress.',
+    guideSec4Title: '👾 Enemy AIs by Stage',
+    enemy1Desc: 'Basic scout drone enemy for player warm-up.',
+    enemy2Desc: 'Heavy Robot Golem with thick HP and Shield armor.',
+    enemy3Desc: 'Swift cyber ghost that accurately recalls card positions.',
+    enemy4Desc: 'Cosmic warlord commander with massive HP and lethal damage.',
+    enemy5Desc: 'Legendary Cyber Dragon in an endless boss battle stage!',
+    closeGuideBtn: 'Close Guidebook',
 
-    // ── GameOverModal ──
-    victory_title: '🏆 ARENA VICTORY!',
-    defeat_title: '💀 GAME OVER',
-    final_stage: 'Final Stage Reached:',
-    total_matches_stat: 'Player Total Matches:',
-    view_leaderboard_btn: '🏆 View Global Leaderboard',
-    restart_btn: '🔄 Play Again / Return to Dashboard',
+    // ── CatalogModal ──
+    catalogTitle15: '🂠 15 CARDS CATALOG',
+    catalogSubDash: 'Compendium of Stats, Effects & 3D Rendered Art for 15 Cyberfantasy Cards (Click card to read Lore):',
+    catalogSubAllGame: 'Displaying all 15 catalog compendium cards (Click any card for lore detail):',
+    catalogTitleStage: '🂠 ACTIVE CARDS STAGE ',
+    catalogSubStage: 'card types currently on Stage ',
+    toggleBackStage: '🎯 Back to Stage ',
+    toggleView15: '🂠 View All 15 Catalog Cards',
+    badgePresent: 'Cards on Board',
+    loreHint: '📜 Lore Story',
+    closeCatalogBtn: 'Close Catalog',
 
-    // ── ResetConfirmModal ──
-    reset_title: '⚠️ CONFIRM GAME RESET',
-    reset_desc: 'Are you sure you want to restart from Stage 1? Current stage and match progress will be reset.',
-    confirm_reset_btn: 'Yes, Reset Game',
-    cancel_btn: 'Cancel',
-
-    // ── LootModal ──
-    loot_title: '🎁 STAGE {stage} CLEAR REWARD',
-    loot_subtitle: 'Congratulations! Choose 1 New Card to add to your Deck:',
-    pity_badge: '🛡️ PITY SYSTEM ACTIVE!',
+    // ── CardDetailModal ──
+    cardDetailTypeAttack: '⚔️ ATTACK',
+    cardDetailTypeDefense: '🛡️ DEFENSE',
+    cardDetailTypeHeal: '🧪 HEAL',
+    cardDetailTypeBuff: '👁️ BUFF SCAN',
+    cardDetailTypeDebuff: '☠️ DEBUFF GLITCH',
+    cardDetailTypeEmergency: '🚑 EMERGENCY MEDKIT',
+    loreArchiveHeader: 'CYBER LORE ARCHIVE',
+    statEffectValue: 'EFFECT VALUE',
+    statPoints: 'Pts',
+    statInspectEffect: 'Scan Effect',
+    statFeature: 'SPECIAL TRAIT',
+    statQuantumPiercing: '🗡️ Quantum Armor Piercing',
+    closeCardDetailBtn: 'Close Card Detail',
 
     // ── LeaderboardModal ──
-    lb_title: '🏆 GLOBAL & SESSION LEADERBOARD',
-    tab_global: '🌐 Top 10 Global (Online)',
-    tab_session: '💻 Local Session Scores',
-    col_rank: 'RANK',
-    col_name: 'PLAYER NAME',
-    col_diff: 'DIFFICULTY',
-    col_stage: 'STAGE',
-    col_matches: 'TOTAL MATCHES',
-    empty_global: 'No global scores yet. Be the first to reach the top!',
-    empty_session: 'No local session scores recorded yet.',
-    close_scores_btn: 'Close Leaderboard'
+    leaderboardTitle: '🏆 GLOBAL TOP SCORES',
+    tabGlobal: '🌐 Top 10 Global (Supabase)',
+    tabSession: '💻 Current Local Session',
+    thRank: 'Rank',
+    thPlayer: 'Player',
+    thDiff: 'AI Mode',
+    thStage: 'Stage Reached',
+    thMatches: 'Total Matches',
+    thDate: 'Date',
+    noGlobalData: 'No global leaderboard data yet.',
+    noSessionData: 'No score records in this session yet.',
+    closeLeaderboardBtn: 'Close Leaderboard',
+
+    // ── LootModal ──
+    lootTitle: '🎉 STAGE CLEAR!',
+    lootSub: 'Victory! You defeated the enemy. Choose 1 new Reward Card to reinforce your Deck:',
+    emergencyPityTag: 'EMERGENCY PITY',
+    emergencyPityNotice: '🚑 Emergency Pity Medkit Active! Grants +35 HP & +25 Shield (Remaining quota: ',
+    emergencyPityNoticeEnd: 'x). Selecting Medkit awards no new card.',
+    claimCardBtn: 'Claim Card',
+
+    // ── GameOverModal ──
+    victoryTitle: '🏆 ETERNAL VICTORY!',
+    victorySub: 'Outstanding! You conquered all Cyber Battle Stages!',
+    defeatTitle: '💥 BATTLE OVER',
+    defeatSub: 'Your HP was depleted by enemy attacks. Never give up, build a new strategy!',
+    statFinalStage: 'Final Stage Reached',
+    statTotalMatches: 'Total Matches Made',
+    statAiMode: 'AI Difficulty Mode',
+    viewLeaderboardBtn: '🏆 View Global Top Scores',
+    playAgainBtn: '⚔️ Play Again (Stage 1)',
+    backDashBtn: '🏠 Return to Dashboard',
+
+    // ── ResetConfirmModal ──
+    resetTitle: '⚠️ GAME RESET CONFIRMATION',
+    resetBody: 'Are you sure you want to restart from Stage 1? Your current HP, Armor, and Deck progress will be reset.',
+    resetConfirmBtn: 'Yes, Reset from Stage 1',
+    resetCancelBtn: 'Cancel',
+
+    // ── Game Messages & Floating Texts ──
+    msgStageStart: 'Stage {stage}: Battle against {enemy}!',
+    msgMatched: '{name} matched {card}! ({effect})',
+    msgMismatch: 'Mismatch! {name}\'s turn ends.',
+    msgTimeOut: '15-Second Time Limit Expired! Turn switched.',
+    msgStageCleared: '🎉 Stage {stage} Clear! Enemy defeated.',
+    floatTurnPlayer: '⚔️ Your Turn!',
+    floatTurnEnemy: '🤖 Enemy Turn!',
+    floatExtraTurn: '✨ Match! Extra Turn!',
+    floatDamage: '-{val} HP',
+    floatBlock: '+{val} Armor',
+    floatHeal: '+{val} HP',
+    floatScan: '👁️ Board Scanned!',
+
+    // ── Card Descriptions & Lore Stories ──
+    cards: {
+      atk_dagger: {
+        description: 'Deals 12 damage to the enemy.',
+        lore: 'A photon spell dagger forged by Rune Sorcerers in Neo-Veridia Alchemy Lab. Engraved with ancient sacred incantations imbued with neon energy, it pierces the enemy soul and memory in a blink.'
+      },
+      def_nano: {
+        description: 'Grants 10 Armor/Block.',
+        lore: 'A mystical barrier fusing Elven Protection Magic and Nanobot matrices. Created by Cybermedis Sorcerers, this crystal mesh instantly manifests a sacred protective shield upon sensing danger.'
+      },
+      heal_nectar: {
+        description: 'Restores 10 HP.',
+        lore: 'Pure bioluminescent mana liquid extracted from Everlasting Flowers of Aether Forest. Known by Cyber Mages as a miraculous soul-healing potion capable of sealing cell fusion wounds in seconds.'
+      },
+      atk_plasma: {
+        description: 'Deals 22 damage to the enemy.',
+        lore: 'An ionized plasma blade infused with Ancient Fire Dragonsoul. Crafted by Alchemist Blacksmiths, this heirloom weapon emits 10,000°C magical flames capable of cleaving dark matrix cores.'
+      },
+      def_aura: {
+        description: 'Grants 18 Armor/Block.',
+        lore: 'An energy shield engraved with Sacred Mandala Geometry projected from an ancient magic diamond talisman. This enchanted defender deflects enemy curses and withstands physical strikes with mystic aura.'
+      },
+      heal_elixir: {
+        description: 'Restores 20 HP.',
+        lore: 'A secret elixir concocted by Destiny Alchemists of Neo-Kyoto Digital Temple. Blending mystical life-seed essence with regenerative molecules to dramatically awaken vital soul and physical strength.'
+      },
+      buff_vision: {
+        description: 'Peeks at 2 face-down cards on the board.',
+        lore: 'A sacred oracle eye relic belonging to the Ancient Oracle of Sector 0 Shrine. Combining clairvoyance with high-dimensional spectral scanning, this mystic lens pierces the veil of fate to reveal hidden cards.'
+      },
+      debuff_poison: {
+        description: 'Corrosive virus erodes enemy HP (16 Damage).',
+        lore: 'A black magic curse encoded as a bio-digital virus invading enemy dreamscapes. This molecular poison slowly erodes the enemy\'s soul and defensive shields beyond any warding talisman.'
+      },
+      atk_pierce: {
+        description: '18 Damage Penetration PIERCES enemy Armor directly!',
+        lore: 'A quantum spear inlaid with sacred photon Valkyrie Runes. Cleaving fate across space and time, it completely bypasses physical armor or magical shields to strike lethal vital points.'
+      },
+      atk_aether: {
+        description: 'Deals a massive cosmic slash of 30 damage!',
+        lore: 'A cosmic blade slash of Archangels embedded with Pure Aether Crystals. Cleaving astral dimensions, it releases high-tier cosmic magic shockwaves that shatter even the fiercest foes.'
+      },
+      def_aegis: {
+        description: 'Grants a stout energy fortress of 32 Armor!',
+        lore: 'The supreme defense spell crafted by High Sorcerer Parliament of Upper Sector. Summons a Sanctuary inlaid with sacred warding crystals reflecting heavy assaults within an eternal magic fortress.'
+      },
+      heal_phoenix: {
+        description: 'Restores a massive 35 HP regeneration!',
+        lore: 'A sacred relic storing the Fire Essence of the Eternal Phoenix. When triggered in battle rituals, warm regeneration flames burn away dead cells and restore 35 HP to perfection.'
+      },
+      debuff_glitch: {
+        description: 'Disrupts enemy system & deals 24 Damage.',
+        lore: 'A fractal magic glitch hex disrupting enemy cognition. Projecting corrupted illusion matrices that trap enemies in subconscious labyrinths while eroding defensive circuits.'
+      },
+      debuff_emp: {
+        description: 'EMP pulse disables shield & deals 28 Damage.',
+        lore: 'An Electromagnetic Lightning Pulse Incantation forged from Ancient Elemental Storms. When unleashed, lightning shockwaves paralyze enemy circuits, crush armor, and scramble memories.'
+      },
+      pity_wrath: {
+        description: 'Divine lightning strikes 40 Damage + Heals 15 HP!',
+        lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Gods. Summoned when sacred warriors stand on the brink of death, striking enemies with 40 Divine Lightning Damage while healing 15 HP.'
+      }
+    }
   }
 };
 
-/**
- * Utility translation getter
- * Usage: t('app_title') or t('status_initial', { stage: 1, enemy: 'Cyber Scout' })
- */
-export const t = (key, params = {}) => {
-  const currentLang = getLanguage();
-  let text = TRANSLATIONS[currentLang]?.[key] || TRANSLATIONS.id[key] || key;
-
-  Object.keys(params).forEach((paramKey) => {
-    text = text.replace(`{${paramKey}}`, params[paramKey]);
-  });
-
-  return text;
+/** Helper function to get current language code from localStorage (Default: 'ID') */
+export const getCurrentLang = () => {
+  return localStorage.getItem('memory_game_lang') || 'ID';
 };
 
-/**
- * Translates Card objects dynamically based on current language
- */
-export const getTranslatedCard = (card) => {
-  if (!card) return card;
-  const currentLang = getLanguage();
-  if (currentLang === LANGUAGES.ID) return card;
+/** Helper function to set language code in localStorage */
+export const setGameLang = (langCode) => {
+  localStorage.setItem('memory_game_lang', langCode);
+};
 
-  // English Card Translations Dictionary
-  const cardEnMap = {
-    atk_dagger: {
-      name: 'Cyber Dagger',
-      description: 'Deals 12 damage to enemy.',
-      lore: 'A photon spell blade forged by Rune Sorcerers in the Neo-Veridia Alchemy Lab. Engraved with ancient sacred mantras and infused with neon energy, it pierces enemy soul and memory instantly.'
-    },
-    def_nano: {
-      name: 'Nano Barrier',
-      description: 'Grants 10 Armor/Block.',
-      lore: 'A magical shield combining Elven Protection Magic and Nanobot matrices. Created by Cybermedis Sorcerers, this crystal net projects a holy protective barrier instantly when danger approaches.'
-    },
-    heal_nectar: {
-      name: 'Bio Nectar',
-      description: 'Restores 10 HP.',
-      lore: 'Pure bioluminescent mana liquid extracted from Eternal Flowers in the Aether Forest. Known by Cyber Mages as a miraculous soul-healing elixir capable of closing cell fusion wounds in seconds.'
-    },
-    atk_plasma: {
-      name: 'Plasma Blade',
-      description: 'Deals 22 damage to enemy.',
-      lore: 'An ionized plasma blade infused with Ancient Fire Dragon Soul. This relic weapon crafted by Alchemist Blacksmiths radiates 10,000°C magical flames capable of slicing through dark matrix cores.'
-    },
-    def_aura: {
-      name: 'Aura Shield',
-      description: 'Grants 18 Armor/Block.',
-      lore: 'An energy shield engraved with Sacred Mandala Geometry projected from an ancient magic diamond talisman. This blessed protector deflects enemy curses and holds off physical strikes with mystical aura.'
-    },
-    heal_elixir: {
-      name: 'Cyber Elixir',
-      description: 'Restores 20 HP.',
-      lore: 'A secret elixir crafted by Destiny Alchemists from the Neo-Kyoto Digital Temple. Blending mystical seeds of life with regenerative molecules to dramatically awaken physical and soul vitality.'
-    },
-    buff_vision: {
-      name: 'Oracle Eye',
-      description: 'Peeks at 2 face-down cards on board.',
-      lore: 'A holy seer eye relic belonging to the Ancient Oracle of Sector 0 Temple. Combining divine vision with high-dimensional spectral scans, this mystic lens pierces the veil of destiny to reveal hidden cards.'
-    },
-    debuff_poison: {
-      name: 'Corrosive Virus',
-      description: 'Corrosive virus erodes HP (16 Damage).',
-      lore: 'A dark magic curse coded as a bio-digital virus corrupting enemy dreamscapes. This molecular magic poison erodes enemy soul and armor steadily without being blocked by protective talismans.'
-    },
-    atk_pierce: {
-      name: 'Quantum Piercer',
-      description: '18 Damage PIERCES enemy Armor directly!',
-      lore: 'A quantum spear embedded with Valkyrie Runes and holy photon energy. Slicing through space and time destiny to bypass all physical armor or magic shields, striking vital spots lethally.'
-    },
-    atk_aether: {
-      name: 'Aether Strike',
-      description: 'Cosmic slash dealing 30 damage!',
-      lore: 'An Archangel cosmic blade slash studded with Pure Aether Crystals. Slicing astral dimensions and releasing high-power cosmic magic blasts that crush even the toughest foes.'
-    },
-    def_aegis: {
-      name: 'Aegis Protocol',
-      description: 'Sturdy energy sanctuary with 32 Armor!',
-      lore: 'The ultimate defense incantation created by the High Wizard Parliament of Upper Sector. Summoning an 8-sided Sanctuary studded with holy protective crystals reflecting heavy blows in eternal magic fortress.'
-    },
-    heal_phoenix: {
-      name: 'Phoenix Catalyst',
-      description: 'Massive regeneration restoring 35 HP!',
-      lore: 'A holy relic holding the Fire Soul of the Immortal Phoenix. Triggered in battle rituals, warm regeneration waves burn away dead cells and restore 35 HP flawlessly.'
-    },
-    debuff_glitch: {
-      name: 'Glitch Overlay',
-      description: 'Disrupts enemy system & deals 24 Damage.',
-      lore: 'A magical fractal illusion hex distorting enemy cognition. Emitting glitch illusion matrices that trap enemies in subconscious labyrinths while destroying defense circuits.'
-    },
-    debuff_emp: {
-      name: 'EMP Disrupter',
-      description: 'EMP pulse shatters armor & deals 28 Damage.',
-      lore: 'An Electromagnetic Lightning Pulse Incantation forged from Ancient Elemental Storms. When unleashed, shockwave arc lightning paralyzes enemy circuits, shatters armor, and scrambles memory.'
-    },
-    pity_wrath: {
-      name: 'Divine Wrath',
-      description: 'Sacred strike 40 Damage + Heal 15 HP!',
-      lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Deities. Summoned when sacred warriors stand at death\'s door, unleashing 40 Damage holy lightning and restoring 15 HP.'
-    }
-  };
-
-  const translated = cardEnMap[card.id];
-  if (!translated) return card;
-
-  return {
-    ...card,
-    name: translated.name,
-    description: translated.description,
-    lore: translated.lore
-  };
+/** Helper function to fetch translation text by key with optional fallback */
+export const t = (key, lang = getCurrentLang()) => {
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.ID;
+  return dict[key] !== undefined ? dict[key] : (TRANSLATIONS.ID[key] || key);
 };

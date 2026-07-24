@@ -1,148 +1,169 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTopScores } from '../../utils/leaderboardService';
-import { soundManager } from '../../utils/soundSystem';
+import { fetchTopScores, formatRelativeTime } from '../../utils/leaderboardService';
 import { t } from '../../utils/i18n';
 import './LeaderboardModal.css';
 
-const LeaderboardModal = ({ leaderboard = [], currentPlayerName = '', onClose }) => {
-  const [activeTab, setActiveTab] = useState('GLOBAL');
-  const [globalScores, setGlobalScores] = useState([]);
-  const [isLoadingGlobal, setIsLoadingGlobal] = useState(false);
-  const [globalError, setGlobalError] = useState(null);
+const MEDAL = ['🥇', '🥈', '🥉'];
 
+const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang = 'ID' }) => {
+  const [activeTab, setActiveTab] = useState('online');
+  const [onlineScores, setOnlineScores] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+
+  // Fetch online scores saat tab online aktif
   useEffect(() => {
-    let isMounted = true;
+    if (activeTab !== 'online') return;
 
-    const loadGlobal = async () => {
-      setIsLoadingGlobal(true);
-      setGlobalError(null);
-      try {
-        const data = await fetchTopScores();
-        if (isMounted) {
-          setGlobalScores(data || []);
-          setIsLoadingGlobal(false);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setGlobalError('Gagal memuat papan skor online.');
-          setIsLoadingGlobal(false);
-        }
-      }
-    };
+    setIsLoading(true);
+    setFetchError(null);
 
-    if (activeTab === 'GLOBAL') {
-      loadGlobal();
-    }
-
-    return () => { isMounted = false; };
-  }, [activeTab]);
+    fetchTopScores(25)
+      .then((data) => {
+        setOnlineScores(data || []);
+      })
+      .catch((err) => {
+        setFetchError(currentLang === 'ID' ? 'Gagal memuat data. Periksa koneksi internet Anda.' : 'Failed to load leaderboard data. Check your internet connection.');
+        console.error('[LeaderboardModal]', err);
+      })
+      .finally(() => setIsLoading(false));
+  }, [activeTab, currentLang]);
 
   return (
     <div className="modal-overlay">
-      <div className="leaderboard-modal-content glass-panel" style={{ position: 'relative' }}>
-        <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Leaderboard">
-          ✕
-        </button>
+      <div className="leaderboard-modal-content glass-panel">
+        <h2 className="leaderboard-title">{t('leaderboardTitle', currentLang)}</h2>
 
-        <h2 className="leaderboard-title">{t('lb_title')}</h2>
-
-        <div className="leaderboard-tabs">
+        {/* Tab Selector */}
+        <div className="lb-tabs">
           <button
-            className={`tab-btn ${activeTab === 'GLOBAL' ? 'active' : ''}`}
-            onClick={() => {
-              soundManager.playClickSFX();
-              setActiveTab('GLOBAL');
-            }}
+            className={`lb-tab-btn ${activeTab === 'online' ? 'active' : ''}`}
+            onClick={() => setActiveTab('online')}
           >
-            {t('tab_global')}
+            {t('tabGlobal', currentLang)}
           </button>
           <button
-            className={`tab-btn ${activeTab === 'SESSION' ? 'active' : ''}`}
-            onClick={() => {
-              soundManager.playClickSFX();
-              setActiveTab('SESSION');
-            }}
+            className={`lb-tab-btn ${activeTab === 'local' ? 'active' : ''}`}
+            onClick={() => setActiveTab('local')}
           >
-            {t('tab_session')}
+            {t('tabSession', currentLang)}
           </button>
         </div>
 
-        {activeTab === 'GLOBAL' ? (
-          <div className="leaderboard-table-container">
-            {isLoadingGlobal ? (
-              <div className="loading-state">
-                <span className="spinner">⏳</span> Memuat Topskor Online...
+        {/* ── ONLINE TAB ── */}
+        {activeTab === 'online' && (
+          <div className="lb-online-container">
+            <p className="app-subtitle">
+              {currentLang === 'ID' ? 'Top 10 Pemain Terbaik Dunia — Memory Card Battle' : 'Top 10 Players Worldwide — Memory Card Battle'}
+            </p>
+
+            {isLoading && (
+              <div className="lb-loading">
+                <div className="lb-spinner" />
+                <span>{currentLang === 'ID' ? 'Memuat data leaderboard online...' : 'Loading global scores...'}</span>
               </div>
-            ) : globalError ? (
-              <div className="error-state">⚠️ {globalError}</div>
-            ) : globalScores.length === 0 ? (
-              <div className="empty-state">{t('empty_global')}</div>
-            ) : (
-              <table className="leaderboard-table">
-                <thead>
-                  <tr>
-                    <th>{t('col_rank')}</th>
-                    <th>{t('col_name')}</th>
-                    <th>{t('col_diff')}</th>
-                    <th>{t('col_stage')}</th>
-                    <th>{t('col_matches')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {globalScores.map((entry, index) => {
-                    const isSelf = currentPlayerName && entry.player_name?.toLowerCase() === currentPlayerName.toLowerCase();
-                    return (
-                      <tr key={entry.id || index} className={isSelf ? 'highlight-self' : ''}>
-                        <td className="rank-col">
-                          {index === 0 && '🥇'}
-                          {index === 1 && '🥈'}
-                          {index === 2 && '🥉'}
-                          {index > 2 && `#${index + 1}`}
-                        </td>
-                        <td className="name-col">{entry.player_name || 'Cyber Hero'}</td>
-                        <td className="diff-col">{entry.difficulty_mode || 'Auto'}</td>
-                        <td className="stage-col">Stage {entry.stage_reached}</td>
-                        <td className="match-col">✨ {entry.total_matches}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
             )}
-          </div>
-        ) : (
-          <div className="leaderboard-table-container">
-            {leaderboard.length === 0 ? (
-              <div className="empty-state">{t('empty_session')}</div>
-            ) : (
+
+            {fetchError && !isLoading && (
+              <div className="lb-error">
+                ⚠️ {fetchError}
+                <button
+                  className="lb-retry-btn"
+                  onClick={() => {
+                    setActiveTab('local');
+                    setTimeout(() => setActiveTab('online'), 50);
+                  }}
+                >
+                  {currentLang === 'ID' ? 'Coba Lagi' : 'Retry'}
+                </button>
+              </div>
+            )}
+
+            {!isLoading && !fetchError && (
               <table className="leaderboard-table">
                 <thead>
                   <tr>
-                    <th>{t('col_rank')}</th>
-                    <th>{t('col_name')}</th>
-                    <th>{t('col_diff')}</th>
-                    <th>{t('col_stage')}</th>
-                    <th>{t('col_matches')}</th>
+                    <th>#</th>
+                    <th>{t('thPlayer', currentLang)}</th>
+                    <th>{t('thDiff', currentLang)}</th>
+                    <th>{t('thStage', currentLang)}</th>
+                    <th>{t('thMatches', currentLang)}</th>
+                    <th>{t('thDate', currentLang)}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {leaderboard.map((entry, index) => (
-                    <tr key={index}>
-                      <td className="rank-col">#{index + 1}</td>
-                      <td className="name-col">{entry.name}</td>
-                      <td className="diff-col">{entry.difficulty || 'Auto'}</td>
-                      <td className="stage-col">Stage {entry.stage}</td>
-                      <td className="match-col">✨ {entry.totalMatches}</td>
+                  {onlineScores.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+                        {t('noGlobalData', currentLang)} 🚀
+                      </td>
                     </tr>
-                  ))}
+                  ) : (
+                    onlineScores.map((item, index) => {
+                      const isMe = item.name === currentPlayerName;
+                      return (
+                        <tr key={item.id || index} className={`${index === 0 ? 'top-1' : ''} ${isMe ? 'my-rank-row' : ''}`}>
+                          <td className="rank-cell">
+                            {MEDAL[index] || index + 1}
+                          </td>
+                          <td className="player-cell">
+                            {item.name}
+                            {isMe && <span className="you-badge"> ({currentLang === 'ID' ? 'Anda' : 'You'})</span>}
+                          </td>
+                          <td>
+                            <span className="lb-diff-badge">{item.difficulty || '-'}</span>
+                          </td>
+                          <td className="stage-cell">Stage {item.stage}</td>
+                          <td className="matches-cell">{item.total_matches ?? item.totalMatches}</td>
+                          <td className="time-cell">{formatRelativeTime(item.created_at)}</td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             )}
           </div>
         )}
 
+        {/* ── LOCAL TAB ── */}
+        {activeTab === 'local' && (
+          <table className="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{t('thPlayer', currentLang)}</th>
+                <th>{t('thDiff', currentLang)}</th>
+                <th>{t('thStage', currentLang)}</th>
+                <th>{t('thMatches', currentLang)}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaderboard.length === 0 ? (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
+                    {t('noSessionData', currentLang)}
+                  </td>
+                </tr>
+              ) : (
+                leaderboard.map((item, index) => (
+                  <tr key={index} className={index === 0 ? 'top-1' : ''}>
+                    <td className="rank-cell">{MEDAL[index] || index + 1}</td>
+                    <td className="player-cell">{item.name}</td>
+                    <td>
+                      <span className="lb-diff-badge">{item.difficulty || 'Auto'}</span>
+                    </td>
+                    <td className="stage-cell">Stage {item.stage}</td>
+                    <td className="matches-cell">{item.totalMatches}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        )}
+
         <button className="close-modal-btn" onClick={onClose}>
-          {t('close_scores_btn')}
+          {t('closeLeaderboardBtn', currentLang)}
         </button>
       </div>
     </div>

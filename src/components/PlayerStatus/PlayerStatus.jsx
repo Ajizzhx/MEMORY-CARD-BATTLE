@@ -2,7 +2,7 @@ import React from 'react';
 import { t } from '../../utils/i18n';
 import './PlayerStatus.css';
 
-const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName }) => {
+const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName, currentLang = 'ID' }) => {
   const playerHpPct = Math.max(0, Math.min(100, (player.hp / player.maxHp) * 100));
   const enemyHpPct = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
 
@@ -12,11 +12,11 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
       <div className="status-center-badge">
         <div className={`turn-badge ${currentTurn === 'PLAYER' ? 'player' : 'enemy'}`}>
           <span className="turn-pulse-dot" />
-          {currentTurn === 'PLAYER' ? t('turn_player_banner') : t('turn_enemy_banner')}
+          {currentTurn === 'PLAYER' ? t('yourTurn', currentLang) : t('enemyTurn', currentLang)}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag" title={`${t('ai_mode_label')} ${difficultyName}`}>
-            {t('ai_badge')} {difficultyName}
+          <div className="difficulty-tag" title={`Mode Kesulitan AI Musuh: ${difficultyName}`}>
+            🧠 {t('aiDifficultyLabel', currentLang)}: {difficultyName}
           </div>
         )}
       </div>
@@ -41,7 +41,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             </div>
             <div className="hp-text">
               <span>HP <strong>{player.hp}/{player.maxHp}</strong></span>
-              <span className="entity-matches" title="Total Match Pemain">{t('matches_count', { count: playerMatches })}</span>
+              <span className="entity-matches" title="Total Match Pemain">✨ {playerMatches} {t('matchesLabel', currentLang)}</span>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
             </div>
             <div className="hp-text">
               <span>HP <strong>{enemy.hp}/{enemy.maxHp}</strong></span>
-              <span className="entity-matches enemy-matches" title="Total Match Musuh">{t('matches_count', { count: enemyMatches })}</span>
+              <span className="entity-matches enemy-matches" title="Total Match Musuh">✨ {enemyMatches} {t('matchesLabel', currentLang)}</span>
             </div>
           </div>
           <div className="entity-avatar enemy-avatar">
