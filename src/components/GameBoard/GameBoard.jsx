@@ -615,9 +615,10 @@ const GameBoard = () => {
         }));
         // Deck tidak bertambah kartu baru (updatedDeck tetap playerDeck)
       } else {
-        // Kartu Loot Baru Dipilih
+        // Kartu Loot Baru Dipilih -> Bonus Istirahat Stage (+10 HP)
         updatedDeck = [selectedCard, ...playerDeck];
         setPlayerDeck(updatedDeck);
+        setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 10) }));
       }
     } else {
       // Bonus +50 HP jika Deck 100% Lengkap!
