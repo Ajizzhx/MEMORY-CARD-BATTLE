@@ -92,76 +92,30 @@ const GameBoard = () => {
     setIsSfxMuted(!isNowActive);
   };
 
-  // Initialize & Restore Saved Progress on Mount
+  // Always clear any leftover saved state on mount (Refreshing resets progress back to clean start)
   useEffect(() => {
+    localStorage.removeItem('memory_game_saved_state');
     if (playerName) {
       soundManager.startBgm();
-      const savedState = localStorage.getItem('memory_game_saved_state');
-      if (savedState) {
-        try {
-          const parsed = JSON.parse(savedState);
-          if (parsed && parsed.player && parsed.player.hp > 0 && parsed.stage >= 1) {
-            setStage(parsed.stage);
-            setPlayer({ ...parsed.player, name: playerName });
-            setEnemy(parsed.enemy);
-            setPlayerDeck(parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-            setTotalMatchesMade(parsed.totalMatchesMade || 0);
-            setMismatchStreak(parsed.mismatchStreak || 0);
-
-            // Restore exact turn state & turn timer countdown
-            if (parsed.currentTurn) {
-              setCurrentTurn(parsed.currentTurn);
-            }
-            if (typeof parsed.turnTimer === 'number' && parsed.turnTimer > 0) {
-              setTurnTimer(parsed.turnTimer);
-            }
-
-            // Restore exact cards layout and matched card ids
-            if (parsed.cards && parsed.cards.length > 0) {
-              const enrichedCards = parsed.cards.map((c) => ({
-                ...c,
-                img: c.img || CARD_DATABASE.find((dbCard) => dbCard.id === (c.pairId || c.id))?.img
-              }));
-              if ((parsed.matchedCardIds || []).length * 2 >= enrichedCards.length) {
-                resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-              } else {
-                setCards(enrichedCards);
-                setMatchedCardIds(parsed.matchedCardIds || []);
-              }
-            } else {
-              resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
-            }
-
-            const activeTurnText = parsed.currentTurn === 'ENEMY' ? `🤖 Giliran Musuh (${parsed.enemy.name})` : `✨ Giliran Anda`;
-            setStatusMessage(`✨ Melanjutkan pertarungan Stage ${parsed.stage}! [${activeTurnText}]`);
-            return;
-          }
-        } catch (err) {
-          console.error("Error parsing saved progress:", err);
-        }
-      }
       initBoardForNewPlayer();
     }
   }, [playerName]);
 
-  // Auto-Save progress whenever state changes
+  // Peringatan Browser saat pemain mencoba Refresh / Tutup Tab saat pertarungan berlangsung
   useEffect(() => {
-    if (playerName && player.hp > 0 && stage >= 1 && cards.length > 0) {
-      const progress = {
-        stage,
-        player,
-        enemy,
-        playerDeck,
-        cards,
-        matchedCardIds,
-        totalMatchesMade,
-        currentTurn,
-        mismatchStreak,
-        turnTimer
-      };
-      localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
-    }
-  }, [stage, player, enemy, playerDeck, cards, matchedCardIds, totalMatchesMade, currentTurn, mismatchStreak, turnTimer, playerName]);
+    const handleBeforeUnload = (e) => {
+      if (playerName && !showNameModal && player.hp > 0 && enemy.hp > 0) {
+        e.preventDefault();
+        e.returnValue = 'Pertarungan Anda sedang berlangsung! Me-refresh web akan mereset pertarungan dari awal.';
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [playerName, showNameModal, player.hp, enemy.hp]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
