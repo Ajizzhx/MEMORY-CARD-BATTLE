@@ -87,6 +87,13 @@
   white-space: nowrap;
 }
 
+.badge-catalog {
+  color: var(--color-primary);
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+  font-size: 0.62rem;
+  letter-spacing: 0.5px;
+}
+
 .badge-present {
   color: #00ff88;
   text-shadow: 0 0 6px rgba(0, 255, 136, 0.6);

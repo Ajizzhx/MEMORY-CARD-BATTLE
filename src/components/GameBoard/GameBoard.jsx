@@ -719,11 +719,12 @@ const GameBoard = () => {
         />
       )}
 
-      {/* Modal Katalog Kartu dengan Indikator Kartu Aktif Stage */}
+      {/* Modal Katalog Kartu dengan Mode Dashboard vs Stage In-Game */}
       {showCatalogModal && (
         <CatalogModal
           activeStageCards={cards}
           stage={stage}
+          isDashboardMode={showNameModal}
           onClose={() => { soundManager.playClickSFX(); setShowCatalogModal(false); }}
         />
       )}

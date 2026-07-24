@@ -3,15 +3,19 @@ import { CARD_DATABASE } from '../../utils/cardData';
 import { soundManager } from '../../utils/soundSystem';
 import './CatalogModal.css';
 
-const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
+const CatalogModal = ({ activeStageCards = [], stage = 1, isDashboardMode = false, onClose }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
-  // Hitung jumlah kartu yang ada di papan stage saat ini
+  const isDashboard = isDashboardMode || activeStageCards.length === 0;
+
+  // Hitung jumlah kartu yang ada di papan stage saat ini (jika mode in-game)
   const boardCardCounts = {};
-  activeStageCards.forEach((c) => {
-    const key = c.pairId || c.id;
-    boardCardCounts[key] = (boardCardCounts[key] || 0) + 1;
-  });
+  if (!isDashboard) {
+    activeStageCards.forEach((c) => {
+      const key = c.pairId || c.id;
+      boardCardCounts[key] = (boardCardCounts[key] || 0) + 1;
+    });
+  }
 
   const filteredCards =
     activeFilter === 'ALL'
@@ -21,8 +25,14 @@ const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="catalog-modal-content glass-panel">
-        <h2 className="catalog-title">📖 KATALOG & PANDUAN STAGE</h2>
-        <p className="app-subtitle">Indikator Kartu di Papan Stage {stage} & Kompendium Efek:</p>
+        <h2 className="catalog-title">
+          {isDashboard ? '📖 KATALOG KARTU GAME' : `📖 KATALOG & PANDUAN STAGE ${stage}`}
+        </h2>
+        <p className="app-subtitle">
+          {isDashboard
+            ? 'Kompendium Lengkap 13 Kartu, Efek, dan Tingkat Kelangkaan Game:'
+            : `Indikator Kartu Aktif di Papan Stage ${stage} & Kompendium Efek:`}
+        </p>
 
         <div className="catalog-tabs">
           {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF', 'GUIDE'].map((type) => (
@@ -100,7 +110,7 @@ const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
                 </div>
                 <div className="rule-item">
                   <strong>3. Indikator Kartu Aktif Stage:</strong>
-                  <p>Di halaman Katalog ini, kartu yang hadir di papan Stage saat ini ditandai dengan lencana hijau terang `🟢 Ada di Stage Ini (2 Kartu)`, sedangkan kartu yang sedang tidak ada di papan diberi efek redup/gelap `🌑 Tidak Ada di Stage Ini`.</p>
+                  <p>Di dalam pertarungan, kartu yang hadir di papan Stage saat ini ditandai dengan lencana hijau terang `🟢 Ada di Stage Ini (2 Kartu)`, sedangkan kartu yang sedang tidak ada di papan diberi efek redup/gelap `🌑 Tidak Ada di Stage Ini`.</p>
                 </div>
               </div>
             </div>
@@ -109,7 +119,7 @@ const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
           <div className="catalog-grid">
             {filteredCards.map((card) => {
               const countOnBoard = boardCardCounts[card.id] || 0;
-              const isPresent = countOnBoard > 0;
+              const isPresent = isDashboard || countOnBoard > 0;
 
               return (
                 <div
@@ -117,7 +127,9 @@ const CatalogModal = ({ activeStageCards = [], stage = 1, onClose }) => {
                   className={`catalog-card-item ${isPresent ? 'present-on-stage' : 'absent-on-stage'}`}
                 >
                   <div className="card-stage-status-badge">
-                    {isPresent ? (
+                    {isDashboard ? (
+                      <span className="badge-catalog">✨ KATEGORI: {card.type}</span>
+                    ) : isPresent ? (
                       <span className="badge-present">🟢 Ada di Stage ({countOnBoard} Kartu)</span>
                     ) : (
                       <span className="badge-absent">🌑 Tidak Ada di Stage</span>
