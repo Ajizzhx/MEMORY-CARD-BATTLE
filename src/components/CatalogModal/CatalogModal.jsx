@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { CARD_DATABASE } from '../../utils/cardData';
 import { soundManager } from '../../utils/soundSystem';
+import CardDetailModal from '../CardDetailModal/CardDetailModal';
 import './CatalogModal.css';
 
 const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, onClose }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [showAll15CardsInGame, setShowAll15CardsInGame] = useState(false);
+  const [selectedCardForDetail, setSelectedCardForDetail] = useState(null);
 
   // Hitung kartu yang ada di papan stage saat ini
   const boardCardCounts = {};
@@ -24,43 +26,49 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
       ? baseCards
       : baseCards.filter((card) => card.type === activeFilter);
 
+  const handleCardClick = (card) => {
+    soundManager.playClickSFX();
+    setSelectedCardForDetail(card);
+  };
+
   return (
     <div className="modal-overlay">
       <div className="catalog-modal-content glass-panel" style={{ position: 'relative' }}>
         <button className="modal-close-icon-btn" onClick={onClose} title="Tutup Katalog Kartu">
           ✕
         </button>
+
         {/* Header Modal */}
         {isDashboard || showAll15CardsInGame ? (
           <>
             <h2 className="catalog-title">🂠 KATALOG 15 KARTU GAME</h2>
             <p className="app-subtitle">
               {isDashboard
-                ? 'Kompendium Koleksi Statistik, Efek, & Gambar 3D Render 15 Kartu Cyberfantasy:'
-                : 'Menampilkan seluruh 15 jenis kartu kompendium katalog dalam game:'}
+                ? 'Kompendium Koleksi Statistik, Efek, & Gambar 3D Render 15 Kartu Cyberfantasy (Klik kartu untuk baca Kisah Lore):'
+                : 'Menampilkan seluruh 15 jenis kartu kompendium katalog (Klik kartu untuk cerita detail):'}
             </p>
           </>
         ) : (
           <>
             <h2 className="catalog-title">🂠 KARTU AKTIF STAGE {stage}</h2>
             <p className="app-subtitle">
-              Menampilkan {baseCards.length} jenis kartu yang sedang ada di papan pertarungan Stage {stage}:
+              Menampilkan {baseCards.length} jenis kartu di papan Stage {stage} (Klik kartu untuk baca Kisah Lore):
             </p>
           </>
         )}
 
-        {/* Tab Navigasi Filter Elemen Kartu */}
+        {/* Tab Filter Kartu */}
         <div className="catalog-tabs">
-          {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF'].map((type) => (
+          {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF'].map((filter) => (
             <button
-              key={type}
-              className={`tab-btn ${activeFilter === type ? 'active' : ''}`}
+              key={filter}
+              className={`tab-btn ${activeFilter === filter ? 'active' : ''}`}
               onClick={() => {
                 soundManager.playClickSFX();
-                setActiveFilter(type);
+                setActiveFilter(filter);
               }}
             >
-              {type}
+              {filter}
             </button>
           ))}
         </div>
@@ -96,6 +104,8 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                   borderColor: card.color || 'rgba(0, 240, 255, 0.5)',
                   boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
                 }}
+                onClick={() => handleCardClick(card)}
+                title="Klik untuk membuka Kisah Lore & Detail Kartu"
               >
                 {!isDashboard && isPresent && (
                   <div className="card-stage-status-badge">
@@ -106,6 +116,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                 <span className="loot-rarity-tag" style={{ color: card.color }}>
                   {card.rarity}
                 </span>
+
                 <div className="catalog-card-icon" style={{ color: card.color }}>
                   {card.img ? (
                     <img
@@ -118,8 +129,14 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                     card.icon
                   )}
                 </div>
+
                 <div className="catalog-card-name">{card.name}</div>
                 <div className="catalog-card-desc">{card.description}</div>
+
+                {/* Lore Hint Badge */}
+                <div className="card-lore-hint-badge">
+                  <span>📜 Kisah Lore</span>
+                </div>
               </div>
             );
           })}
@@ -129,6 +146,14 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
           Tutup Katalog
         </button>
       </div>
+
+      {/* Modal Interactive Lore & Card Story */}
+      {selectedCardForDetail && (
+        <CardDetailModal
+          card={selectedCardForDetail}
+          onClose={() => setSelectedCardForDetail(null)}
+        />
+      )}
     </div>
   );
 };
