@@ -11,6 +11,7 @@ import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
 import { CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
+import { submitScore } from '../../utils/leaderboardService';
 import { soundManager } from '../../utils/soundSystem';
 import './GameBoard.css';
 
@@ -245,7 +246,7 @@ const GameBoard = () => {
     setShowNameModal(false);
   };
 
-  // Catat Skor ke Leaderboard Sesi
+  // Catat Skor ke Leaderboard Lokal (Sesi) & Online (Supabase)
   const recordLeaderboardScore = (finalStage, matches) => {
     const activeDifficultyLabel = AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name || 'Otomatis';
     const newEntry = {
@@ -260,6 +261,9 @@ const GameBoard = () => {
 
     setLeaderboard(updated);
     localStorage.setItem('memory_card_leaderboard', JSON.stringify(updated));
+
+    // Submit ke Online Leaderboard Supabase (fire-and-forget, tidak block gameplay)
+    submitScore(newEntry);
   };
 
   // Handler untuk Buka Modal Validasi Reset Desain UI Custom
@@ -754,10 +758,11 @@ const GameBoard = () => {
         />
       )}
 
-      {/* Modal Leaderboard */}
+      {/* Modal Leaderboard Online + Lokal */}
       {showLeaderboardModal && (
         <LeaderboardModal
           leaderboard={leaderboard}
+          currentPlayerName={playerName}
           onClose={() => { soundManager.playClickSFX(); setShowLeaderboardModal(false); }}
         />
       )}
