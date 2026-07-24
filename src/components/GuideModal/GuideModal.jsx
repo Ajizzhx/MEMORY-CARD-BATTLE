@@ -9,17 +9,17 @@ const GuideModal = ({ onClose }) => {
           ✕
         </button>
         <h2 className="guide-modal-title">📖 BUKU PANDUAN GAME</h2>
-        <p className="app-subtitle">Panduan Lengkap Alur Permainan, Aturan Papan, Pity System, & Musuh AI:</p>
+        <p className="app-subtitle">Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, &amp; Musuh AI:</p>
 
         <div className="guide-modal-body">
           {/* Section 1: Alur & Cara Bermain */}
           <div className="guide-section">
-            <h3 className="guide-heading">⚔️ Alur & Cara Bermain</h3>
+            <h3 className="guide-heading">⚔️ Alur &amp; Cara Bermain</h3>
             <div className="guide-steps-grid">
               <div className="guide-step-card">
                 <div className="step-number">1</div>
                 <div className="step-content">
-                  <strong>Pilih Nama & Mode AI:</strong>
+                  <strong>Pilih Nama &amp; Mode AI:</strong>
                   <p>Ketik nama pemain dan pilih tingkat kecerdasan AI Musuh (Otomatis, Mudah 35%, Sedang 65%, atau Tinggi 88%).</p>
                 </div>
               </div>
@@ -35,16 +35,16 @@ const GuideModal = ({ onClose }) => {
               <div className="guide-step-card">
                 <div className="step-number">3</div>
                 <div className="step-content">
-                  <strong>Giliran Ekstra & Batas Waktu 15 Detik:</strong>
-                  <p>Pemain yang berhasil Match mendapatkan giliran tambahan. Jika Mismatch atau waktu 15 detik habis, giliran berpindah ke lawan.</p>
+                  <strong>Giliran Ekstra &amp; Batas Waktu 15 Detik:</strong>
+                  <p>Pemain yang berhasil mencocokkan kartu mendapatkan giliran tambahan. Jika kartu tidak cocok atau waktu 15 detik habis, giliran berpindah ke lawan.</p>
                 </div>
               </div>
 
               <div className="guide-step-card">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <strong>Loot Hadiah & Roguelike Stage:</strong>
-                  <p>Kalahkan musuh untuk klaim 1 kartu loot baru dari katalog yang belum dimiliki (Strict Non-Duplicate) dan lanjut ke Stage berikutnya!</p>
+                  <strong>Hadiah Kartu &amp; Stage Baru:</strong>
+                  <p>Kalahkan musuh untuk memilih 1 Kartu Hadiah baru yang belum Anda miliki dan lanjut bertualang ke Stage berikutnya!</p>
                 </div>
               </div>
             </div>
@@ -52,34 +52,34 @@ const GuideModal = ({ onClose }) => {
 
           {/* Section 2: Aturan Papan & Arena */}
           <div className="guide-section">
-            <h3 className="guide-heading">🎲 Aturan Papan & Arena Pertarungan</h3>
+            <h3 className="guide-heading">🎲 Aturan Papan &amp; Arena Pertarungan</h3>
             <div className="guide-rules-list">
               <div className="rule-item">
-                <strong>1. Papan Arena 4x4 (16 Kartu / 8 Pasang Unik):</strong>
-                <p>Di setiap stage, sistem mengambil 8 jenis kartu unik (tanpa duplikat jenis) dari Deck Anda dan membentuk 8 pasang (16 kartu tertutup).</p>
+                <strong>1. Papan Arena 4x4 (16 Kartu / 8 Pasang):</strong>
+                <p>Di setiap stage, arena memilih 8 jenis kartu dari koleksi Deck Anda untuk membentuk 8 pasang kartu tertutup (total 16 kartu di papan).</p>
               </div>
               <div className="rule-item">
                 <strong>2. Arena Milik Bersama (Shared Board):</strong>
-                <p>Kartu Loot yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun AI) dialah yang mendapatkan efek dari kartu tersebut!</p>
+                <p>Kartu hadiah yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun Musuh AI) dialah yang memperoleh efek dari kartu tersebut!</p>
               </div>
               <div className="rule-item">
                 <strong>3. Kelengkapan Kartu (15 Kartu Katalog):</strong>
-                <p>Anda memulai dengan 8 kartu starter dan dapat melengkapi semua 15 kartu katalog saat berhasil mencapai Stage 7 Clear.</p>
+                <p>Anda memulai perjalanan dengan 8 kartu awal dan dapat melengkapi seluruh 15 kartu katalog saat berhasil menaklukkan stage demi stage.</p>
               </div>
             </div>
           </div>
 
-          {/* Section 3: Pity System & Bantuan Darurat (Terbatas 2x Usage) */}
+          {/* Section 3: Fitur Pertolongan & Medkit Darurat */}
           <div className="guide-section pity-section">
-            <h3 className="guide-heading">🚑 Pity System &amp; Bantuan Darurat (Terbatas Maksimal 2x per Perjalanan)</h3>
+            <h3 className="guide-heading">🚑 Fitur Pertolongan &amp; Medkit Darurat (Maksimal 2x Pemakaian)</h3>
             <p className="pity-explanation">
-              Jika HP Anda &lt; 50% atau mengalami Mismatch 3x beruntun, <strong>Pity System Aktif!</strong>
+              Jika HP Anda berada di bawah 50% atau mengalami kegagalan cocok 3 kali berturut-turut, <strong>Fitur Pertolongan Aktif!</strong>
               <br />
-              Di layar Loot Stage Clear, terbuka <strong>Opsi Ke-4: 🚑 Bio-Shield Medkit</strong> (+35 HP &amp; +25 Armor instant).
+              Di layar Hadiah Kelulusan Stage, akan terbuka <strong>Opsi Ke-4: 🚑 Bio-Shield Medkit</strong> (+35 HP &amp; +25 Perisai instan).
               <br />
-              <strong>⚠️ Pembatasan Keseimbangan Game:</strong> Pemakaian Medkit Darurat <strong>DIBATASI MAKSIMAL 2 KALI (2x Charges)</strong> sepanjang satu perjalanan (per run). Jika kuota 2x sudah habis, opsi ini tidak akan muncul lagi!
+              <strong>⚠️ Kuota Medkit Darurat:</strong> Penggunaan Medkit Darurat <strong>dibatasi maksimal 2 kali</strong> sepanjang satu perjalanan bertarung. Jika kuota 2 kali sudah habis terpakai, opsi ini tidak akan muncul lagi.
               <br />
-              <em>Dilema Strategi: Memilih Medkit menyelamatkan nyawa Anda &amp; memotong 1 kuota, namun TIDAK mendapat kartu baru (+0 progresi) sehingga kelengkapan 15 kartu katalog akan bergeser ke Stage 8+.</em>
+              <em>Pertimbangan Strategi: Mengambil Medkit akan menyelamatkan HP Anda, namun Anda tidak memperoleh kartu baru sehingga penambahan koleksi kartu katalog Anda berjalan lebih lambat.</em>
             </p>
           </div>
 
@@ -100,7 +100,7 @@ const GuideModal = ({ onClose }) => {
                 <div className="enemy-info">
                   <strong>Stage 2: Cybergolem</strong>
                   <span className="enemy-hp">HP: 90 | Kesulitan: Sedang (Memori 65%)</span>
-                  <p>Robot Golem tangguh dengan pertahanan HP &amp; Block lebih tebal.</p>
+                  <p>Robot Golem tangguh dengan pertahanan HP &amp; Perisai yang lebih tebal.</p>
                 </div>
               </div>
               <div className="enemy-guide-card">
@@ -116,15 +116,15 @@ const GuideModal = ({ onClose }) => {
                 <div className="enemy-info">
                   <strong>Stage 4: Aether Warlord</strong>
                   <span className="enemy-hp">HP: 140 | Kesulitan: Tinggi (Memori 88%)</span>
-                  <p>Panglima perang kosmik dengan HP tebal &amp; daya serang tinggi.</p>
+                  <p>Panglima perang kosmik dengan HP tebal &amp; daya serang yang mematikan.</p>
                 </div>
               </div>
               <div className="enemy-guide-card boss">
                 <span className="enemy-icon">🐉</span>
                 <div className="enemy-info">
-                  <strong>Stage 5+: Abyss Omega (Boss)</strong>
-                  <span className="enemy-hp">HP: 150+ (+30 HP / Stage) | Kesulitan: Bos Akhir</span>
-                  <p>Boss Naga Cyber legendaris dalam pertarungan endless tanpa batas!</p>
+                  <strong>Stage 5+: Abyss Omega (Bos Akhir)</strong>
+                  <span className="enemy-hp">HP: 150+ (Meningkat per Stage) | Kesulitan: Bos Akhir</span>
+                  <p>Naga Cyber legendaris dalam arena pertarungan tanpa akhir!</p>
                 </div>
               </div>
             </div>
