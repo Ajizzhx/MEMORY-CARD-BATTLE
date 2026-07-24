@@ -278,9 +278,18 @@ const GameBoard = () => {
   const resetBoardForStage = (stageNum, deckToUse) => {
     const boardCards = [];
     const activeDeck = deckToUse || playerDeck;
-    
-    // Acak pilihan 8 jenis kartu unik dari Deck Pemain (sehingga jika koleksi Deck > 8, variasi kartu selalu acak & segar)
-    const shuffledDeck = [...activeDeck].sort(() => Math.random() - 0.5);
+
+    // Dapatkan daftar jenis kartu unik (tanpa duplikat ID) dari activeDeck pemain
+    const uniqueCardTypesMap = new Map();
+    activeDeck.forEach((card) => {
+      if (!uniqueCardTypesMap.has(card.id)) {
+        uniqueCardTypesMap.set(card.id, card);
+      }
+    });
+    const uniqueCardTypes = Array.from(uniqueCardTypesMap.values());
+
+    // Acak & ambil tepat 8 jenis kartu unik untuk membentuk 8 pasang kartu (16 kartu di papan)
+    const shuffledDeck = [...uniqueCardTypes].sort(() => Math.random() - 0.5);
     const selectedTypes = shuffledDeck.slice(0, 8);
 
     selectedTypes.forEach((card) => {
