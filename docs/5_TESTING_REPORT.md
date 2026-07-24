@@ -15,8 +15,10 @@ Dokumen ini berisi rangkuman pengujian sistem gameplay, penanganan bug, serta pa
 | 4 | **Pity System** | HP Pemain < 50% dan mengalami 3 Mismatch berturut-turut. | Banner "Pity System Active" muncul, dan persentase drop loot Rare/Epic meningkat +25%. | ✅ PASSED |
 | 5 | **Roguelike Progression** | Mengalahkan musuh (HP Musuh = 0). | Modal Loot muncul membawa 3 pilihan kartu baru. Memilih kartu akan membawa pemain ke Stage berikutnya dengan HP tersisa. | ✅ PASSED |
 | 6 | **Permadeath (Game Over)** | HP Pemain = 0. | Modal Game Over muncul menampilkan stage terakhir dan total match. Pemain bisa mereset ke Stage 1. | ✅ PASSED |
-| 7 | **UI/UX Polish** | Melakukan serangan besar atau mencocokkan kartu. | Layar bergetar (*screen shake*), *floating text* damage muncul, dan efek *shimmer* pada kartu langka aktif. | ✅ PASSED |
-| 8 | **Build Test** | Menjalankan perintah `npm run build`. | Kode terkompilasi bersih tanpa *syntax error* atau *broken import*. | ✅ PASSED |
+| 7 | **Turn Timer Persistence** | Menguji refresh browser saat hitungan mundur timer berjalan. | Sisa detik timer (misal: 6s) tersimpan di `localStorage` dan tidak ter-reset ke 15s saat halaman dimuat ulang. | ✅ PASSED |
+| 8 | **Board Auto-Reshuffle** | Seluruh 16 kartu di papan terbuka namun Pemain & Musuh masih hidup. | Sistem secara otomatis mengocok 16 kartu tertutup baru tanpa mengalami macet/deadlock. | ✅ PASSED |
+| 9 | **UI/UX Polish** | Melakukan serangan besar atau mencocokkan kartu. | Layar bergetar (*screen shake*), *floating text* damage muncul, dan efek *shimmer* pada kartu langka aktif. | ✅ PASSED |
+| 10 | **Build Test** | Menjalankan perintah `npm run build`. | Kode terkompilasi bersih tanpa *syntax error* atau *broken import*. | ✅ PASSED |
 
 ---
 
@@ -39,17 +41,12 @@ Terminal akan menampilkan alamat URL lokal (biasanya `http://localhost:5173`). B
 
 ---
 
-## 3. Skenario Uji Coba yang Direkomendasikan
-Saat memainkan game, cobalah skenario berikut untuk merasakan seluruh mekaniknya:
+## 3. Skenario Uji Coba Penanganan Bug
 
-1. **Uji Coba Pertarungan Dasar (Stage 1):**
-   - Cari pasangan kartu **Cyber Dagger** (Pedang) -> Perhatikan HP musuh berkurang dan teks `-8 HP` melayang.
-   - Cari pasangan kartu **Bio Nectar** (Ramuan) -> Perhatikan HP Anda bertambah dan teks `+10 HP` berwarna hijau melayang.
-2. **Uji Coba AI Turn:**
-   - Sengaja buka 2 kartu yang berbeda -> Perhatikan giliran berpindah ke `Giliran Musuh`.
-   - Perhatikan AI memilih 2 kartu untuk menyerang Anda.
-3. **Uji Coba Pity System:**
-   - Jika HP Anda di bawah 50% dan Anda salah tebak 3 kali, perhatikan banner merah keemasan *Pity System Active* yang memberi dorongan bantuan.
-4. **Uji Coba Progression & Loot:**
-   - Habiskan HP musuh di Stage 1 -> Modal **STAGE CLEARED** akan muncul.
-   - Pilih 1 dari 3 kartu hadiah -> Perhatikan Anda berpindah ke **Stage 2** melawan musuh baru (*Cybergolem*) dengan sisa HP Anda yang terbawa.
+1. **Uji Coba Persistence Timer & Turn (Page Refresh Test):**
+   - Saat giliran Anda dan timer berada di angka (misal `7s`), lakukan refresh halaman (F5).
+   - Perhatikan bahwa giliran tetap `Giliran Anda` dan timer melanjutkan hitungan mundur dari `7s` (tidak ter-reset ke 15s).
+
+2. **Uji Coba Auto-Reshuffle Papan Habis (Deadlock Safety Test):**
+   - Buka seluruh pasangan kartu di Stage 2 hingga 16 kartu terbuka semua saat musuh masih memiliki HP.
+   - Perhatikan teks `🔄 Ronde Baru! Papan Direset` muncul dan 16 kartu tertutup baru dikocok otomatis tanpa macet.

@@ -103,9 +103,12 @@ const GameBoard = () => {
             setTotalMatchesMade(parsed.totalMatchesMade || 0);
             setMismatchStreak(parsed.mismatchStreak || 0);
 
-            // Restore exact turn state
+            // Restore exact turn state & turn timer countdown
             if (parsed.currentTurn) {
               setCurrentTurn(parsed.currentTurn);
+            }
+            if (typeof parsed.turnTimer === 'number' && parsed.turnTimer > 0) {
+              setTurnTimer(parsed.turnTimer);
             }
 
             // Restore exact cards layout and matched card ids
@@ -148,11 +151,12 @@ const GameBoard = () => {
         matchedCardIds,
         totalMatchesMade,
         currentTurn,
-        mismatchStreak
+        mismatchStreak,
+        turnTimer
       };
       localStorage.setItem('memory_game_saved_state', JSON.stringify(progress));
     }
-  }, [stage, player, enemy, playerDeck, cards, matchedCardIds, totalMatchesMade, currentTurn, mismatchStreak, playerName]);
+  }, [stage, player, enemy, playerDeck, cards, matchedCardIds, totalMatchesMade, currentTurn, mismatchStreak, turnTimer, playerName]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
@@ -168,7 +172,7 @@ const GameBoard = () => {
           return prev - 1;
         });
       }, 1000);
-    } else {
+    } else if (currentTurn === 'ENEMY') {
       setTurnTimer(TURN_TIME_LIMIT);
     }
     return () => clearInterval(interval);
