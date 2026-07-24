@@ -802,7 +802,13 @@ const GameBoard = () => {
         <LeaderboardModal
           leaderboard={leaderboard}
           currentPlayerName={playerName}
-          onClose={() => { soundManager.playClickSFX(); setShowLeaderboardModal(false); }}
+          onClose={() => {
+            soundManager.playClickSFX();
+            setShowLeaderboardModal(false);
+            if (player.hp <= 0 || enemy.hp <= 0) {
+              setShowGameOverModal(true);
+            }
+          }}
         />
       )}
 
@@ -852,6 +858,7 @@ const GameBoard = () => {
           onRestartJourney={startNewJourney}
           onOpenLeaderboard={() => {
             soundManager.playClickSFX();
+            setShowGameOverModal(false);
             setShowLeaderboardModal(true);
           }}
         />
