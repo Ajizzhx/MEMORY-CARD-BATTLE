@@ -745,9 +745,6 @@ const GameBoard = () => {
           <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX">
             {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
           </button>
-          <button className="nav-icon-btn lang-btn" onClick={handleToggleLang} title="Ganti Bahasa / Switch Language">
-            {t('langToggle', currentLang)}
-          </button>
           <button
             className="nav-icon-btn"
             onClick={() => {

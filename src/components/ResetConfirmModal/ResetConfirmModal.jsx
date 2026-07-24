@@ -10,17 +10,20 @@ const ResetConfirmModal = ({ onConfirm, onCancel, currentLang = 'ID' }) => {
           ✕
         </button>
 
-        <h2 className="reset-confirm-title">{t('resetTitle', currentLang)}</h2>
+        <div className="reset-modal-header">
+          <span className="reset-icon-warning">⚠️</span>
+          <h3>{t('resetTitle', currentLang)}</h3>
+        </div>
 
-        <p className="reset-confirm-body">
+        <p className="reset-modal-text">
           {t('resetBody', currentLang)}
         </p>
 
-        <div className="reset-confirm-actions">
-          <button className="reset-action-btn cancel" onClick={onCancel}>
+        <div className="reset-modal-actions">
+          <button className="reset-btn-cancel" onClick={onCancel}>
             {t('resetCancelBtn', currentLang)}
           </button>
-          <button className="reset-action-btn confirm" onClick={onConfirm}>
+          <button className="reset-btn-confirm" onClick={onConfirm}>
             {t('resetConfirmBtn', currentLang)}
           </button>
         </div>

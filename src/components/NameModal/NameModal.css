@@ -16,29 +16,56 @@
   animation: modalPopIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.dash-lang-toggle-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  background: rgba(0, 240, 255, 0.15);
-  border: 1px solid rgba(0, 240, 255, 0.5);
-  color: var(--color-primary);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-family: var(--font-heading);
-  font-size: 0.76rem;
-  font-weight: 900;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  z-index: 10;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+/* Dedicated Language Selector Row */
+.dash-lang-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed rgba(0, 240, 255, 0.2);
+  margin-bottom: 2px;
 }
 
-.dash-lang-toggle-btn:hover {
+.lang-bar-label {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.lang-bar-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.lang-pill-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.lang-pill-btn:hover {
+  color: var(--color-primary);
+}
+
+.lang-pill-btn.active {
   background: var(--color-primary);
   color: #000;
-  box-shadow: 0 0 18px rgba(0, 240, 255, 0.8);
-  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
 }
 
 @keyframes modalPopIn {

@@ -29,20 +29,38 @@ const NameModal = ({
 
   return (
     <div className="modal-overlay">
-      <div className="name-modal-content glass-panel" style={{ position: 'relative' }}>
-        {/* Language Switcher Button Top Right */}
+      <div className="name-modal-content glass-panel">
+        {/* Dedicated Language Selector Row (No Absolute Positioning Overlap) */}
         {onToggleLang && (
-          <button
-            type="button"
-            className="dash-lang-toggle-btn"
-            onClick={() => {
-              soundManager.playClickSFX();
-              onToggleLang();
-            }}
-            title="Ganti Bahasa / Change Language"
-          >
-            {currentLang === 'ID' ? '🌐 ID' : '🌐 EN'}
-          </button>
+          <div className="dash-lang-bar">
+            <span className="lang-bar-label">🌐 Language / Bahasa:</span>
+            <div className="lang-bar-toggle-group">
+              <button
+                type="button"
+                className={`lang-pill-btn ${currentLang === 'ID' ? 'active' : ''}`}
+                onClick={() => {
+                  if (currentLang !== 'ID') {
+                    soundManager.playClickSFX();
+                    onToggleLang('ID');
+                  }
+                }}
+              >
+                🇮🇩 ID
+              </button>
+              <button
+                type="button"
+                className={`lang-pill-btn ${currentLang === 'EN' ? 'active' : ''}`}
+                onClick={() => {
+                  if (currentLang !== 'EN') {
+                    soundManager.playClickSFX();
+                    onToggleLang('EN');
+                  }
+                }}
+              >
+                🇬🇧 EN
+              </button>
+            </div>
+          </div>
         )}
 
         <h2 className="name-modal-title">{t('dashTitle', currentLang)}</h2>
