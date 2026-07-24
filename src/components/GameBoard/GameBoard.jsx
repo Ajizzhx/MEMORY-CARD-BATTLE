@@ -114,8 +114,12 @@ const GameBoard = () => {
                 ...c,
                 img: c.img || CARD_DATABASE.find((dbCard) => dbCard.id === (c.pairId || c.id))?.img
               }));
-              setCards(enrichedCards);
-              setMatchedCardIds(parsed.matchedCardIds || []);
+              if ((parsed.matchedCardIds || []).length * 2 >= enrichedCards.length) {
+                resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
+              } else {
+                setCards(enrichedCards);
+                setMatchedCardIds(parsed.matchedCardIds || []);
+              }
             } else {
               resetBoardForStage(parsed.stage, parsed.playerDeck || CARD_DATABASE.slice(0, 8));
             }
@@ -169,6 +173,26 @@ const GameBoard = () => {
     }
     return () => clearInterval(interval);
   }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal]);
+
+  // Auto-Reshuffle Safety Net Effect: jika seluruh kartu di papan telah terbuka/cocok namun Pemain & Musuh masih hidup
+  useEffect(() => {
+    if (
+      cards.length > 0 &&
+      matchedCardIds.length * 2 >= cards.length &&
+      player.hp > 0 &&
+      enemy.hp > 0 &&
+      !showLootModal &&
+      !showGameOverModal &&
+      !showNameModal
+    ) {
+      const timer = setTimeout(() => {
+        spawnFloatingText('🔄 Ronde Baru! Papan Direset', 'match');
+        setStatusMessage('🔄 Seluruh kartu cocok! Mengocok ulang papan pertarungan...');
+        resetBoardForStage(stage, playerDeck);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [matchedCardIds, cards.length, player.hp, enemy.hp, stage, playerDeck, showLootModal, showGameOverModal, showNameModal]);
 
   // Waktu Berpikir Habis Handler
   const handleTurnTimeout = () => {
@@ -304,6 +328,7 @@ const GameBoard = () => {
     setCards(boardCards);
     setFlippedCards([]);
     setMatchedCardIds([]);
+    setTemporaryRevealed([]);
     setAiMemory({});
     setIsEmpJammerActive(false);
     setIsProcessing(false);
