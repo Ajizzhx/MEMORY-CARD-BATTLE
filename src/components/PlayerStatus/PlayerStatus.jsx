@@ -24,7 +24,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
       <div className="player-status-entities">
         {/* Player Entity */}
         <div className={`entity-card player ${currentTurn === 'PLAYER' ? 'active-turn' : ''}`}>
-          <div className="entity-avatar player-avatar">🧙‍♂️</div>
+          <div className="entity-avatar player-avatar">{player.avatar || '🥷'}</div>
           <div className="entity-info">
             <div className="entity-header">
               <span className="entity-name" title={player.name}>{player.name}</span>
