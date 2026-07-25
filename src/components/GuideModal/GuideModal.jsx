@@ -93,7 +93,7 @@ const GuideModal = ({ onClose, currentLang = 'ID' }) => {
             <div className="enemy-guide-grid">
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
-                  <img src="/assets/avatars/avatar_scout.png" alt="Cyber Scout" className="enemy-guide-img" />
+                  <img src="./assets/avatars/avatar_scout.png" alt="Cyber Scout" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 1: Cyber Scout</strong>
@@ -103,7 +103,7 @@ const GuideModal = ({ onClose, currentLang = 'ID' }) => {
               </div>
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
-                  <img src="/assets/avatars/avatar_golem.png" alt="Cybergolem" className="enemy-guide-img" />
+                  <img src="./assets/avatars/avatar_golem.png" alt="Cybergolem" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 2: Cybergolem</strong>
@@ -113,7 +113,7 @@ const GuideModal = ({ onClose, currentLang = 'ID' }) => {
               </div>
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
-                  <img src="/assets/avatars/avatar_spectre.png" alt="Neon Spectre" className="enemy-guide-img" />
+                  <img src="./assets/avatars/avatar_spectre.png" alt="Neon Spectre" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 3: Neon Spectre</strong>
@@ -123,7 +123,7 @@ const GuideModal = ({ onClose, currentLang = 'ID' }) => {
               </div>
               <div className="enemy-guide-card">
                 <div className="enemy-avatar-wrapper">
-                  <img src="/assets/avatars/avatar_warlord.png" alt="Aether Warlord" className="enemy-guide-img" />
+                  <img src="./assets/avatars/avatar_warlord.png" alt="Aether Warlord" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 4: Aether Warlord</strong>
@@ -133,7 +133,7 @@ const GuideModal = ({ onClose, currentLang = 'ID' }) => {
               </div>
               <div className="enemy-guide-card boss">
                 <div className="enemy-avatar-wrapper boss">
-                  <img src="/assets/avatars/avatar_dragon.png" alt="Abyss Omega" className="enemy-guide-img" />
+                  <img src="./assets/avatars/avatar_dragon.png" alt="Abyss Omega" className="enemy-guide-img" />
                 </div>
                 <div className="enemy-info">
                   <strong>Stage 5+: Abyss Omega ({currentLang === 'ID' ? 'Bos Akhir' : 'Final Boss'})</strong>

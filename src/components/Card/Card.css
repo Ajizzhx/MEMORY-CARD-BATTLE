@@ -46,7 +46,7 @@
 
 /* Card Back (Simple Dark Fantasy — Elegant & Dark) */
 .card-back {
-  background: url('/assets/card-back.png') center/cover no-repeat;
+  background: url('./assets/card-back.png') center/cover no-repeat;
   border: 1.5px solid rgba(0, 240, 255, 0.4);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.5);
   image-rendering: -webkit-optimize-contrast;
@@ -154,7 +154,7 @@
 /* Card Front */
 .card-front {
   transform: rotateY(180deg);
-  background: linear-gradient(145deg, rgba(20, 20, 38, 0.92), rgba(10, 10, 22, 0.95)), url('/assets/card-front-bg.png') center/cover no-repeat;
+  background: linear-gradient(145deg, rgba(20, 20, 38, 0.92), rgba(10, 10, 22, 0.95)), url('./assets/card-front-bg.png') center/cover no-repeat;
   border: 1.5px solid rgba(255, 255, 255, 0.2);
   image-rendering: -webkit-optimize-contrast;
 }

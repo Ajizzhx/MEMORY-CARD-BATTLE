@@ -99,13 +99,13 @@ export const generateLootChoices = (playerDeck = [], isPityActive = false, canUs
  */
 export const getStageEnemyConfig = (stageLevel) => {
   if (stageLevel === 1) {
-    return { name: 'Cyber Scout', hp: 70, maxHp: 70, difficulty: 'EASY', avatar: '🤖', avatarImg: '/assets/avatars/avatar_scout.png' };
+    return { name: 'Cyber Scout', hp: 70, maxHp: 70, difficulty: 'EASY', avatar: '🤖', avatarImg: './assets/avatars/avatar_scout.png' };
   } else if (stageLevel === 2) {
-    return { name: 'Cybergolem', hp: 90, maxHp: 90, difficulty: 'MEDIUM', avatar: '🦾', avatarImg: '/assets/avatars/avatar_golem.png' };
+    return { name: 'Cybergolem', hp: 90, maxHp: 90, difficulty: 'MEDIUM', avatar: '🦾', avatarImg: './assets/avatars/avatar_golem.png' };
   } else if (stageLevel === 3) {
-    return { name: 'Neon Spectre', hp: 110, maxHp: 110, difficulty: 'MEDIUM', avatar: '👻', avatarImg: '/assets/avatars/avatar_spectre.png' };
+    return { name: 'Neon Spectre', hp: 110, maxHp: 110, difficulty: 'MEDIUM', avatar: '👻', avatarImg: './assets/avatars/avatar_spectre.png' };
   } else if (stageLevel === 4) {
-    return { name: 'Aether Warlord', hp: 140, maxHp: 140, difficulty: 'HARD', avatar: '👹', avatarImg: '/assets/avatars/avatar_warlord.png' };
+    return { name: 'Aether Warlord', hp: 140, maxHp: 140, difficulty: 'HARD', avatar: '👹', avatarImg: './assets/avatars/avatar_warlord.png' };
   } else {
     // Stage 5+ Boss Fight
     return {
@@ -114,7 +114,7 @@ export const getStageEnemyConfig = (stageLevel) => {
       maxHp: 150 + (stageLevel - 5) * 30,
       difficulty: 'HARD',
       avatar: '🐉',
-      avatarImg: '/assets/avatars/avatar_dragon.png'
+      avatarImg: './assets/avatars/avatar_dragon.png'
     };
   }
 };

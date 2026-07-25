@@ -26,7 +26,7 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
         {/* Player Entity */}
         <div className={`entity-card player ${currentTurn === 'PLAYER' ? 'active-turn' : ''}`}>
           <div className="entity-avatar player-avatar">
-            <img src="/assets/avatars/avatar_player.png" alt={player.name} className="avatar-img" />
+            <img src="./assets/avatars/avatar_player.png" alt={player.name} className="avatar-img" />
           </div>
           <div className="entity-info">
             <div className="entity-header">
