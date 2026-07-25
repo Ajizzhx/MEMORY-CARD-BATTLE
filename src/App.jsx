@@ -15,7 +15,19 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Memory Card Battle &copy; 2026 | Dibuat oleh <strong>Ajizzhx</strong> untuk Percobaan Proyek</p>
+        <p>
+          Memory Card Battle &copy; 2026 | Dibuat oleh{' '}
+          <a
+            href="https://github.com/Ajizzhx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-author-link"
+            title="Kunjungi Profil GitHub Ajizzhx"
+          >
+            Ajizzhx
+          </a>{' '}
+          untuk Percobaan Proyek
+        </p>
       </footer>
     </div>
   );

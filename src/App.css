@@ -63,8 +63,21 @@
   text-align: center;
 }
 
-.app-footer strong {
+.app-footer strong,
+.github-author-link {
   color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.github-author-link:hover {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(0, 240, 255, 0.5);
+  transform: translateY(-1px) scale(1.05);
+  text-decoration: underline;
 }
 
 @media (max-width: 600px) {
