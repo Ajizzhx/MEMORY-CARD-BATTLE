@@ -1,12 +1,10 @@
 <div align="center">
 
 <!-- Animated Header Banner (Cyber Wave) -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00f0ff,50:7000ff,100:ff0088&height=220&section=header&text=Hi%20There,%20I'm%20Ajizzhx%20👋&fontSize=40&fontAlignY=36&animation=fadeIn&fontColor=ffffff" width="100%" alt="Header Banner" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00f0ff,50:7000ff,100:ff0088&height=220&section=header&text=Hi%20There,%20I'm%20Ajizzhx&fontSize=40&fontAlignY=36&animation=fadeIn&fontColor=ffffff" width="100%" alt="Header Banner" />
 
 <!-- Animated Typing SVG Subtitle -->
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=780&lines=Tech+Tinkerer+%26+Full-Stack+Game+Dev+🚀;Audiophile+%26+Hi-Res+Sound+Enthusiast+🎧;SMC+Financial+Analyst+%26+PineScript+Coder+📈;Creator+of+Memory+Card+Battle+🔮" alt="Typing Subtitle" />
-</a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=780&lines=Tech+Tinkerer+%26+Full-Stack+Game+Dev;Audiophile+%26+Hi-Res+Sound+Enthusiast;SMC+Financial+Analyst+%26+PineScript+Coder;Creator+of+Memory+Card+Battle" alt="Typing Subtitle" />
 
 <br><br>
 

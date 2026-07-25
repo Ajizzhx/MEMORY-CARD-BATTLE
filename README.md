@@ -4,9 +4,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00f0ff,50:7000ff,100:ff0088&height=200&section=header&text=MEMORY%20CARD%20BATTLE&fontSize=42&fontAlignY=38&animation=fadeIn&fontColor=ffffff" width="100%" alt="Memory Card Battle Header Banner" />
 
 <!-- Animated Typing Subtitle -->
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=750&lines=1v1+Cyberfantasy+RPG+%26+Memory+Matching+Battle;15+Unique+3D+Rendered+Cyber+Cards+%26+Rich+Lore;Adaptive+AI+Memory+Engine+(Auto%2C+Easy%2C+Medium%2C+Hard);Emergency+Bio-Shield+Pity+Medkit+System" alt="Typing Subtitle" />
-</a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=750&lines=1v1+Cyberfantasy+RPG+%26+Memory+Matching+Battle;15+Unique+3D+Rendered+Cyber+Cards+%26+Rich+Lore;Adaptive+AI+Memory+Engine+(Auto%2C+Easy%2C+Medium%2C+Hard);Emergency+Bio-Shield+Pity+Medkit+System" alt="Typing Subtitle" />
 
 <br><br>
 
