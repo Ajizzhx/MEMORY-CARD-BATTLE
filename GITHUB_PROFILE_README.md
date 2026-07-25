@@ -1,16 +1,17 @@
 <div align="center">
 
-<!-- Animated Header Banner (Capsule Render Waving Wave) -->
+<!-- Animated Header Banner (Capsule Wave) -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00f0ff,50:7000ff,100:ff0088&height=220&section=header&text=Hi%20There,%20I'm%20Ajizzhx%20👋&fontSize=40&fontAlignY=36&animation=fadeIn&fontColor=ffffff" width="100%" alt="Header Banner" />
 
-<!-- Animated Typing SVG Subtitle (URL Encoded & Tested) -->
-<a href="https://github.com/Ajizzhx">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=750&lines=Tech+Tinkerer+%26+Full-Stack+Game+Dev+🚀;Audiophile+%26+Hi-Res+Sound+Enthusiast+🎧;SMC+Financial+Analyst+%26+PineScript+Coder+📈;Creator+of+Memory+Card+Battle+🔮" alt="Typing Subtitle" />
-</a>
+<!-- Persona Badges Row -->
+[![Tech Tinkerer](https://img.shields.io/badge/💻_Tech_Tinkerer-Idealis-00f0ff?style=for-the-badge)](https://github.com/Ajizzhx)
+[![Audiophile](https://img.shields.io/badge/🎧_Audiophile-Bit--Perfect-ffaa00?style=for-the-badge)](https://github.com/Ajizzhx)
+[![SMC Trader](https://img.shields.io/badge/📈_SMC_Trader-XAU%2FUSD-ff0088?style=for-the-badge)](https://github.com/Ajizzhx)
+[![Game Dev](https://img.shields.io/badge/🔮_Game_Dev-Cyberfantasy-7000ff?style=for-the-badge)](https://memory-card-battle.vercel.app/)
 
 <br><br>
 
-<!-- Badges Row -->
+<!-- Action Buttons -->
 [![Live Demo](https://img.shields.io/badge/PLAY_GAME-MEMORY_CARD_BATTLE-00f0ff?style=for-the-badge&logo=vercel&logoColor=white)](https://memory-card-battle.vercel.app/)
 [![Saweria](https://img.shields.io/badge/🇮🇩_Saweria-Support_Dev-ffaa00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://saweria.co/Ajizxh)
 [![Ko-fi](https://img.shields.io/badge/☕_Ko--fi-Support_Dev-ff5f5f?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/ajizxh)
@@ -81,9 +82,9 @@
 
 <br>
 
-<!-- Skill Icons -->
+<!-- Animated Tech Icons -->
 <a href="https://skillicons.dev">
-  <img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,flutter,dart,supabase,git,github,vercel,vscode&theme=dark" alt="Tech Stack Icons" />
+  <img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,flutter,dart,supabase,git,github,vercel,vscode&theme=dark" alt="Animated Tech Stack Icons" />
 </a>
 
 </div>
@@ -95,12 +96,7 @@
 <div align="center">
 
 <img src="https://github-readme-stats.vercel.app/api?username=Ajizzhx&show_icons=true&theme=cyberpunk&hide_border=true&bg_color=0d1117&title_color=00f0ff&icon_color=00f0ff&text_color=c9d1d9" height="175" alt="GitHub Stats" />
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ajizzhx&layout=compact&theme=cyberpunk&hide_border=true&bg_color=0d1117&title_color=00f0ff&text_color=c9d1d9" height="175" alt="Top Languages" />
-
-<br><br>
-
-<!-- Animated Streak Stats -->
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=Ajizzhx&theme=cyberpunk&hide_border=true&background=0d1117&ring=00f0ff&fire=ff0088&currStreakLabel=00f0ff" height="165" alt="GitHub Streak" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ajizzhx&layout=compact&theme=cyberpunk&hide_border=true&bg_color=00000000&title_color=00f0ff&text_color=c9d1d9" height="175" alt="Top Languages" />
 
 </div>
 
