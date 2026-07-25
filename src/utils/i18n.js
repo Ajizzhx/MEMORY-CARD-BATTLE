@@ -44,9 +44,9 @@ export const TRANSLATIONS = {
     startBattleBtn: '⚔️ Mulai Pertarungan',
 
     // ── Support / Donation ──
-    supportTitle: '☕ Dukung Pengembang',
-    supportSaweria: '🇮🇩 Saweria (QRIS/E-Wallet)',
-    supportKofi: '☕ Ko-fi (PayPal)',
+    supportTitle: '☕ Dukung Developer',
+    supportSaweria: '💛 Saweria',
+    supportKofi: '☕ Ko-fi',
     supportFooterMsg: 'Dukungan Anda membantu kelangsungan & update game ini!',
 
     // ── GuideModal ──
@@ -271,8 +271,8 @@ export const TRANSLATIONS = {
 
     // ── Support / Donation ──
     supportTitle: '☕ Support Developer',
-    supportSaweria: '🇮🇩 Saweria (QRIS/E-Wallet)',
-    supportKofi: '☕ Ko-fi (PayPal)',
+    supportSaweria: '💛 Saweria',
+    supportKofi: '☕ Ko-fi',
     supportFooterMsg: 'Your support helps fund future game updates!',
 
     // ── GuideModal ──

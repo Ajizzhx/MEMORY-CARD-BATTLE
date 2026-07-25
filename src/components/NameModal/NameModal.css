@@ -308,40 +308,41 @@
   background: linear-gradient(135deg, #33f3ff, #1a9cff);
 }
 
-/* Subtle Natural Support Footer */
+/* Ultra-Clean & Sleek Support Footer */
 .dash-support-footer {
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .support-label {
   font-family: var(--font-body);
-  font-size: 0.73rem;
+  font-size: 0.76rem;
   color: var(--color-text-muted);
   font-weight: 600;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .support-links-group {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
 }
 
 .support-link-btn {
   text-decoration: none;
   font-family: var(--font-heading);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 800;
-  padding: 5px 12px;
-  border-radius: 16px;
+  padding: 4px 10px;
+  border-radius: 14px;
   transition: all 0.25s ease;
   display: inline-flex;
   align-items: center;
@@ -349,25 +350,25 @@
 }
 
 .support-link-btn.saweria {
-  background: rgba(255, 170, 0, 0.12);
-  border: 1px solid rgba(255, 170, 0, 0.35);
+  background: rgba(255, 170, 0, 0.1);
+  border: 1px solid rgba(255, 170, 0, 0.3);
   color: #ffaa00;
 }
 
 .support-link-btn.saweria:hover {
-  background: rgba(255, 170, 0, 0.28);
-  box-shadow: 0 0 12px rgba(255, 170, 0, 0.4);
+  background: rgba(255, 170, 0, 0.25);
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
   transform: translateY(-1px);
 }
 
 .support-link-btn.kofi {
-  background: rgba(255, 95, 95, 0.12);
-  border: 1px solid rgba(255, 95, 95, 0.35);
+  background: rgba(255, 95, 95, 0.1);
+  border: 1px solid rgba(255, 95, 95, 0.3);
   color: #ff5f5f;
 }
 
 .support-link-btn.kofi:hover {
-  background: rgba(255, 95, 95, 0.28);
-  box-shadow: 0 0 12px rgba(255, 95, 95, 0.4);
+  background: rgba(255, 95, 95, 0.25);
+  box-shadow: 0 0 10px rgba(255, 95, 95, 0.4);
   transform: translateY(-1px);
 }
