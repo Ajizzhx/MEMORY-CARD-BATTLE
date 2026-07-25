@@ -43,6 +43,12 @@ export const TRANSLATIONS = {
     dashTipsBox: '💡 Tips Arena: Kumpulkan 15 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
     startBattleBtn: '⚔️ Mulai Pertarungan',
 
+    // ── Support / Donation ──
+    supportTitle: '☕ Dukung Pengembang',
+    supportSaweria: '🇮🇩 Saweria (QRIS/E-Wallet)',
+    supportKofi: '☕ Ko-fi (PayPal)',
+    supportFooterMsg: 'Dukungan Anda membantu kelangsungan & update game ini!',
+
     // ── GuideModal ──
     guideTitle: '📖 BUKU PANDUAN GAME',
     guideSub: 'Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, & Musuh AI:',
@@ -262,6 +268,12 @@ export const TRANSLATIONS = {
     dashTopscoreBtn: '🏆 Top Scores',
     dashTipsBox: '💡 Arena Tip: Collect 15 unique cards through Stage Clear Loot and activate Bio-Shield Medkit when HP is critical!',
     startBattleBtn: '⚔️ Start Battle',
+
+    // ── Support / Donation ──
+    supportTitle: '☕ Support Developer',
+    supportSaweria: '🇮🇩 Saweria (QRIS/E-Wallet)',
+    supportKofi: '☕ Ko-fi (PayPal)',
+    supportFooterMsg: 'Your support helps fund future game updates!',
 
     // ── GuideModal ──
     guideTitle: '📖 GAME GUIDEBOOK',

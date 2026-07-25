@@ -78,6 +78,32 @@ const GameOverModal = ({
             </button>
           )}
         </div>
+
+        {/* Subtle Support Developer Link */}
+        <div className="gameover-support-row">
+          <span className="support-subtle-text">{t('supportFooterMsg', currentLang)}</span>
+          <div className="support-subtle-links">
+            <a
+              href="https://saweria.co/Ajizxh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="subtle-link saweria"
+              onClick={() => soundManager.playClickSFX()}
+            >
+              {t('supportSaweria', currentLang)}
+            </a>
+            <span className="link-divider">•</span>
+            <a
+              href="https://ko-fi.com/ajizxh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="subtle-link kofi"
+              onClick={() => soundManager.playClickSFX()}
+            >
+              {t('supportKofi', currentLang)}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

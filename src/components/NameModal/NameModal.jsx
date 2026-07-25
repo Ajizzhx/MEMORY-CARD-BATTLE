@@ -30,7 +30,7 @@ const NameModal = ({
   return (
     <div className="modal-overlay">
       <div className="name-modal-content glass-panel">
-        {/* Dedicated Language Selector Row (No Absolute Positioning Overlap) */}
+        {/* Dedicated Language Selector Row */}
         {onToggleLang && (
           <div className="dash-lang-bar">
             <span className="lang-bar-label">🌐 Language / Bahasa:</span>
@@ -174,6 +174,31 @@ const NameModal = ({
             {t('startBattleBtn', currentLang)}
           </button>
         </form>
+
+        {/* Natural Support Developer Footer */}
+        <div className="dash-support-footer">
+          <span className="support-label">{t('supportTitle', currentLang)}:</span>
+          <div className="support-links-group">
+            <a
+              href="https://saweria.co/Ajizxh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="support-link-btn saweria"
+              onClick={() => soundManager.playClickSFX()}
+            >
+              {t('supportSaweria', currentLang)}
+            </a>
+            <a
+              href="https://ko-fi.com/ajizxh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="support-link-btn kofi"
+              onClick={() => soundManager.playClickSFX()}
+            >
+              {t('supportKofi', currentLang)}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
