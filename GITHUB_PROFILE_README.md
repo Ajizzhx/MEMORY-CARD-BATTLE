@@ -5,7 +5,7 @@
 
 <!-- Animated Typing Subtitle -->
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2600&pause=900&color=00F0FF&center=true&vCenter=true&width=750&lines=Full-Stack+Web+%26+Game+Developer+🚀;Tech+Tinkerer+%26+Clean+System+Architect+💻;Audiophile+(Kinera+Wyvern+%2B+FiiO+JA11)+🎧;Smart+Money+Concepts+(SMC)+Trader+📈;Creator+of+Memory+Card+Battle+🔮" alt="Typing Subtitle" />
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=780&lines=Tech+Tinkerer+%26+Full-Stack+Game+Dev+🚀;Audiophile+%26+Hi-Res+Sound+Enthusiast+🎧;SMC+Financial+Analyst+%26+PineScript+Coder+📈;Creator+of+Memory+Card+Battle+🔮" alt="Typing Subtitle" />
 </a>
 
 <br><br>
@@ -18,22 +18,28 @@
 <br>
 
 <p align="center">
-  <b>Selamat Datang di Profil Resmi Muhammad 'Aziz Hidayatullah (Ajizzhx)!</b><br>
-  Perpaduan antara <i>Tech Tinkerer</i> idealis, pengembang web/game berestetika <b>Cyberfantasy 3D</b>, analisis finansial berbasis <b>Smart Money Concepts (SMC)</b>, serta penikmat audio presisi.
+  <b>Selamat Datang di Profil GitHub Saya!</b><br>
+  Perpaduan antara <b>Tech Tinkerer Idealis</b>, <b>Game & Web Developer</b>, <b>Audiophile Cerewet</b>, dan <b>SMC Financial Analyst</b>.<br>
+  Suka mengoprek arsitektur sistem clean tanpa bloatware, meracik UI/UX <i>Cyberfantasy</i> modern, serta mengejar audio <i>bit-perfect</i>.
 </p>
 
 </div>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
 
-## ⚡ Faksi Identitas (About Me)
+## 🧩 Identitas & Minat (Identity & Interests)
 
-| Faksi | Fokus & Karakteristik |
+<div align="center">
+
+| Kategori | Deskripsi |
 | :--- | :--- |
-| 💻 **Tech Tinkerer & System Architect** | Idealis performa sistem, meminimalkan *bloatware*, mengoprek arsitektur IoT/AI, serta mengembangkan aplikasi modern dengan **React 19**, **Vite**, & **Flutter**. |
-| 📈 **Spekulator Pasar & SMC Analyst** | Membedah dinamika likuiditas pasar **XAU/USD (Emas)**, Crypto, & Forex menggunakan **Smart Money Concepts (SMC)**, rasio Fibonacci, serta indikator **Pine Script** kustom. |
-| 🎧 **Audiophile & Music Enthusiast** | Menikmati audio *Bit-Perfect* berkalibrasi **AutoEQ** (Rig: *Kinera Wyvern Black Remastered* + *FiiO JA11 DAC*). Penikmat vokal powerhouse **Ado**. |
-| 🎮 **Gaming & Real-World Escapism** | Menjelajahi dunia **Wuthering Waves**, **Valorant**, pertarungan *Undercover*, serta *touring* melintasi rute Bekasi $\rightarrow$ Indramayu. |
+| 💻 **Tech Tinkerer** | Suka oprek server AI lokal, arsitektur IoT, proyek Flutter, React 19, & clean install sistem minimalis |
+| 🎧 **Audiophile** | Penikmat audio *bit-perfect* (Kinera Wyvern Black Remastered + FiiO JA11 DAC + Presisi AutoEQ) |
+| 📈 **Financial Speculator** | Analis pasar global menggunakan *Smart Money Concepts (SMC)*, Fibonacci, XAU/USD, Crypto, & Pine Script kustom |
+| 🎵 **Subkultur & Media** | Pendengar setia vokal **Ado**, penikmat dunia *Wuthering Waves*, *Valorant*, & *Undercover* |
+| 🏍️ **Escaping Life** | Menikmati petualangan touring fisik jalur Bekasi - Indramayu untuk menetralisir penat algoritma layar |
+
+</div>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
 
@@ -41,15 +47,15 @@
 
 <div align="center">
 
-### 🔮 MEMORY CARD BATTLE (Cyberfantasy Edition)
-*1v1 Turn-Based Memory Matching RPG with Dynamic AI & 15 Unique 3D Cards*
+### 🔮 MEMORY CARD BATTLE
+*1v1 Cyberfantasy Memory Matching Card RPG with Dynamic AI & 15 Unique 3D Rendered Cards*
 
 [![Live Demo](https://img.shields.io/badge/PLAY_NOW-LIVE_DEMO-00f0ff?style=for-the-badge&logo=vercel&logoColor=white)](https://memory-card-battle.vercel.app/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ajizzhx/MEMORY-CARD-BATTLE)
 
 <br>
 
-| Fitur Utama | Deskripsi |
+| Feature | Description |
 | :--- | :--- |
 | ⚔️ **1v1 Tactical Combat** | Pertarungan memori turn-based dengan efek *Attack, Armor Piercing, Shield, Heal, Scan, & Debuff* |
 | 🃏 **15 Cyber Cards** | 15 kartu unik lengkap dengan kisah *lore* 50-50 High-Fantasy & Cyberpunk |
@@ -61,23 +67,22 @@
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
 
-## 🛠️ Bahasa, Tools & Hobi (Tech Stack & Interests)
+## 🛠️ Bahasa & Arsenal Teknologi (Tech Arsenal)
 
 <div align="center">
 
-| Kategori | Tools & Teknologi |
+| Kategori | Teknologi |
 | :--- | :--- |
-| **Development** | `React 19`, `Vite 6`, `JavaScript (ES6+)`, `HTML5`, `CSS3 (Glassmorphism)`, `Node.js`, `Flutter` |
-| **Database & Cloud** | `Supabase (PostgreSQL & Realtime)`, `Vercel`, `Git`, `GitHub` |
-| **Trading & Scripting** | `TradingView`, `Pine Script v5`, `Smart Money Concepts (SMC)` |
-| **Audio Gear & Gaming** | `Kinera Wyvern Black`, `FiiO JA11`, `AutoEQ`, `Ado`, `Wuthering Waves`, `Valorant` |
-
-</div>
+| **Languages** | `JavaScript (ES6+)`, `HTML5`, `CSS3`, `Pine Script (TradingView)`, `Dart / Flutter`, `SQL` |
+| **Frontend & UI** | `React 19`, `Vite 6`, `Vanilla CSS (Glassmorphic & HSL Design Tokens)` |
+| **Backend & DB** | `Node.js`, `Supabase (PostgreSQL & Realtime Auth/DB)` |
+| **Audio & Engine** | `HTML5 Web Audio API (Synthesizer Sound Engine)`, `AutoEQ Calibration` |
+| **Tools & OS** | `Git`, `GitHub`, `Vercel`, `VS Code`, `TradingView`, `Windows Clean Build` |
 
 <br>
 
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,supabase,flutter,git,github,vercel,vscode" alt="Tech Stack Icons" />
+<img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,flutter,dart,supabase,git,github,vercel,vscode" alt="Tech Stack Icons" />
+
 </div>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
@@ -87,7 +92,7 @@
 <div align="center">
 
 <img src="https://github-readme-stats.vercel.app/api?username=Ajizzhx&show_icons=true&theme=cyberpunk&hide_border=true&bg_color=0d1117&title_color=00f0ff&icon_color=00f0ff&text_color=c9d1d9" height="175" alt="GitHub Stats" />
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ajizzhx&layout=compact&theme=cyberpunk&hide_border=true&bg_color=0d1117&title_color=00f0ff&text_color=c9d1d9" height="175" alt="Top Languages" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ajizzhx&layout=compact&theme=cyberpunk&hide_border=true&bg_color=00000000&title_color=00f0ff&text_color=c9d1d9" height="175" alt="Top Languages" />
 
 <br><br>
 
@@ -99,7 +104,7 @@
 
 ## 💖 Dukung Pengembang (Support Me)
 
-Jika Anda menyukai karya-karya saya atau ingin mendukung pengembangan game & aplikasi web berikutnya, Anda dapat memberikan apresiasi melalui link berikut:
+Jika Anda menyukai karya-karya saya atau ingin mendukung pengembangan game & aplikasi web berikutnya, Anda dapat memberikan apresiasi donasi melalui link berikut:
 
 <div align="center">
 
