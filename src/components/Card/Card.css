@@ -205,17 +205,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.65rem;
+  font-size: 0.52rem;
   font-weight: bold;
   text-transform: uppercase;
+  padding: 0 2px;
+  height: 14px;
 }
 
 .card-type-badge {
-  padding: 1px 4px;
+  padding: 0px 4px;
   border-radius: 3px;
-  background: rgba(0, 0, 0, 0.6);
-  font-size: 0.6rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid currentColor;
+  font-size: 0.46rem;
+  font-weight: 800;
   white-space: nowrap;
+  letter-spacing: 0.2px;
 }
 
 .card-icon {
@@ -273,16 +278,18 @@
     padding: 3px 2px;
   }
   .card-header {
-    font-size: 0.55rem;
+    font-size: 0.46rem;
     line-height: 1;
+    height: 11px;
   }
   .card-type-badge {
-    font-size: 0.48rem;
-    padding: 1px 2px;
+    font-size: 0.4rem;
+    padding: 0px 2px;
     border-radius: 2px;
+    letter-spacing: 0;
   }
   .card-rarity {
-    font-size: 0.52rem;
+    font-size: 0.44rem;
   }
   .card-icon {
     font-size: 1.2rem;
