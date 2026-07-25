@@ -1,16 +1,16 @@
 <div align="center">
 
-<!-- Animated Header Banner -->
+<!-- Animated Header Banner (Cyber Wave) -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00f0ff,50:7000ff,100:ff0088&height=220&section=header&text=Hi%20There,%20I'm%20Ajizzhx%20👋&fontSize=40&fontAlignY=36&animation=fadeIn&fontColor=ffffff" width="100%" alt="Header Banner" />
 
-<!-- Animated Typing Subtitle -->
+<!-- Animated Typing SVG Subtitle -->
 <a href="https://git.io/typing-svg">
   <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=20&duration=2800&pause=900&color=00F0FF&center=true&vCenter=true&width=780&lines=Tech+Tinkerer+%26+Full-Stack+Game+Dev+🚀;Audiophile+%26+Hi-Res+Sound+Enthusiast+🎧;SMC+Financial+Analyst+%26+PineScript+Coder+📈;Creator+of+Memory+Card+Battle+🔮" alt="Typing Subtitle" />
 </a>
 
 <br><br>
 
-<!-- Badges Row -->
+<!-- Animated Pulsing Badges Row -->
 [![Live Demo](https://img.shields.io/badge/PLAY_GAME-MEMORY_CARD_BATTLE-00f0ff?style=for-the-badge&logo=vercel&logoColor=white)](https://memory-card-battle.vercel.app/)
 [![Saweria](https://img.shields.io/badge/🇮🇩_Saweria-Support_Dev-ffaa00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://saweria.co/Ajizxh)
 [![Ko-fi](https://img.shields.io/badge/☕_Ko--fi-Support_Dev-ff5f5f?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/ajizxh)
@@ -23,6 +23,14 @@
   Suka mengoprek arsitektur sistem clean tanpa bloatware, meracik UI/UX <i>Cyberfantasy</i> modern, serta mengejar audio <i>bit-perfect</i>.
 </p>
 
+</div>
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
+
+## 🏆 GitHub Achievements & Trophies
+
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=Ajizzhx&theme=cyberpunk&column=7&margin_w=10&margin_h=10&no-bg=true" alt="GitHub Trophies" />
 </div>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
@@ -81,22 +89,46 @@
 
 <br>
 
-<img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,flutter,dart,supabase,git,github,vercel,vscode" alt="Tech Stack Icons" />
+<!-- Animated Tech Icons -->
+<a href="https://skillicons.dev">
+  <img src="https://skillicons.dev/icons?i=js,html,css,react,vite,nodejs,flutter,dart,supabase,git,github,vercel,vscode&theme=dark" alt="Animated Tech Stack Icons" />
+</a>
 
 </div>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
 
-## 📊 Statistik GitHub (GitHub Stats & Activity)
+## 📊 Grafik & Statistik Animasi GitHub (Animated Activity & Stats)
 
 <div align="center">
+
+<!-- Animated 3D Contribution Activity Graph -->
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=Ajizzhx&theme=cyberpunk&area=true&hide_border=true&margin_w=10&margin_h=10" width="100%" alt="Animated Contribution Graph" />
+
+<br><br>
 
 <img src="https://github-readme-stats.vercel.app/api?username=Ajizzhx&show_icons=true&theme=cyberpunk&hide_border=true&bg_color=0d1117&title_color=00f0ff&icon_color=00f0ff&text_color=c9d1d9" height="175" alt="GitHub Stats" />
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ajizzhx&layout=compact&theme=cyberpunk&hide_border=true&bg_color=00000000&title_color=00f0ff&text_color=c9d1d9" height="175" alt="Top Languages" />
 
 <br><br>
 
+<!-- Animated Streak Stats -->
 <img src="https://github-readme-streak-stats.herokuapp.com/?user=Ajizzhx&theme=cyberpunk&hide_border=true&background=0d1117&ring=00f0ff&fire=ff0088&currStreakLabel=00f0ff" height="165" alt="GitHub Streak" />
+
+</div>
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Cyber Line Divider">
+
+## 🐍 GitHub Contribution Snake Eating Commits (Animasi Ular Memakan Commit)
+
+<div align="center">
+
+<!-- Animated Contribution Grid Snake -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Ajizzhx/Ajizzhx/output/github-contribution-grid-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ajizzhx/Ajizzhx/output/github-contribution-grid-snake.svg">
+  <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/Ajizzhx/Ajizzhx/output/github-contribution-grid-snake-dark.svg" width="100%">
+</picture>
 
 </div>
 
