@@ -202,7 +202,7 @@
   position: relative;
 }
 
-.card-art-img {
+.loot-card-art .card-art-img {
   width: 68px;
   height: 68px;
   object-fit: cover;
