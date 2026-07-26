@@ -459,6 +459,7 @@ const GameBoard = () => {
       if (nextMatched.length === cards.length / 2) {
         setFlippedCards([]);
         setIsProcessing(false);
+        if (actor === 'PLAYER') setTurnTimer(TURN_TIME_LIMIT);
 
         setTimeout(() => {
           setEnemy((latestEnemy) => {
@@ -477,6 +478,7 @@ const GameBoard = () => {
         setStatusMessage(`✨ Match! ${actorName} berhasil menggunakan efek ${card1.name}!`);
         setFlippedCards([]);
         setIsProcessing(false);
+        if (actor === 'PLAYER') setTurnTimer(TURN_TIME_LIMIT);
         if (actor === 'ENEMY') setIsEmpJammerActive(false);
       }
     } else {
