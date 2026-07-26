@@ -31,16 +31,17 @@
 .game-board-header {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 8px 12px;
-  gap: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 12px;
   border: 1px solid rgba(0, 240, 255, 0.25);
   box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
 }
 
 .board-status {
-  width: 100%;
+  flex: 1;
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -48,7 +49,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
 }
 
 .stage-badge {
@@ -94,10 +95,32 @@
 }
 
 .header-controls {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pause-btn {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 4px;
+  max-width: 150px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  background: rgba(20, 26, 48, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: var(--color-primary);
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.pause-btn:hover {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.6);
+  transform: translateY(-1px);
 }
 
 .nav-icon-btn {
@@ -163,10 +186,10 @@
     padding: 4px;
     gap: 8px;
   }
-  
+
   .game-board-header {
-    padding: 6px 8px;
-    gap: 6px;
+    padding: 8px 10px;
+    gap: 8px;
   }
 
   .board-status {
@@ -174,14 +197,14 @@
   }
 
   .header-controls {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .nav-icon-btn,
-  .reset-btn {
-    padding: 5px 2px;
-    font-size: 0.68rem;
+  .pause-btn {
+    max-width: 100px;
+    padding: 5px 8px;
+    font-size: 0.75rem;
   }
 
   .cards-grid {

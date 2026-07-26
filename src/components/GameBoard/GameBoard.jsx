@@ -9,6 +9,7 @@ import LeaderboardModal from '../LeaderboardModal/LeaderboardModal';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import GuideModal from '../GuideModal/GuideModal';
 import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
+import PauseModal from '../PauseModal/PauseModal';
 import { CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
@@ -64,6 +65,7 @@ const GameBoard = () => {
 
   // Modal UI states
   const [isCatalogFromDashboard, setIsCatalogFromDashboard] = useState(false);
+  const [showPauseModal, setShowPauseModal] = useState(false);
 
   // Polish UI/UX States
   const [floatingTexts, setFloatingTexts] = useState([]);
@@ -148,7 +150,7 @@ const GameBoard = () => {
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
     let interval = null;
-    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal;
+    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal;
     if (currentTurn === 'PLAYER' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal && !isAnyModalOpen) {
       interval = setInterval(() => {
         setTurnTimer((prev) => {
@@ -164,7 +166,7 @@ const GameBoard = () => {
       // Do not countdown, keep current time or reset
     }
     return () => clearInterval(interval);
-  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal]);
+  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal, showPauseModal]);
 
   // Catatan: Reset papan sudah ditangani di handleMatchResult ketika semua kartu cocok.
 
@@ -259,6 +261,7 @@ const GameBoard = () => {
   const handleConfirmReset = () => {
     soundManager.playClickSFX();
     setShowResetConfirmModal(false);
+    setShowPauseModal(false); // Tutup juga modal pause saat reset dilakukan
     localStorage.removeItem('memory_game_saved_state');
     localStorage.removeItem('memory_player_name');
     setPlayerName('');
@@ -383,7 +386,7 @@ const GameBoard = () => {
 
   // AI Turn Handling
   useEffect(() => {
-    if (currentTurn === 'ENEMY' && !isProcessing && player.hp > 0 && enemy.hp > 0) {
+    if (currentTurn === 'ENEMY' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showPauseModal) {
       const available = cards.filter((c) => !matchedCardIds.includes(c.pairId));
       if (available.length < 2) return;
 
@@ -415,7 +418,7 @@ const GameBoard = () => {
         }
       }, 1100);
     }
-  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, player.hp, enemy.hp]);
+  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, player.hp, enemy.hp, showPauseModal]);
 
   // Handle Player Card Click
   const handleCardClick = (clickedCard) => {
@@ -425,7 +428,8 @@ const GameBoard = () => {
       flippedCards.some((c) => c.uniqueId === clickedCard.uniqueId) ||
       matchedCardIds.includes(clickedCard.pairId) ||
       player.hp <= 0 ||
-      enemy.hp <= 0
+      enemy.hp <= 0 ||
+      showPauseModal
     ) {
       return;
     }
@@ -768,38 +772,15 @@ const GameBoard = () => {
         </div>
 
         <div className="header-controls">
-          <button className="nav-icon-btn" onClick={handleToggleBgm} title="Toggle BGM">
-            {isBgmMuted ? '🔇 BGM' : '🔊 BGM'}
-          </button>
-          <button className="nav-icon-btn" onClick={handleToggleSfx} title="Toggle SFX">
-            {isSfxMuted ? '🔕 SFX' : '🔔 SFX'}
-          </button>
           <button
-            className="nav-icon-btn"
+            className="nav-icon-btn pause-btn"
             onClick={() => {
               soundManager.playClickSFX();
-              setShowGuideModal(true);
+              setShowPauseModal(true);
             }}
-            title="Guide"
+            title="Pause Menu"
           >
-            {t('guideBtn', currentLang)}
-          </button>
-          <button
-            className="nav-icon-btn"
-            onClick={() => {
-              soundManager.playClickSFX();
-              setIsCatalogFromDashboard(false);
-              setShowCatalogModal(true);
-            }}
-            title="Stage Cards"
-          >
-            {t('catalogBtn', currentLang)}
-          </button>
-          <button className="nav-icon-btn" onClick={() => { soundManager.playClickSFX(); setShowLeaderboardModal(true); }} title="Scores">
-            {t('scoreBtn', currentLang)}
-          </button>
-          <button className="reset-btn" onClick={handleResetButtonClick}>
-            {t('resetBtn', currentLang)}
+            ⏸️ {t('pauseBtn', currentLang)}
           </button>
         </div>
       </div>
@@ -835,6 +816,33 @@ const GameBoard = () => {
           );
         })}
       </div>
+
+      {/* Modal Menu Pause (Dirender lebih awal di DOM agar sub-menu menumpuk di atasnya) */}
+      {showPauseModal && (
+        <PauseModal
+          onResume={() => setShowPauseModal(false)}
+          isBgmMuted={isBgmMuted}
+          onToggleBgm={handleToggleBgm}
+          isSfxMuted={isSfxMuted}
+          onToggleSfx={handleToggleSfx}
+          currentLang={currentLang}
+          onToggleLang={handleToggleLang}
+          onOpenGuide={() => {
+            soundManager.playClickSFX();
+            setShowGuideModal(true);
+          }}
+          onOpenCatalog={() => {
+            soundManager.playClickSFX();
+            setIsCatalogFromDashboard(false);
+            setShowCatalogModal(true);
+          }}
+          onOpenLeaderboard={() => {
+            soundManager.playClickSFX();
+            setShowLeaderboardModal(true);
+          }}
+          onResetClick={handleResetButtonClick}
+        />
+      )}
 
       {/* Modal Input Nama di Awal */}
       {showNameModal && (

@@ -14,6 +14,11 @@ export const TRANSLATIONS = {
     catalogBtn: '🂠 Kartu Stage',
     scoreBtn: '🏆 Skor',
     resetBtn: 'Reset',
+    pauseTitle: 'MENU PAUSE',
+    pauseBtn: 'Pause',
+    resumeBtn: 'Lanjutkan',
+    audioSettings: 'PENGATURAN AUDIO',
+    menuSettings: 'PILIHAN MENU',
 
     // ── Player & Enemy Status ──
     yourTurn: 'GILIRAN ANDA',
@@ -240,6 +245,11 @@ export const TRANSLATIONS = {
     catalogBtn: '🂠 Stage Cards',
     scoreBtn: '🏆 Scores',
     resetBtn: 'Reset',
+    pauseTitle: 'PAUSE MENU',
+    pauseBtn: 'Pause',
+    resumeBtn: 'Resume',
+    audioSettings: 'AUDIO SETTINGS',
+    menuSettings: 'MENU OPTIONS',
 
     // ── Player & Enemy Status ──
     yourTurn: 'YOUR TURN',

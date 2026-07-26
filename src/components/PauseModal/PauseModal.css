@@ -1,0 +1,163 @@
+.pause-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  max-width: 440px;
+  padding: 24px 20px;
+  border-radius: 20px;
+  background: rgba(10, 12, 28, 0.98);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), 0 15px 40px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  animation: pausePopIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+@keyframes pausePopIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pause-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.pause-header-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.7));
+  animation: pausePulse 2s infinite ease-in-out;
+}
+
+@keyframes pausePulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.pause-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+  letter-spacing: 1.5px;
+}
+
+.pause-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.pause-section-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.audio-controls-grid,
+.menu-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.pause-btn-control,
+.pause-menu-btn {
+  padding: 12px 8px;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  background: rgba(30, 36, 60, 0.5);
+}
+
+.pause-btn-control:hover,
+.pause-menu-btn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.pause-btn-control.active {
+  border-color: rgba(0, 255, 136, 0.4);
+  background: rgba(0, 255, 136, 0.08);
+  color: #00ff88;
+}
+
+.pause-btn-control.muted {
+  border-color: rgba(255, 0, 85, 0.4);
+  background: rgba(255, 0, 85, 0.08);
+  color: #ff3377;
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.pause-resume-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00ff88, #00c3ff);
+  border: none;
+  color: #050515;
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.35);
+}
+
+.pause-resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.6);
+}
+
+.pause-reset-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 0, 85, 0.5);
+  color: #ff3377;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pause-reset-btn:hover {
+  background: rgba(255, 0, 85, 0.12);
+  box-shadow: 0 0 14px rgba(255, 0, 85, 0.3);
+}
+
+@media (max-width: 480px) {
+  .pause-modal-content {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+}
