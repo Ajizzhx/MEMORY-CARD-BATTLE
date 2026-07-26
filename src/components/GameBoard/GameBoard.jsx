@@ -134,10 +134,22 @@ const GameBoard = () => {
     };
   }, [playerName, showNameModal, player.hp, enemy.hp]);
 
+  // Efek Samping Pemantau Nyawa (Mencegah anti-pattern React updaters)
+  useEffect(() => {
+    if (playerName && !showNameModal) {
+      if (enemy.hp === 0 && player.hp > 0 && !showLootModal && !showGameOverModal) {
+        triggerStageClear();
+      } else if (player.hp === 0 && enemy.hp > 0 && !showGameOverModal) {
+        triggerGameOver();
+      }
+    }
+  }, [player.hp, enemy.hp, playerName, showNameModal]);
+
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
     let interval = null;
-    if (currentTurn === 'PLAYER' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal) {
+    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal;
+    if (currentTurn === 'PLAYER' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal && !isAnyModalOpen) {
       interval = setInterval(() => {
         setTurnTimer((prev) => {
           if (prev <= 1) {
@@ -148,11 +160,11 @@ const GameBoard = () => {
           return prev - 1;
         });
       }, 1000);
-    } else if (currentTurn === 'ENEMY') {
-      setTurnTimer(TURN_TIME_LIMIT);
+    } else if (currentTurn === 'ENEMY' || isAnyModalOpen) {
+      // Do not countdown, keep current time or reset
     }
     return () => clearInterval(interval);
-  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal]);
+  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal]);
 
   // Catatan: Reset papan sudah ditangani di handleMatchResult ketika semua kartu cocok.
 
@@ -354,6 +366,7 @@ const GameBoard = () => {
 
     if (isNewStage) {
       setStageRound(1);
+      setMismatchStreak(0); // Reset mismatch streak di stage baru
     } else {
       setStageRound((prev) => prev + 1);
     }
@@ -456,6 +469,18 @@ const GameBoard = () => {
       const nextMatched = [...matchedCardIds, card1.pairId];
       setMatchedCardIds(nextMatched);
 
+      // Pembersihan ingatan AI untuk kartu yang sudah match agar efisien
+      setAiMemory((prevMem) => {
+        const cleaned = { ...prevMem };
+        // Temukan uniqueIds dari kartu-kartu yang sudah cocok
+        cards.forEach((c) => {
+          if (c.pairId === card1.pairId) {
+            delete cleaned[c.uniqueId];
+          }
+        });
+        return cleaned;
+      });
+
       if (nextMatched.length === cards.length / 2) {
         setFlippedCards([]);
         setIsProcessing(false);
@@ -479,7 +504,6 @@ const GameBoard = () => {
         setFlippedCards([]);
         setIsProcessing(false);
         if (actor === 'PLAYER') setTurnTimer(TURN_TIME_LIMIT);
-        if (actor === 'ENEMY') setIsEmpJammerActive(false);
       }
     } else {
       soundManager.playMismatchSFX();
@@ -512,43 +536,46 @@ const GameBoard = () => {
           // Quantum Piercer: Menembus armor langsung ke HP
           spawnFloatingText(`🗡️ PIERCE -${damage} HP`, 'damage');
           if (isPlayer) {
-            setEnemy((prev) => {
-              const updatedHp = Math.max(0, prev.hp - damage);
-              if (updatedHp === 0) triggerStageClear();
-              return { ...prev, hp: updatedHp };
-            });
+            setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - damage) }));
           } else {
-            setPlayer((prev) => {
-              const updatedHp = Math.max(0, prev.hp - damage);
-              if (updatedHp === 0) triggerGameOver();
-              return { ...prev, hp: updatedHp };
-            });
+            setPlayer((prev) => ({ ...prev, hp: Math.max(0, prev.hp - damage) }));
           }
         } else {
-          spawnFloatingText(`-${damage} HP`, 'damage');
           if (isPlayer) {
             setEnemy((prev) => {
               let newBlock = prev.block - damage;
               let hpDamage = 0;
+              let absorbed = damage;
               if (newBlock < 0) {
                 hpDamage = Math.abs(newBlock);
+                absorbed = prev.block;
                 newBlock = 0;
               }
-              const updatedHp = Math.max(0, prev.hp - hpDamage);
-              if (updatedHp === 0) triggerStageClear();
-              return { ...prev, block: newBlock, hp: updatedHp };
+              if (hpDamage > 0) {
+                spawnFloatingText(`-${hpDamage} HP`, 'damage');
+              }
+              if (absorbed > 0) {
+                spawnFloatingText(`-${absorbed} Armor`, 'block');
+              }
+              return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
           } else {
             setPlayer((prev) => {
               let newBlock = prev.block - damage;
               let hpDamage = 0;
+              let absorbed = damage;
               if (newBlock < 0) {
                 hpDamage = Math.abs(newBlock);
+                absorbed = prev.block;
                 newBlock = 0;
               }
-              const updatedHp = Math.max(0, prev.hp - hpDamage);
-              if (updatedHp === 0) triggerGameOver();
-              return { ...prev, block: newBlock, hp: updatedHp };
+              if (hpDamage > 0) {
+                spawnFloatingText(`-${hpDamage} HP`, 'damage');
+              }
+              if (absorbed > 0) {
+                spawnFloatingText(`-${absorbed} Armor`, 'block');
+              }
+              return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
           }
         }
@@ -611,8 +638,11 @@ const GameBoard = () => {
         triggerScreenShake();
         // EMP Disrupter: melumpuhkan armor musuh terlebih dahulu
         const isEmpAttack = card.id === 'debuff_emp';
+        const isGlitchAttack = card.id === 'debuff_glitch';
         if (isEmpAttack) {
           spawnFloatingText(`⚡ EMP! Armor dihancurkan! -${card.value} HP`, 'damage');
+        } else if (isGlitchAttack) {
+          spawnFloatingText(`👾 GLITCH -${card.value} HP!`, 'damage');
         } else {
           spawnFloatingText(`☠️ VIRUS -${card.value} HP!`, 'damage');
         }
@@ -621,14 +651,12 @@ const GameBoard = () => {
           setEnemy((prev) => {
             const newBlock = isEmpAttack ? 0 : prev.block;
             const updatedHp = Math.max(0, prev.hp - card.value);
-            if (updatedHp === 0) triggerStageClear();
             return { ...prev, block: newBlock, hp: updatedHp };
           });
         } else {
           setPlayer((prev) => {
             const newBlock = isEmpAttack ? 0 : prev.block;
             const updatedHp = Math.max(0, prev.hp - card.value);
-            if (updatedHp === 0) triggerGameOver();
             return { ...prev, block: newBlock, hp: updatedHp };
           });
         }
@@ -641,7 +669,6 @@ const GameBoard = () => {
 
   const triggerStageClear = () => {
     soundManager.playVictorySFX();
-    recordLeaderboardScore(stage, totalMatchesMade + 1);
     setTimeout(() => {
       const choices = generateLootChoices(playerDeck, isPityActive, pityUsesLeft > 0);
       setLootChoices(choices);
@@ -725,7 +752,7 @@ const GameBoard = () => {
       {/* Pity Indicator Banner jika Pity Active */}
       {isPityActive && (
         <div className="pity-active-banner">
-          🌟 <strong>Pity System Active!</strong> Bantuan Darurat Diaktifkan (+25% Rare/Epic Drop).
+          🌟 <strong>{currentLang === 'ID' ? 'Pity System Aktif!' : 'Pity System Active!'}</strong> {currentLang === 'ID' ? 'Bantuan Darurat Diaktifkan (+25% Rare/Epic Drop).' : 'Emergency Assistance Activated (+25% Rare/Epic Drop).'}
         </div>
       )}
 
@@ -892,10 +919,11 @@ const GameBoard = () => {
         <GameOverModal
           stage={stage}
           totalMatches={playerMatches}
-          enemyName={enemy.name}
-          playerName={playerName}
-          currentLang={currentLang}
+          difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name}
+          isVictory={player.hp > 0 && enemy.hp === 0}
           onRestartJourney={startNewJourney}
+          onBackToDashboard={returnToDashboard}
+          currentLang={currentLang}
           onOpenLeaderboard={() => {
             soundManager.playClickSFX();
             setShowGameOverModal(false);

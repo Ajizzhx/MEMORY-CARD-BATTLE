@@ -39,6 +39,10 @@ export const generateLootChoices = (playerDeck = [], isPityActive = false, canUs
 
   // Jika seluruh 15 kartu katalog sudah terkumpul 100% di deck
   if (unownedCards.length === 0) {
+    // Jika Pity System Aktif DAN Kuota Bantuan Darurat Masih Ada -> Tetap tawarkan Medkit
+    if (isPityActive && canUseEmergencyPity) {
+      return [PITY_EMERGENCY_OPTION];
+    }
     return [];
   }
 
