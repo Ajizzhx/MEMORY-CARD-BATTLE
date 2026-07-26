@@ -9,10 +9,13 @@ const GameOverModal = ({
   difficultyName,
   isVictory = false,
   onPlayAgain,
+  onRestartJourney,
   onOpenLeaderboard,
   onBackToDashboard,
   currentLang = 'ID'
 }) => {
+  // Mendukung kedua nama prop agar kompatibel
+  const handlePlayAgain = onPlayAgain || onRestartJourney;
   return (
     <div className="modal-overlay">
       <div className={`gameover-modal-content glass-panel ${isVictory ? 'victory' : 'defeat'}`}>
@@ -60,8 +63,9 @@ const GameOverModal = ({
             className="restart-journey-btn"
             onClick={() => {
               soundManager.playClickSFX();
-              onPlayAgain();
+              if (handlePlayAgain) handlePlayAgain();
             }}
+            disabled={!handlePlayAgain}
           >
             {t('playAgainBtn', currentLang)}
           </button>

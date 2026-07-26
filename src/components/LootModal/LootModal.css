@@ -1,238 +1,383 @@
+/* ── Overlay ── */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 5, 15, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(5, 5, 15, 0.88);
+  backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  animation: overlayFadeIn 0.3s ease;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Modal Container ── */
 .loot-modal-content {
-  width: 92%;
-  max-width: 720px;
-  padding: 30px;
+  width: 100%;
+  max-width: 680px;
+  padding: 28px 24px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+  gap: 20px;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.18), 0 24px 60px rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  background: rgba(10, 12, 28, 0.97);
   text-align: center;
+  animation: lootPopIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes lootPopIn {
+  0% { transform: scale(0.82) translateY(30px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* ── Header ── */
+.loot-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.loot-title-icon {
+  font-size: 3.2rem;
+  animation: trophySpin 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.7));
+}
+
+@keyframes trophySpin {
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.1); }
 }
 
 .loot-modal-title {
-  font-size: 1.8rem;
+  font-family: var(--font-heading);
+  font-size: 2rem;
   font-weight: 900;
+  letter-spacing: 3px;
   color: var(--color-accent);
-  text-shadow: 0 0 12px var(--color-accent);
+  text-shadow: 0 0 16px var(--color-accent), 0 0 36px rgba(255, 215, 0, 0.4);
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.2;
 }
 
-.pity-notice {
-  font-size: 0.82rem;
-  color: #ff0055;
-  background: rgba(255, 0, 85, 0.15);
-  padding: 10px 16px;
-  border-radius: 14px;
+.loot-modal-sub {
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 380px;
+}
+
+/* ── Pity Banner ── */
+.pity-active-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 0, 85, 0.12);
   border: 1px solid rgba(255, 0, 85, 0.5);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #ff5588;
   line-height: 1.4;
-  box-shadow: 0 0 15px rgba(255, 0, 85, 0.25);
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+  animation: pityBannerPulse 2.5s ease-in-out infinite;
 }
 
-.loot-choices-grid {
+.pity-banner-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+@keyframes pityBannerPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 85, 0.2); }
+  50% { box-shadow: 0 0 28px rgba(255, 0, 85, 0.4); }
+}
+
+/* ── Card Grid ── */
+.loot-cards-grid {
   display: flex;
   justify-content: center;
   gap: 14px;
   width: 100%;
-  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-.loot-choices-grid.count-1 .loot-card-item {
-  max-width: 240px;
-}
-
-.loot-choices-grid.count-2 .loot-card-item {
-  max-width: 200px;
-}
-
-.loot-choices-grid.count-4 .loot-card-item {
-  max-width: 150px;
-}
-
+/* ── Individual Card ── */
 .loot-card-item {
   flex: 1;
-  max-width: 160px;
-  padding: 16px 12px;
-  border-radius: 12px;
-  background: rgba(20, 25, 45, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  min-width: 150px;
+  max-width: 185px;
+  padding: 18px 14px 16px;
+  border-radius: 16px;
+  background: rgba(14, 18, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer glow effect on hover */
+.loot-card-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--card-color, #00f0ff) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: inherit;
+}
+
+.loot-card-item:hover::before {
+  opacity: 0.1;
 }
 
 .loot-card-item:hover {
-  transform: translateY(-8px) scale(1.05);
-  border-color: var(--color-primary);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  transform: translateY(-10px) scale(1.04);
+  border-color: var(--card-color, #00f0ff) !important;
+  box-shadow: 0 0 30px var(--card-color, #00f0ff)66 !important;
 }
 
-.loot-card-item.common {
-  border-color: rgba(200, 200, 220, 0.5);
+.loot-card-item:active {
+  transform: translateY(-4px) scale(1.01);
 }
 
-.loot-card-item.rare {
-  border-color: rgba(0, 195, 255, 0.7);
+/* Emergency Pity card */
+.emergency-pity-card {
+  background: linear-gradient(145deg, rgba(35, 8, 20, 0.97), rgba(70, 8, 30, 0.95));
+  animation: pityCardGlow 2.5s ease-in-out infinite;
 }
 
-.loot-card-item.epic {
-  border-color: rgba(168, 85, 247, 0.9);
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+@keyframes pityCardGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 85, 0.4); }
+  50% { box-shadow: 0 0 36px rgba(255, 0, 85, 0.75); }
 }
 
-/* Styling Pity Emergency Choice */
-.loot-card-item.emergency-pity-item {
-  background: linear-gradient(145deg, rgba(40, 10, 25, 0.95), rgba(80, 10, 35, 0.9));
-  border: 1px solid #ff0055;
-  box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
-  animation: pulsePityGlow 2s infinite ease-in-out;
-}
-
-.loot-card-item.emergency-pity-item:hover {
-  border-color: #ff3377;
-  box-shadow: 0 0 30px rgba(255, 0, 85, 0.8);
-}
-
-.emergency-pulse-icon {
-  display: inline-block;
-  animation: emergencyIconBounce 1s infinite alternate ease-in-out;
-}
-
-.emergency-reward-badge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: #ff3377;
-  background: rgba(255, 0, 85, 0.2);
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 0, 85, 0.4);
-  margin-top: 4px;
-}
-
-@keyframes pulsePityGlow {
-  0% { box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
-  50% { box-shadow: 0 0 28px rgba(255, 0, 85, 0.7); }
-  100% { box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
-}
-
-@keyframes emergencyIconBounce {
-  from { transform: scale(1); }
-  to { transform: scale(1.15); }
-}
-
-.loot-card-icon {
-  font-size: 2.5rem;
-}
-
-.loot-card-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.loot-card-desc {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-.loot-rarity-tag {
-  font-size: 0.65rem;
-  font-weight: 800;
+/* ── Rarity Badge ── */
+.loot-rarity-badge {
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 900;
   text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  letter-spacing: 1.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  backdrop-filter: blur(4px);
 }
 
-/* Styling Deck Full Bonus Container */
+/* ── Card Art Area ── */
+.loot-card-art {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-art-img {
+  width: 68px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.card-art-emoji {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+/* ── Card Name ── */
+.loot-card-name {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ── Card Description ── */
+.loot-card-desc {
+  font-family: var(--font-body);
+  font-size: 0.73rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* ── Claim Button ── */
+.claim-card-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.28s ease;
+  text-transform: uppercase;
+  margin-top: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Normal card claim button — outline glow style */
+.claim-btn-normal {
+  background: transparent;
+  border: 1.5px solid;
+  /* color & borderColor set by inline style using card color */
+}
+
+.claim-btn-normal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--btn-color, #00f0ff);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.loot-card-item:hover .claim-btn-normal::before {
+  opacity: 0.18;
+}
+
+.loot-card-item:hover .claim-btn-normal {
+  box-shadow: 0 0 18px var(--btn-color, #00f0ff)88;
+  transform: scale(1.03);
+}
+
+/* Pity (medkit) claim button — solid glowing red */
+.claim-btn-pity {
+  background: linear-gradient(135deg, #ff0055, #ff4488);
+  color: #fff;
+  border: 1px solid rgba(255, 0, 85, 0.8);
+  box-shadow: 0 0 16px rgba(255, 0, 85, 0.4);
+}
+
+.claim-btn-pity:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px rgba(255, 0, 85, 0.75);
+}
+
+/* ── Deck Full Container ── */
 .deck-full-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  background: rgba(0, 255, 136, 0.08);
+  background: rgba(0, 255, 136, 0.07);
   border: 1px dashed rgba(0, 255, 136, 0.4);
   border-radius: 16px;
-  padding: 20px;
+  padding: 22px;
   width: 100%;
+  animation: deckFullGlow 3s ease-in-out infinite;
+}
+
+@keyframes deckFullGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.1); }
+  50% { box-shadow: 0 0 28px rgba(0, 255, 136, 0.25); }
 }
 
 .deck-full-badge {
   font-size: 1.1rem;
   font-weight: 900;
   color: #00ff88;
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.7);
+  font-family: var(--font-heading);
 }
 
 .deck-full-desc {
   font-size: 0.85rem;
   color: var(--color-text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
+}
 
-  strong {
-    color: #ff0055;
-  }
+.deck-full-desc strong {
+  color: #ff0055;
 }
 
 .claim-bonus-btn {
   background: linear-gradient(135deg, #00ff88, #00c3ff);
   color: #000;
   font-weight: 900;
+  font-family: var(--font-heading);
   font-size: 0.9rem;
   border: none;
   border-radius: 12px;
-  padding: 12px 24px;
+  padding: 12px 28px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.45);
 }
 
 .claim-bonus-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.75);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* ── Responsive ── */
 @media (max-width: 640px) {
-  .loot-choices-grid {
-    flex-wrap: wrap;
-    justify-content: center;
+  .loot-modal-content {
+    padding: 22px 16px 26px;
+    gap: 16px;
   }
+
+  .loot-cards-grid {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
   .loot-card-item {
-    width: 45%;
-    max-width: 45% !important;
+    min-width: 43%;
+    max-width: 48% !important;
+    padding: 14px 10px 12px;
+  }
+
+  .loot-modal-title {
+    font-size: 1.6rem;
   }
 }
 
-@media (max-width: 480px) {
-  .loot-choices-grid {
+@media (max-width: 400px) {
+  .loot-cards-grid {
     flex-direction: column;
     align-items: center;
   }
+
   .loot-card-item {
     width: 100%;
     max-width: 100% !important;
+    min-width: unset;
   }
 }
