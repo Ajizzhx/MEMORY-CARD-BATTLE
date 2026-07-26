@@ -66,12 +66,7 @@ const NameModal = ({
         <h2 className="name-modal-title">{t('dashTitle', currentLang)}</h2>
         <p className="app-subtitle">{t('dashSubtitle', currentLang)}</p>
 
-        {/* Feature Badges Summary */}
-        <div className="dash-features-bar">
-          <span className="feature-pill">{t('featRpg', currentLang)}</span>
-          <span className="feature-pill">{t('featCards', currentLang)}</span>
-          <span className="feature-pill">{t('featPity', currentLang)}</span>
-        </div>
+
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <input
