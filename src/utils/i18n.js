@@ -45,7 +45,7 @@ export const TRANSLATIONS = {
     dashGuideBtn: '📖 Panduan',
     dashCatalogBtn: '🂠 Katalog',
     dashTopscoreBtn: '🏆 Topskor',
-    dashTipsBox: '💡 Tips Arena: Kumpulkan 15 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
+    dashTipsBox: '💡 Tips Arena: Kumpulkan 21 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
     startBattleBtn: '⚔️ Mulai Pertarungan',
 
     // ── Support / Donation ──
@@ -276,7 +276,7 @@ export const TRANSLATIONS = {
     dashGuideBtn: '📖 Guide',
     dashCatalogBtn: '🂠 Catalog',
     dashTopscoreBtn: '🏆 Top Scores',
-    dashTipsBox: '💡 Arena Tip: Collect 15 unique cards through Stage Clear Loot and activate Bio-Shield Medkit when HP is critical!',
+    dashTipsBox: '💡 Arena Tip: Collect 21 unique cards through Stage Clear Loot and activate Bio-Shield Medkit when HP is critical!',
     startBattleBtn: '⚔️ Start Battle',
 
     // ── Support / Donation ──
