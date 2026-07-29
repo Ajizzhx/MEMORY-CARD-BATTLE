@@ -1,14 +1,18 @@
 .guide-modal-content {
   width: 95%;
-  max-width: 820px;
+  max-width: 860px;
   max-height: 88vh;
-  padding: 30px 24px;
+  padding: 32px 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  border: 1px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 45px rgba(0, 240, 255, 0.3);
+  gap: 18px;
+  border: 1.5px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.25), 0 20px 60px rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  background: rgba(10, 14, 30, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   overflow-y: auto;
 }
 
@@ -27,39 +31,43 @@
 
 .guide-modal-title {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 900;
   color: var(--color-primary);
-  text-shadow: 0 0 14px var(--color-primary);
+  text-shadow: 0 0 18px var(--color-primary), 0 0 35px rgba(0, 240, 255, 0.4);
   text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .guide-modal-body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
   margin-top: 10px;
 }
 
 .guide-section {
-  background: rgba(15, 20, 35, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  border-radius: 14px;
-  padding: 18px;
+  background: rgba(14, 18, 38, 0.9);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .guide-section.pity-section {
-  border-color: rgba(255, 0, 85, 0.4);
-  background: rgba(255, 0, 85, 0.06);
+  border-color: rgba(255, 0, 85, 0.5);
+  background: rgba(255, 0, 85, 0.08);
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.15);
 }
 
 .guide-heading {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--color-primary);
   margin-bottom: 14px;
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
 .pity-section .guide-heading {
@@ -67,24 +75,28 @@
 }
 
 .pity-explanation {
-  font-size: 0.82rem;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.55;
+}
 
-  strong {
-    color: #ff0055;
-  }
-  em {
-    color: var(--color-accent);
-    display: block;
-    margin-top: 6px;
-  }
+.pity-explanation strong {
+  color: #ff0055;
+}
+
+.pity-explanation em {
+  color: var(--color-accent);
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .guide-steps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
 }
 
 .guide-step-card {
@@ -92,90 +104,109 @@
   align-items: flex-start;
   gap: 12px;
   background: rgba(255, 255, 255, 0.04);
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.28s ease;
+}
+
+.guide-step-card:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.06);
+  transform: translateY(-2px);
 }
 
 .step-number {
   font-family: var(--font-heading);
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(0, 240, 255, 0.2);
   color: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   flex-shrink: 0;
 }
 
 .step-content strong {
-  font-size: 0.82rem;
+  font-family: var(--font-heading);
+  font-size: 0.84rem;
   color: var(--color-text);
   display: block;
   margin-bottom: 4px;
 }
 
 .step-content p {
-  font-size: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
   color: var(--color-text-muted);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .guide-rules-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .rule-item {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+}
 
-  strong {
-    color: var(--color-primary);
-    font-size: 0.85rem;
-  }
-  p {
-    margin-top: 4px;
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
-  }
+.rule-item strong {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  font-size: 0.88rem;
+}
+
+.rule-item p {
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
 }
 
 .enemy-guide-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .enemy-guide-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   background: rgba(255, 255, 255, 0.04);
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.28s ease;
+}
+
+.enemy-guide-card:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.06);
 }
 
 .enemy-guide-card.boss {
-  border-color: rgba(239, 68, 68, 0.5);
-  background: rgba(239, 68, 68, 0.08);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
 }
 
 .enemy-avatar-wrapper {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(0, 240, 255, 0.5);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  border: 2px solid rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,8 +215,8 @@
 }
 
 .enemy-avatar-wrapper.boss {
-  border-color: rgba(255, 0, 85, 0.8);
-  box-shadow: 0 0 14px rgba(255, 0, 85, 0.6);
+  border-color: rgba(255, 0, 85, 0.85);
+  box-shadow: 0 0 18px rgba(255, 0, 85, 0.7);
 }
 
 .enemy-guide-img {
@@ -195,28 +226,27 @@
   border-radius: 50%;
 }
 
-.enemy-icon {
-  font-size: 2.2rem;
-}
-
 .enemy-info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .enemy-info strong {
-  font-size: 0.9rem;
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
   color: var(--color-text);
 }
 
 .enemy-hp {
+  font-family: var(--font-heading);
   font-size: 0.78rem;
   color: var(--color-accent);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .enemy-info p {
-  font-size: 0.76rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
   color: var(--color-text-muted);
 }
