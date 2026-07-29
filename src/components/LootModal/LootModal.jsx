@@ -36,17 +36,15 @@ const LootModal = ({ stage, choices = [], isPityActive = false, pityUsesLeft = 2
         <div className="loot-cards-grid">
           {choices.length === 0 ? (
             <div className="deck-full-container">
-              <div className="deck-full-badge">✨ DECK LENGKAP 100% ✨</div>
+              <div className="deck-full-badge">{t('deckFullBadge', currentLang)}</div>
               <p className="deck-full-desc">
-                {currentLang === 'ID'
-                  ? 'Selamat! Semua 15 kartu katalog telah terkumpul di Deck Anda. Dapatkan bonus pemulihan HP maksimal!'
-                  : 'Congratulations! All 15 catalog cards have been collected in your Deck. Receive maximum HP recovery bonus!'}
+                {t('deckFullDesc', currentLang)}
               </p>
               <button
                 className="claim-bonus-btn"
                 onClick={() => handleChoiceClick(null)}
               >
-                {currentLang === 'ID' ? 'Klaim Bonus +50 HP & Lanjut' : 'Claim Bonus +50 HP & Continue'}
+                {t('claimBonusBtn', currentLang)}
               </button>
             </div>
           ) : (
@@ -117,7 +115,7 @@ const LootModal = ({ stage, choices = [], isPityActive = false, pityUsesLeft = 2
                       : {}
                   }
                 >
-                  {card.isEmergencyPity ? '🚑 Ambil Medkit' : t('claimCardBtn', currentLang)}
+                  {card.isEmergencyPity ? t('emergencyMedkitBtn', currentLang) : t('claimCardBtn', currentLang)}
                 </button>
               </div>
             ))

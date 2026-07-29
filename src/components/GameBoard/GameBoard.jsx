@@ -61,7 +61,7 @@ const GameBoard = () => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCardIds, setMatchedCardIds] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('Pilih 2 kartu untuk menyerang musuh!');
+  const [statusMessage, setStatusMessage] = useState(() => t('startAttackMsg', getCurrentLang()));
 
   // Modal UI states
   const [isCatalogFromDashboard, setIsCatalogFromDashboard] = useState(false);
@@ -131,7 +131,7 @@ const GameBoard = () => {
     const handleBeforeUnload = (e) => {
       if (playerName && !showNameModal && player.hp > 0 && enemy.hp > 0) {
         e.preventDefault();
-        e.returnValue = 'Pertarungan Anda sedang berlangsung! Me-refresh web akan mereset pertarungan dari awal.';
+        e.returnValue = t('reloadWarnMsg', currentLang);
         return e.returnValue;
       }
     };
@@ -182,8 +182,8 @@ const GameBoard = () => {
     setIsProcessing(true);
     setIsPlayerFrozen(false);
     soundManager.playMismatchSFX();
-    spawnFloatingText('⏰ WAKTU HABIS!', 'damage');
-    setStatusMessage('⏰ Waktu berpikir Anda habis! Giliran berpindah ke Musuh!');
+    spawnFloatingText(t('timeoutFloat', currentLang), 'damage');
+    setStatusMessage(t('timeoutMsg', currentLang));
 
     setTimeout(() => {
       setIsProcessing(false);
@@ -201,14 +201,15 @@ const GameBoard = () => {
     localStorage.setItem('memory_ai_mode', nextMode);
 
     const modeLabels = {
-      AUTO: 'Otomatis (Scaling Stage)',
-      EASY: 'Mudah (35%)',
-      MEDIUM: 'Sedang (65%)',
-      HARD: 'Tinggi (88%)'
+      AUTO: t('aiModeAuto', currentLang),
+      EASY: t('aiModeEasy', currentLang),
+      MEDIUM: t('aiModeMedium', currentLang),
+      HARD: t('aiModeHard', currentLang)
     };
 
-    spawnFloatingText(`🧠 Mode AI: ${modeLabels[nextMode]}`, 'match');
-    setStatusMessage(`🧠 Mode Kesulitan AI Diubah ke: ${modeLabels[nextMode]}`);
+    const nextModeLabel = modeLabels[nextMode];
+    spawnFloatingText(t('aiDifficultyChange', currentLang).replace('{mode}', nextModeLabel), 'match');
+    setStatusMessage(t('aiDifficultyChange', currentLang).replace('{mode}', nextModeLabel));
   };
 
   // Spawn Floating Text
@@ -385,7 +386,7 @@ const GameBoard = () => {
       setStageRound((prev) => prev + 1);
     }
 
-    setStatusMessage(`⚔️ Stage ${stageNum}: Pertarungan melawan ${getStageEnemyConfig(stageNum).name}!`);
+    setStatusMessage(t('stageStartMsg', currentLang).replace('{stage}', stageNum).replace('{enemy}', getStageEnemyConfig(stageNum).name));
 
     // Pemicu Animasi Realistis Casino Dealer Riffle & Deal Shuffle
     setIsShufflingBoard(true);
@@ -400,8 +401,8 @@ const GameBoard = () => {
     if (currentTurn === 'PLAYER' && isPlayerFrozen && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal) {
       setIsPlayerFrozen(false);
       soundManager.playBlockSFX();
-      spawnFloatingText('🧊 Anda Terbeku! Giliran Lewat!', 'damage');
-      setStatusMessage('🧊 Anda terbeku oleh Frostbite Stasis! Giliran berpindah ke Musuh.');
+      spawnFloatingText(t('playerFrozenFloat', currentLang), 'damage');
+      setStatusMessage(t('playerFrozenMsg', currentLang));
       setCurrentTurn('ENEMY');
     }
   }, [currentTurn, isPlayerFrozen, isProcessing, player.hp, enemy.hp, showNameModal]);
@@ -412,8 +413,8 @@ const GameBoard = () => {
       if (isEnemyFrozen) {
         setIsEnemyFrozen(false);
         soundManager.playBlockSFX();
-        spawnFloatingText('🧊 Musuh Terbeku! Giliran Lewat!', 'match');
-        setStatusMessage(`🧊 ${enemy.name} terbeku oleh Frostbite Stasis! Giliran kembali ke Anda.`);
+        spawnFloatingText(t('enemyFrozenFloat', currentLang), 'match');
+        setStatusMessage(t('enemyFrozenMsg', currentLang).replace('{enemy}', enemy.name));
         setCurrentTurn('PLAYER');
         setTurnTimer(TURN_TIME_LIMIT);
         return;
@@ -423,7 +424,7 @@ const GameBoard = () => {
       if (available.length < 2) return;
 
       setIsProcessing(true);
-      setStatusMessage(`🤖 ${enemy.name} (AI ${AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}) sedang berpikir...`);
+      setStatusMessage(t('aiThinkingMsg', currentLang).replace('{enemy}', enemy.name).replace('{difficulty}', AI_DIFFICULTY_LEVELS[activeAiDifficulty].name));
 
       const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
 
@@ -498,7 +499,7 @@ const GameBoard = () => {
       }
 
       if (card1.type !== 'BUFF') {
-        spawnFloatingText(`✨ MATCH: ${card1.name}!`, 'match');
+        spawnFloatingText(t('matchTitleFloat', currentLang).replace('{name}', card1.name), 'match');
       }
       applyCardEffect(card1, actor);
 
@@ -526,8 +527,8 @@ const GameBoard = () => {
           setEnemy((latestEnemy) => {
             setPlayer((latestPlayer) => {
               if (latestEnemy.hp > 0 && latestPlayer.hp > 0) {
-                spawnFloatingText('🔄 Ronde Baru! Papan Direset', 'match');
-                setStatusMessage('🔄 Seluruh 16 kartu cocok! Mengocok papan untuk Ronde berikutnya...');
+                spawnFloatingText(t('roundResetFloat', currentLang), 'match');
+                setStatusMessage(t('roundResetMsg', currentLang));
                 resetBoardForStage(stage, playerDeck, false);
               }
               return latestPlayer;
@@ -536,7 +537,7 @@ const GameBoard = () => {
           });
         }, 1200);
       } else {
-        setStatusMessage(`✨ Match! ${actorName} berhasil menggunakan efek ${card1.name}!`);
+        setStatusMessage(t('matchSuccessMsg', currentLang).replace('{actor}', actorName).replace('{card}', card1.name));
         setFlippedCards([]);
         setIsProcessing(false);
         if (actor === 'PLAYER') setTurnTimer(TURN_TIME_LIMIT);
@@ -547,7 +548,7 @@ const GameBoard = () => {
         setMismatchStreak((prev) => prev + 1);
       }
 
-      setStatusMessage(`❌ Mismatch! Giliran ${actorName} berakhir.`);
+      setStatusMessage(t('mismatchMsg', currentLang).replace('{actor}', actorName));
       setTimeout(() => {
         setFlippedCards([]);
         setIsProcessing(false);
@@ -565,7 +566,7 @@ const GameBoard = () => {
     const mult = (isDouble && card.type !== 'SPECIAL') ? 2 : 1;
 
     if (isDouble && card.type !== 'SPECIAL') {
-      spawnFloatingText('🪞 MIRAGE 2X EFEK AKTIF!', 'match');
+      spawnFloatingText(t('mirageActiveFloat', currentLang), 'match');
       if (isPlayer) setIsDoubleCastActive(false);
       else setIsEnemyDoubleCastActive(false);
     }
@@ -578,7 +579,7 @@ const GameBoard = () => {
 
         if (card.isPiercing) {
           // Quantum Piercer: Menembus armor langsung ke HP
-          spawnFloatingText(`🗡️ PIERCE -${damage} HP`, 'damage');
+          spawnFloatingText(t('pierceFloat', currentLang).replace('{damage}', damage), 'damage');
           if (isPlayer) {
             setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - damage) }));
           } else {
@@ -596,10 +597,10 @@ const GameBoard = () => {
                 newBlock = 0;
               }
               if (hpDamage > 0) {
-                spawnFloatingText(`-${hpDamage} HP`, 'damage');
+                spawnFloatingText(t('floatDamage', currentLang).replace('{val}', hpDamage), 'damage');
               }
               if (absorbed > 0) {
-                spawnFloatingText(`-${absorbed} Armor`, 'block');
+                spawnFloatingText(t('armorAbsorbFloat', currentLang).replace('{val}', absorbed), 'block');
               }
               return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
@@ -614,10 +615,10 @@ const GameBoard = () => {
                 newBlock = 0;
               }
               if (hpDamage > 0) {
-                spawnFloatingText(`-${hpDamage} HP`, 'damage');
+                spawnFloatingText(t('floatDamage', currentLang).replace('{val}', hpDamage), 'damage');
               }
               if (absorbed > 0) {
-                spawnFloatingText(`-${absorbed} Armor`, 'block');
+                spawnFloatingText(t('armorAbsorbFloat', currentLang).replace('{val}', absorbed), 'block');
               }
               return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
@@ -629,7 +630,7 @@ const GameBoard = () => {
           soundManager.playHealSFX();
           const healBonus = 15 * mult;
           if (isPlayer) {
-            spawnFloatingText(`⚡ DIVINE WRATH +${healBonus} HP!`, 'heal');
+            spawnFloatingText(t('divineWrathFloat', currentLang).replace('{healBonus}', healBonus), 'heal');
             setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healBonus) }));
           } else {
             setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healBonus) }));
@@ -640,7 +641,7 @@ const GameBoard = () => {
       case 'DEFENSE': {
         soundManager.playBlockSFX();
         const blockVal = card.value * mult;
-        spawnFloatingText(`+${blockVal} Armor`, 'block');
+        spawnFloatingText(t('floatBlock', currentLang).replace('{val}', blockVal), 'block');
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, block: prev.block + blockVal }));
         } else {
@@ -651,7 +652,7 @@ const GameBoard = () => {
       case 'HEAL': {
         soundManager.playHealSFX();
         const healVal = card.value * mult;
-        spawnFloatingText(`+${healVal} HP`, 'heal');
+        spawnFloatingText(t('floatHeal', currentLang).replace('{val}', healVal), 'heal');
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healVal) }));
         } else {
@@ -663,14 +664,14 @@ const GameBoard = () => {
         if (card.id === 'buff_neural') {
           // Neural Flash: Membuka SEMUA kartu tertutup di papan selama 1.5 detik
           if (isPlayer) {
-            spawnFloatingText(`🧠 NEURAL FLASH: Seluruh Papan Terbuka!`, 'match');
+            spawnFloatingText(t('neuralFlashPlayerFloat', currentLang), 'match');
             const unmatchedUniques = cards.filter((c) => !matchedCardIds.includes(c.pairId)).map((c) => c.uniqueId);
             setTemporaryRevealed(unmatchedUniques);
             setTimeout(() => {
               setTemporaryRevealed([]);
             }, 1500);
           } else {
-            spawnFloatingText(`🤖 MUSUH FLASH HACK PAPAN!`, 'damage');
+            spawnFloatingText(t('neuralFlashEnemyFloat', currentLang), 'damage');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
             const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
             setAiMemory((prevMem) => updateAiMemory(prevMem, unmatched, accuracy));
@@ -678,7 +679,7 @@ const GameBoard = () => {
         } else {
           // Oracle Eye
           if (isPlayer) {
-            spawnFloatingText(`👁️ X-RAY SCAN: ${card.name}!`, 'match');
+            spawnFloatingText(t('xrayScanFloat', currentLang).replace('{name}', card.name), 'match');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
             if (unmatched.length >= 2) {
               const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
@@ -689,7 +690,7 @@ const GameBoard = () => {
             }
           } else {
             // Musuh (AI) Buff -> AI merekam ingatan tanpa membocorkan ke tampilan pemain
-            spawnFloatingText(`🤖 MUSUH SCAN PAPAN!`, 'damage');
+            spawnFloatingText(t('xrayScanEnemyFloat', currentLang), 'damage');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
             if (unmatched.length >= 2) {
               const sample = unmatched.slice(0, 2);
@@ -707,11 +708,11 @@ const GameBoard = () => {
         const isEmpAttack = card.id === 'debuff_emp';
         const isGlitchAttack = card.id === 'debuff_glitch';
         if (isEmpAttack) {
-          spawnFloatingText(`⚡ EMP! Armor dihancurkan! -${damage} HP`, 'damage');
+          spawnFloatingText(t('empFloat', currentLang).replace('{damage}', damage), 'damage');
         } else if (isGlitchAttack) {
-          spawnFloatingText(`👾 GLITCH -${damage} HP!`, 'damage');
+          spawnFloatingText(t('glitchFloat', currentLang).replace('{damage}', damage), 'damage');
         } else {
-          spawnFloatingText(`☠️ VIRUS -${damage} HP!`, 'damage');
+          spawnFloatingText(t('virusFloat', currentLang).replace('{damage}', damage), 'damage');
         }
         if (isPlayer) {
           setIsEmpJammerActive(true);
@@ -748,7 +749,7 @@ const GameBoard = () => {
         });
         setIsShufflingBoard(true);
         setTimeout(() => setIsShufflingBoard(false), 700);
-        spawnFloatingText('🌀 CHRONOS REWIND: Timer 15s & Papan Acak!', 'match');
+        spawnFloatingText(t('chronosFloat', currentLang), 'match');
         break;
       }
       case 'DRAIN': {
@@ -761,7 +762,7 @@ const GameBoard = () => {
             const newBlock = prev.block - stolen;
             const newHp = Math.max(0, prev.hp - damage);
             setPlayer((p) => ({ ...p, block: p.block + stolen }));
-            spawnFloatingText(`🧲 DRAIN: +${stolen} Armor & -${damage} HP!`, 'match');
+            spawnFloatingText(t('drainFloat', currentLang).replace('{stolen}', stolen).replace('{damage}', damage), 'match');
             return { ...prev, block: newBlock, hp: newHp };
           });
         } else {
@@ -770,7 +771,7 @@ const GameBoard = () => {
             const newBlock = prev.block - stolen;
             const newHp = Math.max(0, prev.hp - damage);
             setEnemy((e) => ({ ...e, block: e.block + stolen }));
-            spawnFloatingText(`🧲 MUSUH DRAIN: +${stolen} Armor!`, 'damage');
+            spawnFloatingText(t('drainEnemyFloat', currentLang).replace('{stolen}', stolen), 'damage');
             return { ...prev, block: newBlock, hp: newHp };
           });
         }
@@ -780,10 +781,10 @@ const GameBoard = () => {
         soundManager.playBlockSFX();
         if (isPlayer) {
           setIsEnemyFrozen(true);
-          spawnFloatingText('❄️ FROSTBITE: Musuh Terbeku (1 Turn)!', 'match');
+          spawnFloatingText(t('frostbiteFloat', currentLang), 'match');
         } else {
           setIsPlayerFrozen(true);
-          spawnFloatingText('❄️ FROSTBITE MUSUH: Giliran Anda Terbeku!', 'damage');
+          spawnFloatingText(t('frostbiteEnemyFloat', currentLang), 'damage');
         }
         break;
       }
@@ -793,7 +794,7 @@ const GameBoard = () => {
           soundManager.playVictorySFX();
           triggerScreenShake();
           const dmg = 35 * mult;
-          spawnFloatingText(`🎲 LUCKY WIN! ${dmg} DAMAGE!`, 'match');
+          spawnFloatingText(t('gambleWinFloat', currentLang).replace('{damage}', dmg), 'match');
           if (isPlayer) {
             setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - dmg) }));
           } else {
@@ -803,7 +804,7 @@ const GameBoard = () => {
           soundManager.playMismatchSFX();
           const selfDmg = 10 * mult;
           const targetHeal = 10 * mult;
-          spawnFloatingText(`💥 BACKFIRE! -${selfDmg} HP & Target +${targetHeal} HP!`, 'damage');
+          spawnFloatingText(t('gambleLossFloat', currentLang).replace('{damage}', selfDmg).replace('{heal}', targetHeal), 'damage');
           if (isPlayer) {
             setPlayer((p) => ({ ...p, hp: Math.max(0, p.hp - selfDmg) }));
             setEnemy((e) => ({ ...e, hp: Math.min(e.maxHp, e.hp + targetHeal) }));
@@ -818,10 +819,10 @@ const GameBoard = () => {
         soundManager.playMatchSFX();
         if (isPlayer) {
           setIsDoubleCastActive(true);
-          spawnFloatingText('🪞 MIRAGE: Kartu Berikutnya Efek 2x!', 'match');
+          spawnFloatingText(t('mirageCastFloat', currentLang), 'match');
         } else {
           setIsEnemyDoubleCastActive(true);
-          spawnFloatingText('🪞 MIRAGE MUSUH: Efek 2x Active!', 'damage');
+          spawnFloatingText(t('mirageCastEnemyFloat', currentLang), 'damage');
         }
         break;
       }
@@ -858,7 +859,7 @@ const GameBoard = () => {
         // Pity Emergency Option (Bio-Shield Medkit) Dipilih Pemain! (Potong Kuota 1x)
         setPityUsesLeft((prev) => Math.max(0, prev - 1));
         soundManager.playHealSFX();
-        spawnFloatingText('🚑 BANTUAN DARURAT! +35 HP & +25 ARMOR', 'heal');
+        spawnFloatingText(t('emergencyPityFloat', currentLang), 'heal');
         setPlayer((prev) => ({
           ...prev,
           hp: Math.min(prev.maxHp, prev.hp + selectedCard.value),
@@ -874,7 +875,7 @@ const GameBoard = () => {
     } else {
       // Bonus +50 HP jika Deck 100% Lengkap!
       soundManager.playHealSFX();
-      spawnFloatingText('💖 +50 HP BONUS DECK LENGKAP!', 'heal');
+      spawnFloatingText(t('deckCompleteFloat', currentLang), 'heal');
       setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 50) }));
     }
 

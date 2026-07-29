@@ -30,7 +30,7 @@ export const TRANSLATIONS = {
     dashTitle: 'MEMORY CARD BATTLE',
     dashSubtitle: 'Cyberfantasy RPG & Memory Matching Game',
     featRpg: '⚔️ 1v1 Battle RPG',
-    featCards: '🃏 15 Kartu Cyber',
+    featCards: '🃏 21 Kartu Cyber',
     featPity: '🛡️ Pity System',
     nameInputPlaceholder: 'Ketik Nama Pemain...',
     aiSelectorLabel: '🧠 Mode Kesulitan AI Musuh:',
@@ -108,12 +108,17 @@ export const TRANSLATIONS = {
     cardDetailTypeBuff: '👁️ BUFF PANTAU',
     cardDetailTypeDebuff: '☠️ DEBUFF GLITCH',
     cardDetailTypeEmergency: '🚑 MEDKIT DARURAT',
+    cardDetailTypeUtility: '🌀 UTILITY/TIMER',
+    cardDetailTypeDrain: '🧲 SEDOT ARMOR',
+    cardDetailTypeControl: '❄️ KONTROL ES',
+    cardDetailTypeRisk: '🎲 GAMBLING RESIKO',
+    cardDetailTypeSpecial: '🪞 SPECIAL MIRAGE',
     loreArchiveHeader: 'CYBER LORE ARCHIVE',
     statEffectValue: 'NILAI EFEK',
     statPoints: 'Poin',
     statInspectEffect: 'Efek Pengintip',
     statFeature: 'KEISTIMEWAAN',
-    statQuantumPiercing: '🗡️ Kuantum Penetrasik',
+    statQuantumPiercing: '🗡️ Kuantum Penetrasi',
     closeCardDetailBtn: 'Tutup Detail Kartu',
 
     // ── LeaderboardModal ──
@@ -169,6 +174,43 @@ export const TRANSLATIONS = {
     floatBlock: '+{val} Armor',
     floatHeal: '+{val} HP',
     floatScan: '👁️ Mengintip Papan!',
+    startAttackMsg: 'Pilih 2 kartu untuk menyerang musuh!',
+    reloadWarnMsg: 'Pertarungan Anda sedang berlangsung! Memuat ulang web akan mereset pertarungan dari awal.',
+    timeoutFloat: '⏰ WAKTU HABIS!',
+    timeoutMsg: '⏰ Waktu berpikir Anda habis! Giliran berpindah ke Musuh!',
+    aiDifficultyChange: '🧠 Mode Kesulitan AI Diubah ke: {mode}',
+    playerFrozenFloat: '🧊 Anda Terbeku! Giliran Lewat!',
+    playerFrozenMsg: '🧊 Anda dibekukan oleh Frostbite Stasis! Giliran berpindah ke Musuh.',
+    enemyFrozenFloat: '🧊 Musuh Terbeku! Giliran Lewat!',
+    enemyFrozenMsg: '🧊 {enemy} dibekukan oleh Frostbite Stasis! Giliran kembali ke Anda.',
+    aiThinkingMsg: '🤖 {enemy} (AI {difficulty}) sedang berpikir...',
+    matchTitleFloat: '✨ MATCH: {name}!',
+    roundResetFloat: '🔄 Ronde Baru! Papan Direset',
+    roundResetMsg: '🔄 Seluruh 16 kartu cocok! Mengocok papan untuk Ronde berikutnya...',
+    matchSuccessMsg: '✨ Match! {actor} berhasil menggunakan efek {card}!',
+    mismatchMsg: '❌ Mismatch! Giliran {actor} berakhir.',
+    mirageActiveFloat: '🪞 MIRAGE 2X EFEK AKTIF!',
+    pierceFloat: '🗡️ PIERCE -{damage} HP',
+    armorAbsorbFloat: '-{val} Armor',
+    divineWrathFloat: '⚡ DIVINE WRATH +{healBonus} HP!',
+    neuralFlashPlayerFloat: '🧠 NEURAL FLASH: Seluruh Papan Terbuka!',
+    neuralFlashEnemyFloat: '🤖 MUSUH FLASH HACK PAPAN!',
+    xrayScanFloat: '👁️ X-RAY SCAN: {name}!',
+    xrayScanEnemyFloat: '🤖 MUSUH SCAN PAPAN!',
+    empFloat: '⚡ EMP! Armor dihancurkan! -{damage} HP',
+    glitchFloat: '👾 GLITCH -{damage} HP!',
+    virusFloat: '☠️ VIRUS -{damage} HP!',
+    chronosFloat: '🌀 CHRONOS REWIND: Timer 15s & Papan Acak!',
+    drainFloat: '🧲 DRAIN: +{stolen} Armor & -{damage} HP!',
+    drainEnemyFloat: '🧲 MUSUH DRAIN: +{stolen} Armor!',
+    frostbiteFloat: '❄️ FROSTBITE: Musuh Terbeku (1 Turn)!',
+    frostbiteEnemyFloat: '❄️ FROSTBITE MUSUH: Giliran Anda Terbeku!',
+    gambleWinFloat: '🎲 LUCKY WIN! {damage} DAMAGE!',
+    gambleLossFloat: '💥 BACKFIRE! -{damage} HP & Target +{heal} HP!',
+    mirageCastFloat: '🪞 MIRAGE: Kartu Berikutnya Efek 2x!',
+    mirageCastEnemyFloat: '🪞 MIRAGE MUSUH: Efek 2x Active!',
+    emergencyPityFloat: '🚑 BANTUAN DARURAT! +35 HP & +25 ARMOR',
+    deckCompleteFloat: '💖 +50 HP BONUS DECK LENGKAP!',
 
     // ── Card Descriptions & Lore Stories ──
     cards: {
@@ -221,18 +263,54 @@ export const TRANSLATIONS = {
         lore: 'Relik suci yang menyimpan Jiwa Api Burung Phoenix Abadi. Saat dipicu dalam ritual pertarungan, gelombang kobaran api regenerasi membakar seluruh sel mati dan memulihkan 35 HP secara sempurna.'
       },
       debuff_glitch: {
-        description: 'Ganggui sistem musuh & berikan 24 Damage.',
+        description: 'Gangguan sistem musuh & berikan 24 Damage.',
         lore: 'Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.'
       },
       debuff_emp: {
         description: 'Pulsa EMP melumpuhkan perisai & berikan 28 Damage.',
-        lore: 'Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.'
+        lore: 'Mantra Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.'
       },
       pity_wrath: {
         description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
         lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.'
+      },
+      chrono_rewind: {
+        description: 'Memulihkan Turn Timer ke 15s & mengocok posisi kartu tertutup!',
+        lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan mereset arus dimensi waktu.'
+      },
+      drain_syphon: {
+        description: 'Mencuri 15 Armor musuh menjadi Armor sendiri + 10 Damage!',
+        lore: 'Sedotan matriks energi bioluminesensi dari Sektor Alkimia. Menyerap benteng pertahanan lawan untuk memperkuat pelindung pribadi.'
+      },
+      ctrl_frostbite: {
+        description: 'Membekukan giliran AI Musuh! (Musuh kehilangan 1 Turn)',
+        lore: 'Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.'
+      },
+      buff_neural: {
+        description: 'Membuka SELURUH kartu tertutup di papan selama 1.5 detik!',
+        lore: 'Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.'
+      },
+      gamble_cosmic: {
+        description: '50% Peluang: 35 Damage Kosmik atau 50% Peluang: Menerima 10 Damage & Target +10 HP!',
+        lore: 'Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.'
+      },
+      special_mirage: {
+        description: 'Menggandakan (2x) Efek Kartu berikutnya yang berhasil dicocokkan!',
+        lore: 'Cermin ilusi fraktal dimensi astral yang membiaskan 1 jejak mantra menjadi 2 bayangan nyata.'
       }
-    }
+    },
+    // ── Additional Modals Lokalisasi ──
+    deckFullBadge: '✨ DECK LENGKAP 100% ✨',
+    deckFullDesc: 'Selamat! Semua 21 kartu katalog telah terkumpul di Deck Anda. Dapatkan bonus pemulihan HP maksimal!',
+    claimBonusBtn: 'Klaim Bonus +50 HP & Lanjut',
+    emergencyMedkitBtn: '🚑 Ambil Medkit',
+    globalLBLoading: 'Memuat data leaderboard global...',
+    globalLBSub: 'Top 10 Pemain Terbaik Dunia — Memory Card Battle',
+    globalLBError: 'Gagal memuat data. Periksa koneksi internet Anda.',
+    globalLBRetry: 'Coba Lagi',
+    youPill: 'Anda',
+    clickToOpenLore: 'Klik untuk membuka Kisah Lore & Detail Kartu',
+    loreFallback: 'Arsip rahasia kartu ini tersimpan dalam intisari memori Sektor Neo-Veridia.',
   },
 
   EN: {
@@ -261,7 +339,7 @@ export const TRANSLATIONS = {
     dashTitle: 'MEMORY CARD BATTLE',
     dashSubtitle: 'Cyberfantasy RPG & Memory Matching Game',
     featRpg: '⚔️ 1v1 Battle RPG',
-    featCards: '🃏 15 Cyber Cards',
+    featCards: '🃏 21 Cyber Cards',
     featPity: '🛡️ Pity System',
     nameInputPlaceholder: 'Enter Player Name...',
     aiSelectorLabel: '🧠 Enemy AI Difficulty Mode:',
@@ -339,6 +417,11 @@ export const TRANSLATIONS = {
     cardDetailTypeBuff: '👁️ BUFF SCAN',
     cardDetailTypeDebuff: '☠️ DEBUFF GLITCH',
     cardDetailTypeEmergency: '🚑 EMERGENCY MEDKIT',
+    cardDetailTypeUtility: '🌀 UTILITY/TIMER',
+    cardDetailTypeDrain: '🧲 DRAIN ARMOR',
+    cardDetailTypeControl: '❄️ ICE CONTROL',
+    cardDetailTypeRisk: '🎲 RISK GAMBLE',
+    cardDetailTypeSpecial: '🪞 SPECIAL MIRAGE',
     loreArchiveHeader: 'CYBER LORE ARCHIVE',
     statEffectValue: 'EFFECT VALUE',
     statPoints: 'Pts',
@@ -400,6 +483,43 @@ export const TRANSLATIONS = {
     floatBlock: '+{val} Armor',
     floatHeal: '+{val} HP',
     floatScan: '👁️ Board Scanned!',
+    startAttackMsg: 'Choose 2 cards to attack the enemy!',
+    reloadWarnMsg: 'Your battle is in progress! Refreshing the web will reset the battle from the beginning.',
+    timeoutFloat: '⏰ TIME OUT!',
+    timeoutMsg: '⏰ Your thinking time expired! Turn switched to Enemy!',
+    aiDifficultyChange: '🧠 AI Difficulty Mode Changed to: {mode}',
+    playerFrozenFloat: '🧊 You are Frozen! Turn Skipped!',
+    playerFrozenMsg: '🧊 You are frozen by Frostbite Stasis! Turn switched to Enemy.',
+    enemyFrozenFloat: '🧊 Enemy Frozen! Turn Skipped!',
+    enemyFrozenMsg: '🧊 {enemy} is frozen by Frostbite Stasis! Turn switches back to You.',
+    aiThinkingMsg: '🤖 {enemy} (AI {difficulty}) is thinking...',
+    matchTitleFloat: '✨ MATCH: {name}!',
+    roundResetFloat: '🔄 New Round! Board Reset',
+    roundResetMsg: '🔄 All 16 cards matched! Shuffling board for the next Round...',
+    matchSuccessMsg: '✨ Match! {actor} successfully used {card} effect!',
+    mismatchMsg: '❌ Mismatch! {actor}\'s turn ends.',
+    mirageActiveFloat: '🪞 MIRAGE 2X EFFECT ACTIVE!',
+    pierceFloat: '🗡️ PIERCE -{damage} HP',
+    armorAbsorbFloat: '-{val} Armor',
+    divineWrathFloat: '⚡ DIVINE WRATH +{healBonus} HP!',
+    neuralFlashPlayerFloat: '🧠 NEURAL FLASH: Entire Board Revealed!',
+    neuralFlashEnemyFloat: '🤖 ENEMY FLASH HACKED THE BOARD!',
+    xrayScanFloat: '👁️ X-RAY SCAN: {name}!',
+    xrayScanEnemyFloat: '🤖 ENEMY SCANNED THE BOARD!',
+    empFloat: '⚡ EMP! Armor destroyed! -{damage} HP',
+    glitchFloat: '👾 GLITCH -{damage} HP!',
+    virusFloat: '☠️ VIRUS -{damage} HP!',
+    chronosFloat: '🌀 CHRONOS REWIND: 15s Timer & Board Shuffled!',
+    drainFloat: '🧲 DRAIN: +{stolen} Armor & -{damage} HP!',
+    drainEnemyFloat: '🧲 ENEMY DRAIN: +{stolen} Armor!',
+    frostbiteFloat: '❄️ FROSTBITE: Enemy Frozen (1 Turn)!',
+    frostbiteEnemyFloat: '❄️ ENEMY FROSTBITE: Your Turn Frozen!',
+    gambleWinFloat: '🎲 LUCKY WIN! {damage} DAMAGE!',
+    gambleLossFloat: '💥 BACKFIRE! -{damage} HP & Target +{heal} HP!',
+    mirageCastFloat: '🪞 MIRAGE: Next Card 2x Effect!',
+    mirageCastEnemyFloat: '🪞 ENEMY MIRAGE: 2x Effect Active!',
+    emergencyPityFloat: '🚑 EMERGENCY ASSISTANCE! +35 HP & +25 ARMOR',
+    deckCompleteFloat: '💖 +50 HP FULL DECK BONUS!',
 
     // ── Card Descriptions & Lore Stories ──
     cards: {
@@ -462,8 +582,44 @@ export const TRANSLATIONS = {
       pity_wrath: {
         description: 'Divine lightning strikes 40 Damage + Heals 15 HP!',
         lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Gods. Summoned when sacred warriors stand on the brink of death, striking enemies with 40 Divine Lightning Damage while healing 15 HP.'
+      },
+      chrono_rewind: {
+        description: 'Restores Turn Timer to 15s & shuffles all face-down cards!',
+        lore: 'A photon crystal hourglass relic forged by Chrono-Mages. Erases memory faults and resets the flow of time dimensions.'
+      },
+      drain_syphon: {
+        description: 'Steals 15 enemy Armor to self + deals 10 Damage!',
+        lore: 'A bioluminescent energy matrix syphon from the Alchemy Sector. Absorbs enemy defensive bulwarks to reinforce personal shielding.'
+      },
+      ctrl_frostbite: {
+        description: 'Freezes the enemy AI turn! (Enemy loses 1 Turn)',
+        lore: 'A Frost-Byte Eternal Ice seal spell from the mountains of Cyberia. Freezes enemy cognitive memories within a dome of pure ice.'
+      },
+      buff_neural: {
+        description: 'Reveals ALL face-down cards on the board for 1.5 seconds!',
+        lore: 'A spectral brain-hacking implant. Injects a pulse of light that reveals the entire board layout in a blink of an eye.'
+      },
+      gamble_cosmic: {
+        description: '50% Chance: 35 Cosmic Damage OR 50% Chance: Receive 10 Damage & Target +10 HP!',
+        lore: 'Chaos Alchemist Dice artifact from the Void Dimension. Divine luck decides whether this spell obliterates the enemy or backfires.'
+      },
+      special_mirage: {
+        description: 'Doubles (2x) the effect of the next successfully matched card!',
+        lore: 'An astral dimension fractal illusion mirror that refracts 1 spell trace into 2 real shadows.'
       }
-    }
+    },
+    // ── Additional Modals Lokalisasi ──
+    deckFullBadge: '✨ DECK COMPLETE 100% ✨',
+    deckFullDesc: 'Congratulations! All 21 catalog cards have been collected in your Deck. Receive maximum HP recovery bonus!',
+    claimBonusBtn: 'Claim Bonus +50 HP & Continue',
+    emergencyMedkitBtn: '🚑 Take Medkit',
+    globalLBLoading: 'Loading global scores...',
+    globalLBSub: 'Top 10 Players Worldwide — Memory Card Battle',
+    globalLBError: 'Failed to load leaderboard data. Check your internet connection.',
+    globalLBRetry: 'Retry',
+    youPill: 'You',
+    clickToOpenLore: 'Click to open Lore story & Card Details',
+    loreFallback: 'This card\'s secret archive is stored within the memory core of the Neo-Veridia Sector.',
   }
 };
 

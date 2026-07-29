@@ -30,18 +30,18 @@ const GameOverModal = ({
         {/* Ringkasan Statistik */}
         <div className="gameover-stats-grid">
           <div className="gameover-stat-card">
-            <span className="stat-label">{t('statFinalStage', currentLang)}</span>
-            <span className="stat-value">Stage {stage}</span>
+            <span className="stat-card-label">{t('statFinalStage', currentLang)}</span>
+            <span className="stat-card-value primary">Stage {stage}</span>
           </div>
 
           <div className="gameover-stat-card">
-            <span className="stat-label">{t('statTotalMatches', currentLang)}</span>
-            <span className="stat-value">✨ {totalMatches}</span>
+            <span className="stat-card-label">{t('statTotalMatches', currentLang)}</span>
+            <span className="stat-card-value match">✨ {totalMatches}</span>
           </div>
 
           <div className="gameover-stat-card">
-            <span className="stat-label">{t('statAiMode', currentLang)}</span>
-            <span className="stat-value">{difficultyName || 'Auto'}</span>
+            <span className="stat-card-label">{t('statAiMode', currentLang)}</span>
+            <span className="stat-card-value title">{difficultyName || 'Auto'}</span>
           </div>
         </div>
 
@@ -58,17 +58,6 @@ const GameOverModal = ({
               {t('viewLeaderboardBtn', currentLang)}
             </button>
           )}
-
-          <button
-            className="restart-journey-btn"
-            onClick={() => {
-              soundManager.playClickSFX();
-              if (handlePlayAgain) handlePlayAgain();
-            }}
-            disabled={!handlePlayAgain}
-          >
-            {t('playAgainBtn', currentLang)}
-          </button>
 
           {onBackToDashboard && (
             <button

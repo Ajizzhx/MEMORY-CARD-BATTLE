@@ -108,7 +108,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
                   boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
                 }}
                 onClick={() => handleCardClick(card)}
-                title="Klik untuk membuka Kisah Lore & Detail Kartu"
+                title={t('clickToOpenLore', currentLang)}
               >
                 {!isDashboard && isPresent && (
                   <div className="card-stage-status-badge">

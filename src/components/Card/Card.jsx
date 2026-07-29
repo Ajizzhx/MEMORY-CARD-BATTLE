@@ -65,9 +65,15 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
             {card.type === 'ATTACK' && !card.isPiercing && card.id !== 'pity_wrath' && `-${card.value} HP`}
             {card.type === 'HEAL' && `+${card.value} HP`}
             {card.type === 'DEFENSE' && `+${card.value} Armor`}
-            {card.type === 'BUFF' && 'BUFF'}
+            {card.type === 'BUFF' && card.id === 'buff_neural' && '🧠 FLASH BOARD'}
+            {card.type === 'BUFF' && card.id !== 'buff_neural' && '👁️ SCAN BOARD'}
             {card.type === 'DEBUFF' && card.id === 'debuff_emp' && `⚡ EMP -${card.value}`}
             {card.type === 'DEBUFF' && card.id !== 'debuff_emp' && `DEBUFF`}
+            {card.type === 'UTILITY' && '🌀 TIMER/SHUFFLE'}
+            {card.type === 'DRAIN' && '🧲 DRAIN -10/+15'}
+            {card.type === 'CONTROL' && '❄️ FREEZE 1 TURN'}
+            {card.type === 'RISK' && '🎲 GAMBLE 35/-10'}
+            {card.type === 'SPECIAL' && '🪞 DOUBLE CAST'}
           </div>
         </div>
       </div>

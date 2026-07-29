@@ -23,7 +23,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
         setOnlineScores((data || []).slice(0, 10));
       })
       .catch((err) => {
-        setFetchError(currentLang === 'ID' ? 'Gagal memuat data. Periksa koneksi internet Anda.' : 'Failed to load leaderboard data. Check your internet connection.');
+        setFetchError(t('globalLBError', currentLang));
         console.error('[LeaderboardModal]', err);
       })
       .finally(() => setIsLoading(false));
@@ -54,13 +54,13 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
         {activeTab === 'online' && (
           <div className="lb-online-container">
             <p className="app-subtitle">
-              {currentLang === 'ID' ? 'Top 10 Pemain Terbaik Dunia — Memory Card Battle' : 'Top 10 Players Worldwide — Memory Card Battle'}
+              {t('globalLBSub', currentLang)}
             </p>
 
             {isLoading && (
               <div className="lb-loading">
                 <div className="lb-spinner" />
-                <span>{currentLang === 'ID' ? 'Memuat data leaderboard online...' : 'Loading global scores...'}</span>
+                <span>{t('globalLBLoading', currentLang)}</span>
               </div>
             )}
 
@@ -74,7 +74,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                     setTimeout(() => setActiveTab('online'), 50);
                   }}
                 >
-                  {currentLang === 'ID' ? 'Coba Lagi' : 'Retry'}
+                  {t('globalLBRetry', currentLang)}
                 </button>
               </div>
             )}
@@ -108,7 +108,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                           </td>
                           <td className="player-cell">
                             {item.name}
-                            {isMe && <span className="you-badge"> ({currentLang === 'ID' ? 'Anda' : 'You'})</span>}
+                            {isMe && <span className="you-badge"> ({t('youPill', currentLang)})</span>}
                           </td>
                           <td>
                             <span className="lb-diff-badge">{item.difficulty || '-'}</span>
