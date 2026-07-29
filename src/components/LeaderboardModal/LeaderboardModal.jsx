@@ -18,9 +18,9 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
     setIsLoading(true);
     setFetchError(null);
 
-    fetchTopScores(25)
+    fetchTopScores(10)
       .then((data) => {
-        setOnlineScores(data || []);
+        setOnlineScores((data || []).slice(0, 10));
       })
       .catch((err) => {
         setFetchError(currentLang === 'ID' ? 'Gagal memuat data. Periksa koneksi internet Anda.' : 'Failed to load leaderboard data. Check your internet connection.');
@@ -99,7 +99,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                       </td>
                     </tr>
                   ) : (
-                    onlineScores.map((item, index) => {
+                    onlineScores.slice(0, 10).map((item, index) => {
                       const isMe = item.name === currentPlayerName;
                       return (
                         <tr key={item.id || index} className={`${index === 0 ? 'top-1' : ''} ${isMe ? 'my-rank-row' : ''}`}>
@@ -146,7 +146,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                   </td>
                 </tr>
               ) : (
-                leaderboard.map((item, index) => (
+                leaderboard.slice(0, 10).map((item, index) => (
                   <tr key={index} className={index === 0 ? 'top-1' : ''}>
                     <td className="rank-cell">{MEDAL[index] || index + 1}</td>
                     <td className="player-cell">{item.name}</td>

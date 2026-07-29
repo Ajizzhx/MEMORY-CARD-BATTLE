@@ -22,9 +22,33 @@ const HEADERS = {
 const TOP_LIMIT = 10;
 
 /**
+ * Hapus otomatis baris di Supabase yang berada di luar Top 10 (peringkat 11 ke bawah)
+ * @param {Array} extraItems
+ */
+const pruneExtraDatabaseScores = async (extraItems) => {
+  if (!extraItems || extraItems.length === 0) return;
+  const ids = extraItems.map((item) => item.id).filter(Boolean);
+  if (ids.length === 0) return;
+
+  try {
+    const deleteParams = new URLSearchParams({
+      id: `in.(${ids.join(',')})`
+    });
+    await fetch(`${TABLE_ENDPOINT}?${deleteParams}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
+    });
+  } catch (err) {
+    console.warn('[Leaderboard] Automatic database cleanup note:', err.message);
+  }
+};
+
+/**
  * Submit skor pemain ke Supabase.
  * Hanya mengirim jika skor masuk Top 10 (optimasi: tidak insert data yang tidak perlu).
- * Trigger di Supabase akan otomatis membersihkan baris di luar Top 10.
  * @param {{ name: string, stage: number, totalMatches: number, difficulty: string }} entry
  */
 export const submitScore = async (entry) => {
@@ -54,6 +78,9 @@ export const submitScore = async (entry) => {
         difficulty: entry.difficulty || 'Otomatis'
       })
     });
+
+    // Jalankan pembersihan database otomatis setelah submit
+    await fetchTopScores(TOP_LIMIT);
   } catch (err) {
     // Gagal silently — jangan ganggu gameplay
     console.warn('[Leaderboard] Gagal mengirim skor online:', err.message);
@@ -61,17 +88,21 @@ export const submitScore = async (entry) => {
 };
 
 /**
- * Ambil top 10 skor global dari Supabase
+ * Ambil top 10 skor global dari Supabase.
+ * Otomatis menghapus baris ke-11 dan seterusnya dari database Supabase.
  * @param {number} limit - Jumlah skor yang diambil (default 10)
- * @returns {Promise<Array>} Daftar skor terurut Stage DESC, Total Match DESC
+ * @returns {Promise<Array>} Daftar skor terurut Stage DESC, Total Match DESC (Maksimal 10)
  */
 export const fetchTopScores = async (limit = TOP_LIMIT) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
+  const targetLimit = Math.min(limit, TOP_LIMIT);
+
+  // Ambil hingga 50 data untuk mendeteksi dan membersihkan entri di luar Top 10
   const params = new URLSearchParams({
     select: 'id,name,stage,total_matches,difficulty,created_at',
     order: 'stage.desc,total_matches.desc',
-    limit: String(limit)
+    limit: '50'
   });
 
   const res = await fetch(`${TABLE_ENDPOINT}?${params}`, {
@@ -86,7 +117,17 @@ export const fetchTopScores = async (limit = TOP_LIMIT) => {
     throw new Error(`HTTP ${res.status}`);
   }
 
-  return res.json();
+  const allScores = await res.json();
+
+  if (Array.isArray(allScores) && allScores.length > targetLimit) {
+    const topScores = allScores.slice(0, targetLimit);
+    const extraScores = allScores.slice(targetLimit);
+    // Hapus otomatis peringkat 11+ dari Supabase di background
+    pruneExtraDatabaseScores(extraScores);
+    return topScores;
+  }
+
+  return allScores || [];
 };
 
 /**
