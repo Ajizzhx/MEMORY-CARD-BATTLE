@@ -1,20 +1,20 @@
 # Dokumen Katalog Kartu (Card Database Catalog)
 ## Memory Card Battle - Cyberfantasy Edition
 
-Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup statistik, efek, tingkat kelangkaan (rarity), gambar 3D artwork render, serta kisah latar belakang (Lore Story) unik bergenre **Cyberfantasy (Peleburan High Fantasy & Cyberpunk)** per kartu.
+Dokumen ini berisi daftar lengkap **21 kartu** yang ada di dalam game, mencakup statistik, efek, tingkat kelangkaan (rarity), gambar 3D artwork render/emblem, serta kisah latar belakang (Lore Story) unik bergenre **Cyberfantasy (Peleburan High Fantasy & Cyberpunk)** per kartu.
 
 ---
 
-## 1. Skema Kelangkaan (Rarity System)
-- ⚪ **Common (Biasa):** Drop rate 60%. Efek standar (Cyber Dagger, Nano Barrier, Bio Nectar).
-- 🔵 **Rare (Langka):** Drop rate 30%. Efek lebih kuat & spesifik (Plasma Blade, Quantum Piercer, Aura Shield, Cyber Elixir, Oracle Eye, Corrosive Virus).
-- 🟣 **Epic (Sangat Langka):** Drop rate 10%. Efek dahsyat yang membalikkan keadaan (Aether Strike, Aegis Protocol, Phoenix Catalyst, Glitch Overlay, EMP Disrupter, Divine Wrath).
+## 1. Skema Kelangkaan & Tipe Kartu (Rarity & Type System)
+- ⚪ **Common (Biasa):** Drop rate 50%. Efek dasar (Cyber Dagger, Nano Barrier, Bio Nectar).
+- 🔵 **Rare (Langka):** Drop rate 35%. Efek taktis & spesifik (Plasma Blade, Quantum Piercer, Aura Shield, Cyber Elixir, Oracle Eye, Corrosive Virus, Aether Syphon, Cosmic Gamble).
+- 🟣 **Epic / Special (Sangat Langka):** Drop rate 15%. Efek manipulasi arena & pembalik keadaan (Aether Strike, Aegis Protocol, Phoenix Catalyst, Glitch Overlay, EMP Disrupter, Divine Wrath, Chronos Rewind, Frostbite Stasis, Neural Flash, Mirage Duplicator).
 
 ---
 
-## 2. Katalog Lengkap 15 Kartu Game (100% 3D Cyberfantasy Artwork)
+## 2. Katalog Lengkap 21 Kartu Game (100% Cyberfantasy Artwork & Emblems)
 
-| ID Kartu | Nama Kartu | Kategori | Rarity | Efek Utama | Gambar Asset 3D |
+| ID Kartu | Nama Kartu | Kategori | Rarity | Efek Utama & Mekanik | Gambar Asset 3D |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `atk_dagger` | **Cyber Dagger** | ATTACK | Common | **12 Damage** | `/assets/cards/atk_dagger.png` |
 | `def_nano` | **Nano Barrier** | DEFENSE | Common | **10 Block** | `/assets/cards/def_nano.png` |
@@ -31,10 +31,16 @@ Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup stat
 | `debuff_glitch` | **Glitch Overlay** | DEBUFF | Epic | **24 Damage** | `/assets/cards/debuff_glitch.png` |
 | `debuff_emp` | **EMP Disrupter** | DEBUFF | Epic | **28 Damage (Lumpuhkan Perisai)** | `/assets/cards/debuff_emp.png` |
 | `pity_wrath` | **Divine Wrath** | ATTACK | Epic | **40 Damage + 15 Heal** | `/assets/cards/pity_wrath.png` |
+| `chrono_rewind` | **Chronos Rewind** | UTILITY | Epic | **Timer 15s + Kocok Papan** | `/assets/cards/chrono_rewind.png` |
+| `drain_syphon` | **Aether Syphon** | DRAIN | Rare | **Curi 15 Armor + 10 Damage** | `/assets/cards/drain_syphon.png` |
+| `ctrl_frostbite` | **Frostbite Stasis** | CONTROL | Epic | **Bekukan 1 Turn AI Musuh** | `/assets/cards/ctrl_frostbite.png` |
+| `buff_neural` | **Neural Flash** | BUFF | Epic | **Buka Seluruh Papan 1.5s** | `/assets/cards/buff_neural.png` |
+| `gamble_cosmic` | **Cosmic Gamble** | RISK | Rare | **50% 35 Dmg / 50% -10 HP & +10 Enemy HP** | `/assets/cards/gamble_cosmic.png` |
+| `special_mirage` | **Mirage Duplicator** | SPECIAL | Epic | **Efek 2x Lipat pada Kartu Berikutnya** | `/assets/cards/special_mirage.png` |
 
 ---
 
-## 3. Kisah Latar Belakang (Lore Story Archive) Cyberfantasy 15 Kartu
+## 3. Kisah Latar Belakang (Lore Story Archive) Cyberfantasy 21 Kartu
 
 1. ⚔️ **Cyber Dagger:** *Belati sihir foton yang ditempa oleh Penyihir Rune di Laboratorium Alkimia Neo-Veridia. Diukir dengan inskripsi mantra suci kuno yang dialiri energi neon, senjata ini menembus jiwa dan memori musuh dalam sekejap.*
 2. 🛡️ **Nano Barrier:** *Perisai gaib gabungan Sihir Perlindungan Elven dan matriks Nanobot. Diciptakan oleh Para Penyihir Cybermedis, jaring kristal ini memancarkan mantra pelindung suci secara instan saat ancaman bahaya mendekat.*
@@ -51,6 +57,12 @@ Dokumen ini berisi daftar lengkap 15 kartu yang ada di dalam game, mencakup stat
 13. 👾 **Glitch Overlay:** *Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.*
 14. ⚡ **EMP Disrupter:** *Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.*
 15. ⚡ **Divine Wrath:** *Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.*
+16. 🌀 **Chronos Rewind:** *Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan meriset arus dimensi waktu.*
+17. 🧲 **Aether Syphon:** *Sedotan matriks energi bioluminesensi dari Sektor Alkimia. Menyerap benteng pertahanan lawan untuk memperkuat pelindung pribadi.*
+18. ❄️ **Frostbite Stasis:** *Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.*
+19. 🧠 **Neural Flash:** *Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.*
+20. 🎲 **Cosmic Gamble:** *Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.*
+21. 🪞 **Mirage Duplicator:** *Cermin ilusi fraktal dimensi astral yang membiaskan 1 jejak mantra menjadi 2 bayangan nyata.*
 
 ---
 

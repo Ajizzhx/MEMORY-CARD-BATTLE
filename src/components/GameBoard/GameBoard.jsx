@@ -83,6 +83,12 @@ const GameBoard = () => {
   const [aiMemory, setAiMemory] = useState({});
   const [isEmpJammerActive, setIsEmpJammerActive] = useState(false);
 
+  // New Unique Skill States
+  const [isEnemyFrozen, setIsEnemyFrozen] = useState(false);
+  const [isPlayerFrozen, setIsPlayerFrozen] = useState(false);
+  const [isDoubleCastActive, setIsDoubleCastActive] = useState(false);
+  const [isEnemyDoubleCastActive, setIsEnemyDoubleCastActive] = useState(false);
+
   // Compute Active AI Difficulty
   const activeAiDifficulty = selectedAiMode === 'AUTO'
     ? getStageEnemyConfig(stage).difficulty
@@ -363,6 +369,10 @@ const GameBoard = () => {
     setTemporaryRevealed([]);
     setAiMemory({});
     setIsEmpJammerActive(false);
+    setIsEnemyFrozen(false);
+    setIsPlayerFrozen(false);
+    setIsDoubleCastActive(false);
+    setIsEnemyDoubleCastActive(false);
     setIsProcessing(false);
     setCurrentTurn('PLAYER');
     setTurnTimer(TURN_TIME_LIMIT);
@@ -384,9 +394,30 @@ const GameBoard = () => {
     }, 850);
   };
 
+  // Player Turn Frozen Skip Effect
+  useEffect(() => {
+    if (currentTurn === 'PLAYER' && isPlayerFrozen && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal) {
+      setIsPlayerFrozen(false);
+      soundManager.playBlockSFX();
+      spawnFloatingText('🧊 Anda Terbeku! Giliran Lewat!', 'damage');
+      setStatusMessage('🧊 Anda terbeku oleh Frostbite Stasis! Giliran berpindah ke Musuh.');
+      setCurrentTurn('ENEMY');
+    }
+  }, [currentTurn, isPlayerFrozen, isProcessing, player.hp, enemy.hp, showNameModal]);
+
   // AI Turn Handling
   useEffect(() => {
     if (currentTurn === 'ENEMY' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showPauseModal) {
+      if (isEnemyFrozen) {
+        setIsEnemyFrozen(false);
+        soundManager.playBlockSFX();
+        spawnFloatingText('🧊 Musuh Terbeku! Giliran Lewat!', 'match');
+        setStatusMessage(`🧊 ${enemy.name} terbeku oleh Frostbite Stasis! Giliran kembali ke Anda.`);
+        setCurrentTurn('PLAYER');
+        setTurnTimer(TURN_TIME_LIMIT);
+        return;
+      }
+
       const available = cards.filter((c) => !matchedCardIds.includes(c.pairId));
       if (available.length < 2) return;
 
@@ -418,7 +449,7 @@ const GameBoard = () => {
         }
       }, 1100);
     }
-  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, player.hp, enemy.hp, showPauseModal]);
+  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, isEnemyFrozen, player.hp, enemy.hp, showPauseModal]);
 
   // Handle Player Card Click
   const handleCardClick = (clickedCard) => {
@@ -529,11 +560,19 @@ const GameBoard = () => {
   // Aplikasikan Efek Kartu
   const applyCardEffect = (card, actor) => {
     const isPlayer = actor === 'PLAYER';
+    const isDouble = isPlayer ? isDoubleCastActive : isEnemyDoubleCastActive;
+    const mult = (isDouble && card.type !== 'SPECIAL') ? 2 : 1;
+
+    if (isDouble && card.type !== 'SPECIAL') {
+      spawnFloatingText('🪞 MIRAGE 2X EFEK AKTIF!', 'match');
+      if (isPlayer) setIsDoubleCastActive(false);
+      else setIsEnemyDoubleCastActive(false);
+    }
 
     switch (card.type) {
       case 'ATTACK': {
         soundManager.playAttackSFX();
-        const damage = card.value;
+        const damage = card.value * mult;
         triggerScreenShake();
 
         if (card.isPiercing) {
@@ -584,55 +623,78 @@ const GameBoard = () => {
           }
         }
 
-        // Divine Wrath: Efek unik Attack + Heal +15 HP untuk penyerang
-        if (card.id === 'pity_wrath' && isPlayer) {
+        // Divine Wrath: Efek unik Attack + Heal +15 HP (dikali mult)
+        if (card.id === 'pity_wrath') {
           soundManager.playHealSFX();
-          spawnFloatingText(`⚡ DIVINE WRATH +15 HP!`, 'heal');
-          setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 15) }));
-        } else if (card.id === 'pity_wrath' && !isPlayer) {
-          setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + 15) }));
+          const healBonus = 15 * mult;
+          if (isPlayer) {
+            spawnFloatingText(`⚡ DIVINE WRATH +${healBonus} HP!`, 'heal');
+            setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healBonus) }));
+          } else {
+            setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healBonus) }));
+          }
         }
         break;
       }
       case 'DEFENSE': {
         soundManager.playBlockSFX();
-        spawnFloatingText(`+${card.value} Armor`, 'block');
+        const blockVal = card.value * mult;
+        spawnFloatingText(`+${blockVal} Armor`, 'block');
         if (isPlayer) {
-          setPlayer((prev) => ({ ...prev, block: prev.block + card.value }));
+          setPlayer((prev) => ({ ...prev, block: prev.block + blockVal }));
         } else {
-          setEnemy((prev) => ({ ...prev, block: prev.block + card.value }));
+          setEnemy((prev) => ({ ...prev, block: prev.block + blockVal }));
         }
         break;
       }
       case 'HEAL': {
         soundManager.playHealSFX();
-        spawnFloatingText(`+${card.value} HP`, 'heal');
+        const healVal = card.value * mult;
+        spawnFloatingText(`+${healVal} HP`, 'heal');
         if (isPlayer) {
-          setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + card.value) }));
+          setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healVal) }));
         } else {
-          setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + card.value) }));
+          setEnemy((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healVal) }));
         }
         break;
       }
       case 'BUFF': {
-        if (isPlayer) {
-          spawnFloatingText(`👁️ X-RAY SCAN: ${card.name}!`, 'match');
-          const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
-          if (unmatched.length >= 2) {
-            const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
-            setTemporaryRevealed(sample);
+        if (card.id === 'buff_neural') {
+          // Neural Flash: Membuka SEMUA kartu tertutup di papan selama 1.5 detik
+          if (isPlayer) {
+            spawnFloatingText(`🧠 NEURAL FLASH: Seluruh Papan Terbuka!`, 'match');
+            const unmatchedUniques = cards.filter((c) => !matchedCardIds.includes(c.pairId)).map((c) => c.uniqueId);
+            setTemporaryRevealed(unmatchedUniques);
             setTimeout(() => {
               setTemporaryRevealed([]);
-            }, 2500);
+            }, 1500);
+          } else {
+            spawnFloatingText(`🤖 MUSUH FLASH HACK PAPAN!`, 'damage');
+            const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+            const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
+            setAiMemory((prevMem) => updateAiMemory(prevMem, unmatched, accuracy));
           }
         } else {
-          // Musuh (AI) Buff -> AI merekam ingatan tanpa membocorkan ke tampilan pemain
-          spawnFloatingText(`🤖 MUSUH SCAN PAPAN!`, 'damage');
-          const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
-          if (unmatched.length >= 2) {
-            const sample = unmatched.slice(0, 2);
-            const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
-            setAiMemory((prevMem) => updateAiMemory(prevMem, sample, accuracy));
+          // Oracle Eye
+          if (isPlayer) {
+            spawnFloatingText(`👁️ X-RAY SCAN: ${card.name}!`, 'match');
+            const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+            if (unmatched.length >= 2) {
+              const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
+              setTemporaryRevealed(sample);
+              setTimeout(() => {
+                setTemporaryRevealed([]);
+              }, 2500);
+            }
+          } else {
+            // Musuh (AI) Buff -> AI merekam ingatan tanpa membocorkan ke tampilan pemain
+            spawnFloatingText(`🤖 MUSUH SCAN PAPAN!`, 'damage');
+            const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+            if (unmatched.length >= 2) {
+              const sample = unmatched.slice(0, 2);
+              const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
+              setAiMemory((prevMem) => updateAiMemory(prevMem, sample, accuracy));
+            }
           }
         }
         break;
@@ -640,29 +702,125 @@ const GameBoard = () => {
       case 'DEBUFF': {
         soundManager.playAttackSFX();
         triggerScreenShake();
-        // EMP Disrupter: melumpuhkan armor musuh terlebih dahulu
+        const damage = card.value * mult;
         const isEmpAttack = card.id === 'debuff_emp';
         const isGlitchAttack = card.id === 'debuff_glitch';
         if (isEmpAttack) {
-          spawnFloatingText(`⚡ EMP! Armor dihancurkan! -${card.value} HP`, 'damage');
+          spawnFloatingText(`⚡ EMP! Armor dihancurkan! -${damage} HP`, 'damage');
         } else if (isGlitchAttack) {
-          spawnFloatingText(`👾 GLITCH -${card.value} HP!`, 'damage');
+          spawnFloatingText(`👾 GLITCH -${damage} HP!`, 'damage');
         } else {
-          spawnFloatingText(`☠️ VIRUS -${card.value} HP!`, 'damage');
+          spawnFloatingText(`☠️ VIRUS -${damage} HP!`, 'damage');
         }
         if (isPlayer) {
           setIsEmpJammerActive(true);
           setEnemy((prev) => {
             const newBlock = isEmpAttack ? 0 : prev.block;
-            const updatedHp = Math.max(0, prev.hp - card.value);
+            const updatedHp = Math.max(0, prev.hp - damage);
             return { ...prev, block: newBlock, hp: updatedHp };
           });
         } else {
           setPlayer((prev) => {
             const newBlock = isEmpAttack ? 0 : prev.block;
-            const updatedHp = Math.max(0, prev.hp - card.value);
+            const updatedHp = Math.max(0, prev.hp - damage);
             return { ...prev, block: newBlock, hp: updatedHp };
           });
+        }
+        break;
+      }
+      case 'UTILITY': {
+        // Chronos Rewind: Turn timer ke 15s & kocok posisi kartu tertutup
+        soundManager.playShuffleSFX();
+        setTurnTimer(TURN_TIME_LIMIT);
+        setCards((prevCards) => {
+          const unmatched = prevCards.filter((c) => !matchedCardIds.includes(c.pairId));
+          const shuffled = [...unmatched];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          let uIdx = 0;
+          return prevCards.map((c) => {
+            if (matchedCardIds.includes(c.pairId)) return c;
+            return shuffled[uIdx++];
+          });
+        });
+        setIsShufflingBoard(true);
+        setTimeout(() => setIsShufflingBoard(false), 700);
+        spawnFloatingText('🌀 CHRONOS REWIND: Timer 15s & Papan Acak!', 'match');
+        break;
+      }
+      case 'DRAIN': {
+        soundManager.playAttackSFX();
+        const stealBase = 15 * mult;
+        const damage = 10 * mult;
+        if (isPlayer) {
+          setEnemy((prev) => {
+            const stolen = Math.min(prev.block, stealBase);
+            const newBlock = prev.block - stolen;
+            const newHp = Math.max(0, prev.hp - damage);
+            setPlayer((p) => ({ ...p, block: p.block + stolen }));
+            spawnFloatingText(`🧲 DRAIN: +${stolen} Armor & -${damage} HP!`, 'match');
+            return { ...prev, block: newBlock, hp: newHp };
+          });
+        } else {
+          setPlayer((prev) => {
+            const stolen = Math.min(prev.block, stealBase);
+            const newBlock = prev.block - stolen;
+            const newHp = Math.max(0, prev.hp - damage);
+            setEnemy((e) => ({ ...e, block: e.block + stolen }));
+            spawnFloatingText(`🧲 MUSUH DRAIN: +${stolen} Armor!`, 'damage');
+            return { ...prev, block: newBlock, hp: newHp };
+          });
+        }
+        break;
+      }
+      case 'CONTROL': {
+        soundManager.playBlockSFX();
+        if (isPlayer) {
+          setIsEnemyFrozen(true);
+          spawnFloatingText('❄️ FROSTBITE: Musuh Terbeku (1 Turn)!', 'match');
+        } else {
+          setIsPlayerFrozen(true);
+          spawnFloatingText('❄️ FROSTBITE MUSUH: Giliran Anda Terbeku!', 'damage');
+        }
+        break;
+      }
+      case 'RISK': {
+        const isWin = Math.random() < 0.5;
+        if (isWin) {
+          soundManager.playVictorySFX();
+          triggerScreenShake();
+          const dmg = 35 * mult;
+          spawnFloatingText(`🎲 LUCKY WIN! ${dmg} DAMAGE!`, 'match');
+          if (isPlayer) {
+            setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - dmg) }));
+          } else {
+            setPlayer((prev) => ({ ...prev, hp: Math.max(0, prev.hp - dmg) }));
+          }
+        } else {
+          soundManager.playMismatchSFX();
+          const selfDmg = 10 * mult;
+          const targetHeal = 10 * mult;
+          spawnFloatingText(`💥 BACKFIRE! -${selfDmg} HP & Target +${targetHeal} HP!`, 'damage');
+          if (isPlayer) {
+            setPlayer((p) => ({ ...p, hp: Math.max(0, p.hp - selfDmg) }));
+            setEnemy((e) => ({ ...e, hp: Math.min(e.maxHp, e.hp + targetHeal) }));
+          } else {
+            setEnemy((e) => ({ ...e, hp: Math.max(0, e.hp - selfDmg) }));
+            setPlayer((p) => ({ ...p, hp: Math.min(p.maxHp, p.hp + targetHeal) }));
+          }
+        }
+        break;
+      }
+      case 'SPECIAL': {
+        soundManager.playMatchSFX();
+        if (isPlayer) {
+          setIsDoubleCastActive(true);
+          spawnFloatingText('🪞 MIRAGE: Kartu Berikutnya Efek 2x!', 'match');
+        } else {
+          setIsEnemyDoubleCastActive(true);
+          spawnFloatingText('🪞 MIRAGE MUSUH: Efek 2x Active!', 'damage');
         }
         break;
       }

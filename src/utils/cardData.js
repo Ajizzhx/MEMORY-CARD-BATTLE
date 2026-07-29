@@ -189,6 +189,80 @@ export const CARD_DATABASE = [
     description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
     lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.',
     color: '#eab308'
+  },
+
+  // --- UNIQUE NEW MECHANIC CARDS ---
+  {
+    id: 'chrono_rewind',
+    name: 'Chronos Rewind',
+    type: 'UTILITY',
+    rarity: 'epic',
+    value: 0,
+    icon: '🌀',
+    img: '/assets/cards/chrono_rewind.png',
+    description: 'Memulihkan Turn Timer ke 15s & mengocok posisi kartu tertutup!',
+    lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan meriset arus dimensi waktu.',
+    color: '#00f0ff'
+  },
+  {
+    id: 'drain_syphon',
+    name: 'Aether Syphon',
+    type: 'DRAIN',
+    rarity: 'rare',
+    value: 15,
+    icon: '🧲',
+    img: '/assets/cards/drain_syphon.png',
+    description: 'Mencuri 15 Armor musuh menjadi Armor sendiri + 10 Damage!',
+    lore: 'Sedotan matriks energi bioluminesensi dari Sektor Alkimia. Menyerap benteng pertahanan lawan untuk memperkuat pelindung pribadi.',
+    color: '#a855f7'
+  },
+  {
+    id: 'ctrl_frostbite',
+    name: 'Frostbite Stasis',
+    type: 'CONTROL',
+    rarity: 'epic',
+    value: 0,
+    icon: '❄️',
+    img: '/assets/cards/ctrl_frostbite.png',
+    description: 'Membekukan giliran AI Musuh! (Musuh kehilangan 1 Turn)',
+    lore: 'Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.',
+    color: '#38bdf8'
+  },
+  {
+    id: 'buff_neural',
+    name: 'Neural Flash',
+    type: 'BUFF',
+    rarity: 'epic',
+    value: 0,
+    icon: '🧠',
+    img: '/assets/cards/buff_neural.png',
+    description: 'Membuka SELURUH kartu tertutup di papan selama 1.5 detik!',
+    lore: 'Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.',
+    color: '#39ff14'
+  },
+  {
+    id: 'gamble_cosmic',
+    name: 'Cosmic Gamble',
+    type: 'RISK',
+    rarity: 'rare',
+    value: 35,
+    icon: '🎲',
+    img: '/assets/cards/gamble_cosmic.png',
+    description: '50% Peluang: 35 Damage Kosmik OR 50% Peluang: Menerima 10 Damage & Target +10 HP!',
+    lore: 'Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.',
+    color: '#f59e0b'
+  },
+  {
+    id: 'special_mirage',
+    name: 'Mirage Duplicator',
+    type: 'SPECIAL',
+    rarity: 'epic',
+    value: 0,
+    icon: '🪞',
+    img: '/assets/cards/special_mirage.png',
+    description: 'Menggandakan (2x) Efek Kartu berikutnya yang berhasil dicocokkan!',
+    lore: 'Cermin ilusi fraktal dimensi astral yang membiaskan 1 jejak mantra menjadi 2 bayangan nyata.',
+    color: '#ff007f'
   }
 ];
 
