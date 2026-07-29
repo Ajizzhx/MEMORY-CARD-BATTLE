@@ -180,6 +180,7 @@ const GameBoard = () => {
   const handleTurnTimeout = () => {
     setFlippedCards([]);
     setIsProcessing(true);
+    setIsPlayerFrozen(false);
     soundManager.playMismatchSFX();
     spawnFloatingText('⏰ WAKTU HABIS!', 'damage');
     setStatusMessage('⏰ Waktu berpikir Anda habis! Giliran berpindah ke Musuh!');
