@@ -7,7 +7,7 @@ import './CatalogModal.css';
 
 const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, onClose, currentLang = 'ID' }) => {
   const [activeFilter, setActiveFilter] = useState('ALL');
-  const [showAll15CardsInGame, setShowAll15CardsInGame] = useState(false);
+  const [showAll21CardsInGame, setShowAll21CardsInGame] = useState(false);
   const [selectedCardForDetail, setSelectedCardForDetail] = useState(null);
 
   const localizedDatabase = getLocalizedCards(currentLang);
@@ -19,8 +19,8 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
     boardCardCounts[key] = (boardCardCounts[key] || 0) + 1;
   });
 
-  // Jika di dalam game dan tidak sedang membuka 15 kartu lengkap, FILTER HANYA KARTU YANG ADA DI PAPAN STAGE!
-  const baseCards = (!isDashboard && !showAll15CardsInGame)
+  // Jika di dalam game dan tidak sedang membuka 21 kartu lengkap, FILTER HANYA KARTU YANG ADA DI PAPAN STAGE!
+  const baseCards = (!isDashboard && !showAll21CardsInGame)
     ? localizedDatabase.filter((card) => (boardCardCounts[card.id] || 0) > 0)
     : localizedDatabase;
 
@@ -42,7 +42,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
         </button>
 
         {/* Header Modal */}
-        {isDashboard || showAll15CardsInGame ? (
+        {isDashboard || showAll21CardsInGame ? (
           <>
             <h2 className="catalog-title">{t('catalogTitle15', currentLang)}</h2>
             <p className="app-subtitle">
@@ -62,7 +62,7 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
 
         {/* Tab Filter Kartu */}
         <div className="catalog-tabs">
-          {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF'].map((filter) => (
+          {['ALL', 'ATTACK', 'DEFENSE', 'HEAL', 'BUFF', 'DEBUFF', 'UTILITY', 'DRAIN', 'CONTROL', 'RISK', 'SPECIAL'].map((filter) => (
             <button
               key={filter}
               className={`tab-btn ${activeFilter === filter ? 'active' : ''}`}
@@ -76,17 +76,17 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
           ))}
         </div>
 
-        {/* Tombol Khusus In-Game untuk Beralih ke 15 Kartu Lengkap */}
+        {/* Tombol Khusus In-Game untuk Beralih ke 21 Kartu Lengkap */}
         {!isDashboard && (
           <div className="in-game-guide-toggle">
             <button
               className="toggle-view-btn"
               onClick={() => {
                 soundManager.playClickSFX();
-                setShowAll15CardsInGame(!showAll15CardsInGame);
+                setShowAll21CardsInGame(!showAll21CardsInGame);
               }}
             >
-              {showAll15CardsInGame
+              {showAll21CardsInGame
                 ? `${t('toggleBackStage', currentLang)}${stage}`
                 : t('toggleView15', currentLang)}
             </button>
