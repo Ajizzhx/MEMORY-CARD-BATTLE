@@ -200,8 +200,8 @@ export const CARD_DATABASE = [
     value: 0,
     icon: '🌀',
     img: '/assets/cards/chrono_rewind.png',
-    description: 'Memulihkan Turn Timer ke 15s & mengocok posisi kartu tertutup!',
-    lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan meriset arus dimensi waktu.',
+    description: 'Rewind Mistake: Kesalahan tebakan (mismatch) Anda berikutnya dimaafkan dan giliran tidak akan berpindah ke musuh!',
+    lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Memutar balik waktu untuk membatalkan takdir buruk, memberikan penggunanya kesempatan kedua yang absolut.',
     color: '#00f0ff'
   },
   {
@@ -236,7 +236,7 @@ export const CARD_DATABASE = [
     value: 0,
     icon: '🧠',
     img: '/assets/cards/buff_neural.png',
-    description: 'Membuka SELURUH kartu tertutup di papan selama 1.5 detik!',
+    description: 'Membuka SELURUH kartu di papan selama 1.5 detik! (Musuh AI dibatasi maks 2-6 kartu).',
     lore: 'Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.',
     color: '#39ff14'
   },

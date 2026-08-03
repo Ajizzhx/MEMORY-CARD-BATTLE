@@ -49,3 +49,12 @@ Roadmap ini membagi pengembangan proyek menjadi langkah-langkah yang jelas, dari
 - [x] Memastikan tidak ada *asset* yang *broken link*.
 - [x] Fitur Tambahan Deployment: Leaderboard Sesi, Input Nama, Katalog Kartu, & Turn Timer 15s.
 - [x] Finalisasi dokumentasi repository.
+
+## Fase 9: Boss Challenge Mode (Abyss Omega Arena)
+- [x] Game Mode Selector di Dashboard (RPG Journey vs Boss Challenge).
+- [x] Grid 14×3 (42 kartu / 21 pasang) dengan responsive CSS (melebar ke samping).
+- [x] Player 200 HP vs Boss 400 HP, single stage, tanpa loot/pity.
+- [x] Elapsed Time Tracker — rekor waktu tercepat mengalahkan bos.
+- [x] Boss-specific header, badge, dan GameOver modal dengan waktu penyelesaian.
+- [x] Update seluruh dokumentasi proyek.
+

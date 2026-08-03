@@ -8,12 +8,13 @@ import NameModal from '../NameModal/NameModal';
 import LeaderboardModal from '../LeaderboardModal/LeaderboardModal';
 import CatalogModal from '../CatalogModal/CatalogModal';
 import GuideModal from '../GuideModal/GuideModal';
+import LogModal from '../LogModal/LogModal';
 import ResetConfirmModal from '../ResetConfirmModal/ResetConfirmModal';
 import PauseModal from '../PauseModal/PauseModal';
 import { CARD_DATABASE } from '../../utils/cardData';
 import { AI_DIFFICULTY_LEVELS, updateAiMemory, getAiCardChoices } from '../../utils/aiLogic';
 import { generateLootChoices, getStageEnemyConfig } from '../../utils/lootSystem';
-import { submitScore } from '../../utils/leaderboardService';
+import { submitScore, submitBossScore } from '../../utils/leaderboardService';
 import { soundManager } from '../../utils/soundSystem';
 import { getCurrentLang, setGameLang, t } from '../../utils/i18n';
 import './GameBoard.css';
@@ -41,6 +42,11 @@ const GameBoard = () => {
   // Turn Timer State
   const [turnTimer, setTurnTimer] = useState(TURN_TIME_LIMIT);
 
+  // Game Mode State ('RPG' or 'BOSS_CHALLENGE')
+  const [gameMode, setGameMode] = useState('RPG');
+  const [bossStartTime, setBossStartTime] = useState(null);
+  const [bossElapsedTime, setBossElapsedTime] = useState(0);
+
   // Roguelike Progression States
   const [stage, setStage] = useState(1);
   const [playerDeck, setPlayerDeck] = useState(CARD_DATABASE.slice(0, 8));
@@ -66,6 +72,8 @@ const GameBoard = () => {
   // Modal UI states
   const [isCatalogFromDashboard, setIsCatalogFromDashboard] = useState(false);
   const [showPauseModal, setShowPauseModal] = useState(false);
+  const [showLogModal, setShowLogModal] = useState(false);
+  const [battleLogs, setBattleLogs] = useState([]);
 
   // Polish UI/UX States
   const [floatingTexts, setFloatingTexts] = useState([]);
@@ -88,11 +96,29 @@ const GameBoard = () => {
   const [isPlayerFrozen, setIsPlayerFrozen] = useState(false);
   const [isDoubleCastActive, setIsDoubleCastActive] = useState(false);
   const [isEnemyDoubleCastActive, setIsEnemyDoubleCastActive] = useState(false);
+  const [isPlayerRewindActive, setIsPlayerRewindActive] = useState(false);
+  const [isEnemyRewindActive, setIsEnemyRewindActive] = useState(false);
 
   // Compute Active AI Difficulty
   const activeAiDifficulty = selectedAiMode === 'AUTO'
     ? getStageEnemyConfig(stage).difficulty
     : selectedAiMode;
+
+  // Battle Log helper
+  const addBattleLog = (actor, action, message, details = '') => {
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const actorName = actor === 'PLAYER' ? (playerName || 'Cyber Hero') : enemy.name;
+    setBattleLogs((prev) => [...prev, { time, actor, actorName, action, message, details }]);
+  };
+
+  const updateStatus = () => {
+    if (player.hp === 0 || enemy.hp === 0) return;
+    setStatusMessage(
+      currentTurn === 'PLAYER' 
+        ? t('playerTurnMsg', currentLang) 
+        : t('enemyTurnMsg', currentLang)
+    );
+  };
 
   // Dynamic Pity System State
   const isPityActive = (player.hp / player.maxHp) < 0.5 && mismatchStreak >= 3;
@@ -174,6 +200,17 @@ const GameBoard = () => {
     return () => clearInterval(interval);
   }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal, showPauseModal]);
 
+  // Boss Challenge Elapsed Time Ticker
+  useEffect(() => {
+    let interval = null;
+    if (gameMode === 'BOSS_CHALLENGE' && bossStartTime && player.hp > 0 && enemy.hp > 0 && !showNameModal && !showGameOverModal) {
+      interval = setInterval(() => {
+        setBossElapsedTime(Date.now() - bossStartTime);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [gameMode, bossStartTime, player.hp, enemy.hp, showNameModal, showGameOverModal]);
+
   // Catatan: Reset papan sudah ditangani di handleMatchResult ketika semua kartu cocok.
 
   // Waktu Berpikir Habis Handler
@@ -183,7 +220,7 @@ const GameBoard = () => {
     setIsPlayerFrozen(false);
     soundManager.playMismatchSFX();
     spawnFloatingText(t('timeoutFloat', currentLang), 'damage');
-    setStatusMessage(t('timeoutMsg', currentLang));
+    updateStatus();
 
     setTimeout(() => {
       setIsProcessing(false);
@@ -209,7 +246,7 @@ const GameBoard = () => {
 
     const nextModeLabel = modeLabels[nextMode];
     spawnFloatingText(t('aiDifficultyChange', currentLang).replace('{mode}', nextModeLabel), 'match');
-    setStatusMessage(t('aiDifficultyChange', currentLang).replace('{mode}', nextModeLabel));
+    updateStatus();
   };
 
   // Spawn Floating Text
@@ -228,20 +265,56 @@ const GameBoard = () => {
   };
 
   // Handle Nama & Mode AI Pemain
-  const handleNameSubmit = (name, mode = 'AUTO') => {
+  const handleNameSubmit = (name, mode = 'AUTO', gameModeSel = 'RPG') => {
     soundManager.startBgm();
     soundManager.playClickSFX();
     localStorage.setItem('memory_player_name', name);
     localStorage.setItem('memory_ai_mode', mode);
     setPlayerName(name);
     setSelectedAiMode(mode);
+    setGameMode(gameModeSel);
     setPlayer((prev) => ({ ...prev, name }));
     setShowNameModal(false);
+
+    if (gameModeSel === 'BOSS_CHALLENGE') {
+      initBoardForBossChallenge(name);
+    }
   };
 
   // Catat Skor ke Leaderboard Lokal (Sesi) & Online (Supabase)
-  const recordLeaderboardScore = (finalStage, matches) => {
+  const recordLeaderboardScore = (finalStage, matches, elapsedMs = 0) => {
     const activeDifficultyLabel = AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name || 'Otomatis';
+    
+    if (gameMode === 'BOSS_CHALLENGE') {
+      const newEntry = {
+        name: playerName || 'Cyber Hero',
+        difficulty: activeDifficultyLabel,
+        stage: 'Omega',
+        totalMatches: matches,
+        elapsedMs: elapsedMs,
+        created_at: new Date().toISOString()
+      };
+      
+      const savedBoss = localStorage.getItem('memory_boss_leaderboard');
+      let bossLeaderboard = [];
+      if (savedBoss) {
+        try {
+          bossLeaderboard = JSON.parse(savedBoss);
+        } catch (e) {}
+      }
+      
+      const updatedBoss = [...bossLeaderboard, newEntry]
+        .sort((a, b) => a.elapsedMs - b.elapsedMs)
+        .slice(0, 10);
+        
+      localStorage.setItem('memory_boss_leaderboard', JSON.stringify(updatedBoss));
+      
+      // Submit Boss Score ke Supabase
+      submitBossScore(newEntry);
+      
+      return;
+    }
+
     const newEntry = {
       name: playerName || 'Cyber Hero',
       difficulty: activeDifficultyLabel,
@@ -249,7 +322,7 @@ const GameBoard = () => {
       totalMatches: matches
     };
     const updated = [...leaderboard, newEntry]
-      .sort((a, b) => b.stage - a.stage || b.totalMatches - a.totalMatches)
+      .sort((a, b) => (b.stage - a.stage) || (b.totalMatches - a.totalMatches))
       .slice(0, 10);
 
     setLeaderboard(updated);
@@ -279,6 +352,7 @@ const GameBoard = () => {
 
   // Inisialisasi papan baru setelah player mengisi nama (pertama kali / fresh start)
   const initBoardForNewPlayer = () => {
+    if (gameMode === 'BOSS_CHALLENGE') return; // Boss Challenge punya init sendiri
     localStorage.removeItem('memory_game_saved_state');
     const enemyConfig = getStageEnemyConfig(1);
     setStage(1);
@@ -301,7 +375,38 @@ const GameBoard = () => {
     setStageRound(1);
     setShowLootModal(false);
     setShowGameOverModal(false);
+    setBattleLogs([]); // Reset logs on new game
     resetBoardForStage(1, CARD_DATABASE.slice(0, 8), true);
+  };
+
+  // Inisialisasi papan untuk Boss Challenge (42 kartu / 21 pasang, Player 200 HP, Boss 400 HP)
+  const initBoardForBossChallenge = (name) => {
+    localStorage.removeItem('memory_game_saved_state');
+    setStage(1);
+    const fullDeck = [...CARD_DATABASE];
+    setPlayerDeck(fullDeck);
+    setPlayer({ name: name || 'Cyber Hero', hp: 200, maxHp: 200, block: 0 });
+    setEnemy({
+      name: 'Abyss Omega',
+      hp: 400,
+      maxHp: 400,
+      avatar: '🐉',
+      avatarImg: '/assets/avatars/avatar_dragon.png',
+      block: 0
+    });
+    setMismatchStreak(0);
+    setTotalMatchesMade(0);
+    setTurnTimer(TURN_TIME_LIMIT);
+    setPityUsesLeft(0);
+    setPlayerMatches(0);
+    setEnemyMatches(0);
+    setStageRound(1);
+    setShowLootModal(false);
+    setShowGameOverModal(false);
+    setBattleLogs([]); // Reset logs on new boss challenge
+    setBossStartTime(Date.now());
+    setBossElapsedTime(0);
+    resetBoardForStage(1, fullDeck, true, true);
   };
 
   // Kembali ke Dashboard Nama (dipanggil dari Game Over / Reset)
@@ -331,13 +436,16 @@ const GameBoard = () => {
     setShowGameOverModal(false);
     setPlayerName('');
     setShowNameModal(true);
+    setGameMode('RPG');
+    setBossStartTime(null);
+    setBossElapsedTime(0);
   };
 
   // Alias untuk kompatibilitas (dipanggil dari GameOverModal)
   const startNewJourney = returnToDashboard;
 
-  // Reset Board untuk Stage / Ronde baru
-  const resetBoardForStage = (stageNum, deckToUse, isNewStage = false) => {
+  // Reset Board untuk Stage / Ronde baru (supports both RPG 4x4 and Boss Challenge 6x7)
+  const resetBoardForStage = (stageNum, deckToUse, isNewStage = false, isBossMode = false) => {
     const boardCards = [];
     const activeDeck = deckToUse || playerDeck;
 
@@ -350,16 +458,18 @@ const GameBoard = () => {
     });
     const uniqueCardTypes = Array.from(uniqueCardTypesMap.values());
 
-    // Acak & ambil tepat 8 jenis kartu unik untuk membentuk 8 pasang kartu (16 kartu di papan)
+    // Boss Challenge: Gunakan SELURUH 21 kartu unik (42 kartu / 21 pasang)
+    // RPG Mode: Ambil 8 jenis kartu unik (16 kartu / 8 pasang)
+    const pairCount = isBossMode ? uniqueCardTypes.length : 8;
     const shuffledDeck = [...uniqueCardTypes].sort(() => Math.random() - 0.5);
-    const selectedTypes = shuffledDeck.slice(0, 8);
+    const selectedTypes = shuffledDeck.slice(0, pairCount);
 
     selectedTypes.forEach((card) => {
       boardCards.push({ uniqueId: `${card.id}-a-${Math.random()}`, pairId: card.id, ...card });
       boardCards.push({ uniqueId: `${card.id}-b-${Math.random()}`, pairId: card.id, ...card });
     });
 
-    // Pengocokan 16 kartu di papan (4x4) menggunakan Algoritma Fisher-Yates Shuffle
+    // Pengocokan kartu di papan menggunakan Algoritma Fisher-Yates Shuffle
     for (let i = boardCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [boardCards[i], boardCards[j]] = [boardCards[j], boardCards[i]];
@@ -381,12 +491,16 @@ const GameBoard = () => {
 
     if (isNewStage) {
       setStageRound(1);
-      setMismatchStreak(0); // Reset mismatch streak di stage baru
+      setMismatchStreak(0);
     } else {
       setStageRound((prev) => prev + 1);
     }
 
-    setStatusMessage(t('stageStartMsg', currentLang).replace('{stage}', stageNum).replace('{enemy}', getStageEnemyConfig(stageNum).name));
+    if (isBossMode) {
+      updateStatus();
+    } else {
+      updateStatus();
+    }
 
     // Pemicu Animasi Realistis Casino Dealer Riffle & Deal Shuffle
     setIsShufflingBoard(true);
@@ -402,7 +516,7 @@ const GameBoard = () => {
       setIsPlayerFrozen(false);
       soundManager.playBlockSFX();
       spawnFloatingText(t('playerFrozenFloat', currentLang), 'damage');
-      setStatusMessage(t('playerFrozenMsg', currentLang));
+      updateStatus();
       setCurrentTurn('ENEMY');
     }
   }, [currentTurn, isPlayerFrozen, isProcessing, player.hp, enemy.hp, showNameModal]);
@@ -414,7 +528,7 @@ const GameBoard = () => {
         setIsEnemyFrozen(false);
         soundManager.playBlockSFX();
         spawnFloatingText(t('enemyFrozenFloat', currentLang), 'match');
-        setStatusMessage(t('enemyFrozenMsg', currentLang).replace('{enemy}', enemy.name));
+        updateStatus();
         setCurrentTurn('PLAYER');
         setTurnTimer(TURN_TIME_LIMIT);
         return;
@@ -424,7 +538,7 @@ const GameBoard = () => {
       if (available.length < 2) return;
 
       setIsProcessing(true);
-      setStatusMessage(t('aiThinkingMsg', currentLang).replace('{enemy}', enemy.name).replace('{difficulty}', AI_DIFFICULTY_LEVELS[activeAiDifficulty].name));
+      updateStatus();
 
       const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
 
@@ -486,7 +600,6 @@ const GameBoard = () => {
   // Process Match vs Mismatch
   const handleMatchResult = (card1, card2, actor) => {
     const isMatch = card1.pairId === card2.pairId;
-    const actorName = actor === 'PLAYER' ? playerName || 'Anda' : enemy.name;
 
     if (isMatch) {
       soundManager.playMatchSFX();
@@ -501,7 +614,9 @@ const GameBoard = () => {
       if (card1.type !== 'BUFF') {
         spawnFloatingText(t('matchTitleFloat', currentLang).replace('{name}', card1.name), 'match');
       }
-      applyCardEffect(card1, actor);
+      
+      const details = applyCardEffect(card1, actor);
+      addBattleLog(actor, 'MATCH', t('logMatch', currentLang).replace('{cardName}', card1.name), details);
 
       const nextMatched = [...matchedCardIds, card1.pairId];
       setMatchedCardIds(nextMatched);
@@ -528,8 +643,8 @@ const GameBoard = () => {
             setPlayer((latestPlayer) => {
               if (latestEnemy.hp > 0 && latestPlayer.hp > 0) {
                 spawnFloatingText(t('roundResetFloat', currentLang), 'match');
-                setStatusMessage(t('roundResetMsg', currentLang));
-                resetBoardForStage(stage, playerDeck, false);
+                updateStatus();
+                resetBoardForStage(stage, playerDeck, false, gameMode === 'BOSS_CHALLENGE');
               }
               return latestPlayer;
             });
@@ -537,7 +652,7 @@ const GameBoard = () => {
           });
         }, 1200);
       } else {
-        setStatusMessage(t('matchSuccessMsg', currentLang).replace('{actor}', actorName).replace('{card}', card1.name));
+        updateStatus();
         setFlippedCards([]);
         setIsProcessing(false);
         if (actor === 'PLAYER') setTurnTimer(TURN_TIME_LIMIT);
@@ -547,14 +662,29 @@ const GameBoard = () => {
       if (actor === 'PLAYER') {
         setMismatchStreak((prev) => prev + 1);
       }
+      
+      addBattleLog(actor, 'MISMATCH', t('logMismatch', currentLang));
 
-      setStatusMessage(t('mismatchMsg', currentLang).replace('{actor}', actorName));
+      updateStatus();
       setTimeout(() => {
         setFlippedCards([]);
         setIsProcessing(false);
-        setCurrentTurn(actor === 'PLAYER' ? 'ENEMY' : 'PLAYER');
-        setTurnTimer(TURN_TIME_LIMIT);
-        if (actor === 'ENEMY') setIsEmpJammerActive(false);
+        
+        if (actor === 'PLAYER' && isPlayerRewindActive) {
+          setIsPlayerRewindActive(false);
+          spawnFloatingText(t('rewindMistakeTriggeredFloat', currentLang), 'heal');
+          setTurnTimer(TURN_TIME_LIMIT);
+          // Giliran TETAP di pemain
+        } else if (actor === 'ENEMY' && isEnemyRewindActive) {
+          setIsEnemyRewindActive(false);
+          spawnFloatingText(t('rewindMistakeTriggeredFloat', currentLang), 'damage');
+          setTurnTimer(TURN_TIME_LIMIT);
+          // Giliran TETAP di musuh
+        } else {
+          setCurrentTurn(actor === 'PLAYER' ? 'ENEMY' : 'PLAYER');
+          setTurnTimer(TURN_TIME_LIMIT);
+          if (actor === 'ENEMY') setIsEmpJammerActive(false);
+        }
       }, 1000);
     }
   };
@@ -564,6 +694,7 @@ const GameBoard = () => {
     const isPlayer = actor === 'PLAYER';
     const isDouble = isPlayer ? isDoubleCastActive : isEnemyDoubleCastActive;
     const mult = (isDouble && card.type !== 'SPECIAL') ? 2 : 1;
+    let logDetail = '';
 
     if (isDouble && card.type !== 'SPECIAL') {
       spawnFloatingText(t('mirageActiveFloat', currentLang), 'match');
@@ -580,6 +711,7 @@ const GameBoard = () => {
         if (card.isPiercing) {
           // Quantum Piercer: Menembus armor langsung ke HP
           spawnFloatingText(t('pierceFloat', currentLang).replace('{damage}', damage), 'damage');
+          logDetail = `Piercing attack dealt ${damage} HP damage.`;
           if (isPlayer) {
             setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - damage) }));
           } else {
@@ -602,6 +734,7 @@ const GameBoard = () => {
               if (absorbed > 0) {
                 spawnFloatingText(t('armorAbsorbFloat', currentLang).replace('{val}', absorbed), 'block');
               }
+              logDetail = `Dealt ${damage} damage (Armor absorbed ${absorbed}, HP took ${hpDamage}).`;
               return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
           } else {
@@ -620,6 +753,7 @@ const GameBoard = () => {
               if (absorbed > 0) {
                 spawnFloatingText(t('armorAbsorbFloat', currentLang).replace('{val}', absorbed), 'block');
               }
+              logDetail = `Dealt ${damage} damage (Armor absorbed ${absorbed}, HP took ${hpDamage}).`;
               return { ...prev, block: newBlock, hp: Math.max(0, prev.hp - hpDamage) };
             });
           }
@@ -642,6 +776,7 @@ const GameBoard = () => {
         soundManager.playBlockSFX();
         const blockVal = card.value * mult;
         spawnFloatingText(t('floatBlock', currentLang).replace('{val}', blockVal), 'block');
+        logDetail = `Gained ${blockVal} Armor.`;
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, block: prev.block + blockVal }));
         } else {
@@ -653,6 +788,7 @@ const GameBoard = () => {
         soundManager.playHealSFX();
         const healVal = card.value * mult;
         spawnFloatingText(t('floatHeal', currentLang).replace('{val}', healVal), 'heal');
+        logDetail = `Recovered ${healVal} HP.`;
         if (isPlayer) {
           setPlayer((prev) => ({ ...prev, hp: Math.min(prev.maxHp, prev.hp + healVal) }));
         } else {
@@ -673,8 +809,17 @@ const GameBoard = () => {
           } else {
             spawnFloatingText(t('neuralFlashEnemyFloat', currentLang), 'damage');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
+            
+            // NERF: Simulasikan batasan fokus mata manusia dalam 1.5 detik
+            let maxSamples = 4;
+            if (activeAiDifficulty === 'HARD') maxSamples = 6;
+            else if (activeAiDifficulty === 'EASY') maxSamples = 2;
+            
+            const shuffledUnmatched = [...unmatched].sort(() => 0.5 - Math.random());
+            const sample = shuffledUnmatched.slice(0, maxSamples);
+
             const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
-            setAiMemory((prevMem) => updateAiMemory(prevMem, unmatched, accuracy));
+            setAiMemory((prevMem) => updateAiMemory(prevMem, sample, accuracy));
           }
         } else {
           // Oracle Eye
@@ -731,25 +876,15 @@ const GameBoard = () => {
         break;
       }
       case 'UTILITY': {
-        // Chronos Rewind: Turn timer ke 15s & kocok posisi kartu tertutup
-        soundManager.playShuffleSFX();
-        setTurnTimer(TURN_TIME_LIMIT);
-        setCards((prevCards) => {
-          const unmatched = prevCards.filter((c) => !matchedCardIds.includes(c.pairId));
-          const shuffled = [...unmatched];
-          for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-          }
-          let uIdx = 0;
-          return prevCards.map((c) => {
-            if (matchedCardIds.includes(c.pairId)) return c;
-            return shuffled[uIdx++];
-          });
-        });
-        setIsShufflingBoard(true);
-        setTimeout(() => setIsShufflingBoard(false), 700);
-        spawnFloatingText(t('chronosFloat', currentLang), 'match');
+        // Chronos Rewind: Rewind Mistake - next mismatch forgiven
+        soundManager.playHealSFX(); 
+        triggerScreenShake();
+        if (isPlayer) {
+          setIsPlayerRewindActive(true);
+        } else {
+          setIsEnemyRewindActive(true);
+        }
+        spawnFloatingText(t('rewindMistakeActiveFloat', currentLang), 'match');
         break;
       }
       case 'DRAIN': {
@@ -829,10 +964,24 @@ const GameBoard = () => {
       default:
         break;
     }
+    return logDetail;
   };
 
   const triggerStageClear = () => {
     soundManager.playVictorySFX();
+
+    // Boss Challenge Mode: Tidak ada Loot — langsung Game Over Victory + catat waktu
+    if (gameMode === 'BOSS_CHALLENGE') {
+      const elapsedMs = Date.now() - (bossStartTime || Date.now());
+      setBossElapsedTime(elapsedMs);
+      spawnFloatingText(t('bossVictoryFloat', currentLang), 'match');
+      recordLeaderboardScore(stage, totalMatchesMade, elapsedMs);
+      setTimeout(() => {
+        setShowGameOverModal(true);
+      }, 600);
+      return;
+    }
+
     setTimeout(() => {
       const choices = generateLootChoices(playerDeck, isPityActive, pityUsesLeft > 0);
       setLootChoices(choices);
@@ -843,7 +992,15 @@ const GameBoard = () => {
   const triggerGameOver = () => {
     soundManager.playDefeatSFX();
     localStorage.removeItem('memory_game_saved_state');
-    recordLeaderboardScore(stage, totalMatchesMade);
+
+    let finalElapsedMs = 0;
+    if (gameMode === 'BOSS_CHALLENGE') {
+      finalElapsedMs = Date.now() - (bossStartTime || Date.now());
+      setBossElapsedTime(finalElapsedMs);
+    } else {
+      // Hanya rekam skor jika RPG mode (berdasarkan stage tertinggi yang dicapai)
+      recordLeaderboardScore(stage, totalMatchesMade, finalElapsedMs);
+    }
     setTimeout(() => {
       setShowGameOverModal(true);
     }, 600);
@@ -913,18 +1070,29 @@ const GameBoard = () => {
         currentLang={currentLang}
       />
 
-      {/* Pity Indicator Banner jika Pity Active */}
-      {isPityActive && (
+      {/* Pity Indicator Banner jika Pity Active (RPG Mode Only) */}
+      {isPityActive && gameMode !== 'BOSS_CHALLENGE' && (
         <div className="pity-active-banner">
           🌟 <strong>{currentLang === 'ID' ? 'Pity System Aktif!' : 'Pity System Active!'}</strong> {currentLang === 'ID' ? 'Bantuan Darurat Diaktifkan (+25% Rare/Epic Drop).' : 'Emergency Assistance Activated (+25% Rare/Epic Drop).'}
         </div>
       )}
 
       {/* Board Header Status & Controls */}
-      <div className="game-board-header glass-panel">
+      <div className={`game-board-header glass-panel ${gameMode === 'BOSS_CHALLENGE' ? 'boss-header' : ''}`}>
         <div className="board-status">
-          <span className="stage-badge">STAGE {stage}</span>
-          <span className="round-badge">RONDE {stageRound}</span>
+          {gameMode === 'BOSS_CHALLENGE' ? (
+            <>
+              <span className="stage-badge boss-badge">{t('bossChallengeHeader', currentLang)}</span>
+              <span className="round-badge">
+                {t('bossElapsedLabel', currentLang)} {Math.floor(bossElapsedTime / 60000)}m {Math.floor((bossElapsedTime % 60000) / 1000)}s
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="stage-badge">STAGE {stage}</span>
+              <span className="round-badge">RONDE {stageRound}</span>
+            </>
+          )}
           {currentTurn === 'PLAYER' && !isProcessing && (
             <span className="turn-timer-badge">⏳ {turnTimer}s</span>
           )}
@@ -932,8 +1100,11 @@ const GameBoard = () => {
         </div>
 
         <div className="header-controls">
+          <button className="header-btn log-btn" onClick={() => setShowLogModal(true)}>
+            {t('logBtn', currentLang)}
+          </button>
           <button
-            className="nav-icon-btn pause-btn"
+            className="header-btn pause-btn"
             onClick={() => {
               soundManager.playClickSFX();
               setShowPauseModal(true);
@@ -946,7 +1117,7 @@ const GameBoard = () => {
       </div>
 
       {/* Grid Kartu dengan Animasi Kocok */}
-      <div className={`cards-grid ${isShufflingBoard ? 'shuffling' : ''}`}>
+      <div className={`cards-grid ${gameMode === 'BOSS_CHALLENGE' ? 'boss-grid-14x3' : ''} ${isShufflingBoard ? 'shuffling' : ''}`}>
         {cards.map((card, index) => {
           const isFlipped =
             flippedCards.some((c) => c.uniqueId === card.uniqueId) ||
@@ -1050,6 +1221,15 @@ const GameBoard = () => {
         />
       )}
 
+      {/* Modal Log Pertempuran */}
+      {showLogModal && (
+        <LogModal
+          logs={battleLogs}
+          onClose={() => setShowLogModal(false)}
+          currentLang={currentLang}
+        />
+      )}
+
       {/* Modal Katalog Kartu dengan Indikator Kartu Aktif Stage */}
       {showCatalogModal && (
         <CatalogModal
@@ -1089,6 +1269,8 @@ const GameBoard = () => {
           totalMatches={playerMatches}
           difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name}
           isVictory={player.hp > 0 && enemy.hp === 0}
+          gameMode={gameMode}
+          bossElapsedTime={bossElapsedTime}
           onRestartJourney={startNewJourney}
           onBackToDashboard={returnToDashboard}
           currentLang={currentLang}

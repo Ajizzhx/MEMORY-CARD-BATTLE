@@ -48,6 +48,19 @@ export const TRANSLATIONS = {
     dashTipsBox: '💡 Tips Arena: Kumpulkan 21 kartu unik melalui Loot Stage Clear dan aktifkan Bio-Shield Medkit saat HP Kritis!',
     startBattleBtn: '⚔️ Mulai Pertarungan',
 
+    // ── Game Mode Selector ──
+    gameModeLabel: '🎮 Mode Permainan:',
+    modeRpgTitle: '⚔️ RPG Journey',
+    modeRpgDesc: 'Progresi bertahap Stage 1–13+ & buka kartu loot baru. Grid 4×4 (16 kartu).',
+    modeBossTitle: '🐉 Boss Challenge',
+    modeBossDesc: 'Tantangan 42 Kartu (21 Pasang) lawan Abyss Omega 400 HP! Grid 6×7.',
+    bossArenaStartMsg: '🐉 ABYSS OMEGA ARENA! Seluruh 21 Kartu Aktif. Kalahkan Bos 400 HP!',
+    bossVictoryFloat: '🏆 BOS DIKALAHKAN!',
+    bossElapsedLabel: '⏱️ Waktu',
+    bossElapsedFormat: '{min}m {sec}d',
+    bossChallengeHeader: '🐉 BOSS CHALLENGE',
+    bossResultTime: '⏱️ Waktu Penyelesaian: {time}',
+
     // ── Support / Donation ──
     supportTitle: '☕ Dukung Developer',
     supportSaweria: '💛 Saweria',
@@ -59,7 +72,7 @@ export const TRANSLATIONS = {
     guideSub: 'Panduan Lengkap Alur Permainan, Aturan Arena, Fitur Pertolongan, & Musuh AI:',
     guideSec1Title: '⚔️ Alur & Cara Bermain',
     guideStep1Title: 'Pilih Nama & Mode AI:',
-    guideStep1Desc: 'Ketik nama pemain dan pilih tingkat kecerdasan AI Musuh (Otomatis, Mudah 35%, Sedang 65%, atau Tinggi 88%).',
+    guideStep1Desc: 'Ketik nama pemain, pilih mode permainan (RPG Journey atau Boss Challenge), dan pilih tingkat kecerdasan AI Musuh.',
     guideStep2Title: 'Buka Pasangan Kartu di Papan:',
     guideStep2Desc: 'Di setiap giliran, klik 2 kartu tertutup di papan 4x4. Jika 2 kartu cocok (Match), efek kartu langsung aktif!',
     guideStep3Title: 'Giliran Ekstra & Batas Waktu 15 Detik:',
@@ -67,8 +80,8 @@ export const TRANSLATIONS = {
     guideStep4Title: 'Hadiah Kartu & Stage Baru:',
     guideStep4Desc: 'Kalahkan musuh untuk memilih 1 Kartu Hadiah baru yang belum Anda miliki dan lanjut bertualang ke Stage berikutnya!',
     guideSec2Title: '🎲 Aturan Papan & Arena Pertarungan',
-    guideRule1Title: '1. Papan Arena 4x4 (16 Kartu / 8 Pasang):',
-    guideRule1Desc: 'Di setiap stage, arena memilih 8 jenis kartu dari koleksi Deck Anda untuk membentuk 8 pasang kartu tertutup (total 16 kartu di papan).',
+    guideRule1Title: '1. Ukuran Papan Arena (RPG vs Boss):',
+    guideRule1Desc: 'Mode RPG menggunakan papan 4x4 (16 kartu / 8 pasang) yang diambil dari deck Anda. Mode Boss menggunakan papan raksasa 14x3 (42 kartu / 21 pasang) memuat seluruh kartu di katalog!',
     guideRule2Title: '2. Arena Milik Bersama (Shared Board):',
     guideRule2Desc: 'Kartu hadiah yang Anda dapatkan dimasukkan ke Deck Anda. Namun saat bertarung, siapa pun yang berhasil mencocokkan kartu di papan (Pemain maupun Musuh AI) dialah yang memperoleh efek dari kartu tersebut!',
     guideRule3Title: '3. Kelengkapan Kartu (21 Kartu Katalog):',
@@ -123,17 +136,33 @@ export const TRANSLATIONS = {
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 PAPAN SKOR TOP GLOBAL',
-    tabGlobal: '🌐 Top 10 Global (Supabase)',
-    tabSession: '💻 Sesi Lokal Ini',
+    tabGlobal: '💻 RPG (Global)',
+    tabBossGlobal: '👹 Boss (Global)',
+    globalLBSub: 'Top 10 pahlawan terkuat dari seluruh dunia (RPG Leaderboard):',
+    globalBossLBSub: 'Top 10 penyelesai Boss tercepat di dunia:',
+    globalLBLoading: 'Mengambil data dari Supabase...',
+    globalLBError: 'Koneksi ke Supabase gagal.',
+    globalLBRetry: 'Coba Lagi',
     thRank: 'Peringkat',
     thPlayer: 'Pemain',
-    thDiff: 'Mode AI',
-    thStage: 'Stage Clear',
-    thMatches: 'Total Match',
+    thDiff: 'Kesulitan AI',
+    thStage: 'Stage Max',
+    thMatches: 'Total Cocok',
+    thTime: 'Waktu (Detik)',
     thDate: 'Tanggal',
-    noGlobalData: 'Belum ada data skor global.',
-    noSessionData: 'Belum ada record skor pada sesi ini.',
+    noGlobalData: 'Belum ada data di Papan Peringkat Supabase.',
+    noSessionData: 'Belum ada catatan skor RPG di sesi lokal ini.',
+    noBossData: 'Belum ada catatan waktu Boss Challenge di sesi lokal ini.',
     closeLeaderboardBtn: 'Tutup Leaderboard',
+
+    // ── LogModal ──
+    logBtn: 'Log',
+    logTitle: 'BATTLE LOG',
+    logSub: 'Riwayat pertarungan sesi ini:',
+    logEmpty: 'Belum ada aktivitas pertarungan...',
+    closeLogBtn: 'Tutup Log',
+    logMatch: 'berhasil mencocokkan {cardName}!',
+    logMismatch: 'gagal mencocokkan kartu.',
 
     // ── LootModal ──
     lootTitle: '🎉 STAGE CLEAR!',
@@ -200,7 +229,8 @@ export const TRANSLATIONS = {
     empFloat: '⚡ EMP! Armor dihancurkan! -{damage} HP',
     glitchFloat: '👾 GLITCH -{damage} HP!',
     virusFloat: '☠️ VIRUS -{damage} HP!',
-    chronosFloat: '🌀 CHRONOS REWIND: Timer 15s & Papan Acak!',
+    rewindMistakeActiveFloat: '🌀 MISTAKE REWIND ACTIVE: Kesalahan dimaafkan!',
+    rewindMistakeTriggeredFloat: '⏳ REWOUND: Giliran Anda lagi!',
     drainFloat: '🧲 DRAIN: +{stolen} Armor & -{damage} HP!',
     drainEnemyFloat: '🧲 MUSUH DRAIN: +{stolen} Armor!',
     frostbiteFloat: '❄️ FROSTBITE: Musuh Terbeku (1 Turn)!',
@@ -275,8 +305,8 @@ export const TRANSLATIONS = {
         lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.'
       },
       chrono_rewind: {
-        description: 'Memulihkan Turn Timer ke 15s & mengocok posisi kartu tertutup!',
-        lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan mereset arus dimensi waktu.'
+        description: 'Rewind Mistake: Kesalahan tebakan (mismatch) berikutnya dimaafkan, giliran tidak pindah!',
+        lore: 'Relik jam pasir kristal foton garapan Chrono-Mage. Memutar balik waktu untuk membatalkan takdir buruk.'
       },
       drain_syphon: {
         description: 'Mencuri 15 Armor musuh menjadi Armor sendiri + 10 Damage!',
@@ -287,7 +317,7 @@ export const TRANSLATIONS = {
         lore: 'Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.'
       },
       buff_neural: {
-        description: 'Membuka SELURUH kartu tertutup di papan selama 1.5 detik!',
+        description: 'Membuka SELURUH kartu di papan selama 1.5 detik! (Musuh AI dibatasi maks 2-6 kartu).',
         lore: 'Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.'
       },
       gamble_cosmic: {
@@ -357,6 +387,19 @@ export const TRANSLATIONS = {
     dashTipsBox: '💡 Arena Tip: Collect 21 unique cards through Stage Clear Loot and activate Bio-Shield Medkit when HP is critical!',
     startBattleBtn: '⚔️ Start Battle',
 
+    // ── Game Mode Selector ──
+    gameModeLabel: '🎮 Game Mode:',
+    modeRpgTitle: '⚔️ RPG Journey',
+    modeRpgDesc: 'Stage 1–13+ progression & unlock loot cards. 4×4 Grid (16 cards).',
+    modeBossTitle: '🐉 Boss Challenge',
+    modeBossDesc: 'All 42 Cards (21 Pairs) vs Abyss Omega 400 HP! 6×7 Grid.',
+    bossArenaStartMsg: '🐉 ABYSS OMEGA ARENA! All 21 Cards Active. Defeat the 400 HP Boss!',
+    bossVictoryFloat: '🏆 BOSS DEFEATED!',
+    bossElapsedLabel: '⏱️ Time',
+    bossElapsedFormat: '{min}m {sec}s',
+    bossChallengeHeader: '🐉 BOSS CHALLENGE',
+    bossResultTime: '⏱️ Completion Time: {time}',
+
     // ── Support / Donation ──
     supportTitle: '☕ Support Developer',
     supportSaweria: '💛 Saweria',
@@ -368,7 +411,7 @@ export const TRANSLATIONS = {
     guideSub: 'Comprehensive Guide to Gameplay Flow, Arena Rules, Emergency Pity & Enemy AIs:',
     guideSec1Title: '⚔️ Gameplay Flow & Mechanics',
     guideStep1Title: 'Choose Name & AI Mode:',
-    guideStep1Desc: 'Enter your player name and choose enemy AI difficulty (Auto, Easy 35%, Medium 65%, or Hard 88%).',
+    guideStep1Desc: 'Enter your player name, select a game mode (RPG Journey or Boss Challenge), and choose the enemy AI difficulty.',
     guideStep2Title: 'Flip Card Pairs on the Board:',
     guideStep2Desc: 'On your turn, click 2 face-down cards on the 4x4 grid. Matching 2 cards immediately triggers their action effect!',
     guideStep3Title: 'Extra Turn & 15s Time Limit:',
@@ -376,8 +419,8 @@ export const TRANSLATIONS = {
     guideStep4Title: 'Loot Rewards & New Stages:',
     guideStep4Desc: 'Defeat enemies to select 1 new unowned Loot Card from the catalog and advance to the next stage!',
     guideSec2Title: '🎲 Board & Arena Rules',
-    guideRule1Title: '1. 4x4 Arena Grid (16 Cards / 8 Pairs):',
-    guideRule1Desc: 'In each stage, the arena picks 8 unique card types from your deck to form 8 face-down pairs (16 cards total).',
+    guideRule1Title: '1. Arena Grid Size (RPG vs Boss):',
+    guideRule1Desc: 'RPG mode uses a 4x4 grid (16 cards / 8 pairs) drawn from your deck. Boss mode uses a massive 14x3 grid (42 cards / 21 pairs) featuring every card in the catalog!',
     guideRule2Title: '2. Shared Board Mechanics:',
     guideRule2Desc: 'Loot cards you earn are added to your deck. However during battle, whoever matches a pair on the board (Player or AI) gets its effect!',
     guideRule3Title: '3. Full Card Collection (21 Catalog Cards):',
@@ -432,24 +475,40 @@ export const TRANSLATIONS = {
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 GLOBAL TOP SCORES',
-    tabGlobal: '🌐 Top 10 Global (Supabase)',
-    tabSession: '💻 Current Local Session',
+    tabGlobal: '💻 RPG (Global)',
+    tabBossGlobal: '👹 Boss (Global)',
+    globalLBSub: 'Top 10 strongest heroes from around the world (RPG Leaderboard):',
+    globalBossLBSub: 'Top 10 fastest Boss clearers in the world:',
+    globalLBLoading: 'Fetching data from Supabase...',
+    globalLBError: 'Connection to Supabase failed.',
+    globalLBRetry: 'Retry',
     thRank: 'Rank',
     thPlayer: 'Player',
-    thDiff: 'AI Mode',
-    thStage: 'Stage Reached',
+    thDiff: 'AI Difficulty',
+    thStage: 'Max Stage',
     thMatches: 'Total Matches',
+    thTime: 'Time (Seconds)',
     thDate: 'Date',
-    noGlobalData: 'No global leaderboard data yet.',
-    noSessionData: 'No score records in this session yet.',
+    noGlobalData: 'No data yet in Supabase Leaderboard.',
+    noSessionData: 'No RPG score records in this local session yet.',
+    noBossData: 'No Boss Challenge time records in this local session yet.',
     closeLeaderboardBtn: 'Close Leaderboard',
+
+    // ── LogModal ──
+    logBtn: 'Log',
+    logTitle: 'BATTLE LOG',
+    logSub: 'Combat history for this session:',
+    logEmpty: 'No combat activity yet...',
+    closeLogBtn: 'Close Log',
+    logMatch: 'matched {cardName}!',
+    logMismatch: 'failed to match.',
 
     // ── LootModal ──
     lootTitle: '🎉 STAGE CLEAR!',
-    lootSub: 'Victory! You defeated the enemy. Choose 1 new Reward Card to reinforce your Deck:',
-    emergencyPityTag: 'EMERGENCY PITY',
-    emergencyPityNotice: '🚑 Emergency Pity Medkit Active! Grants +35 HP & +25 Shield (Remaining quota: ',
-    emergencyPityNoticeEnd: 'x). Selecting Medkit awards no new card.',
+    lootSub: 'Congratulations! You defeated the enemy. Choose 1 new Reward Card to empower your Deck:',
+    emergencyPityTag: 'EMERGENCY ASSIST (PITY)',
+    emergencyPityNotice: '🚑 Medkit Pity Option Active! Grants +35 HP & +25 Armor (Uses left: ',
+    emergencyPityNoticeEnd: 'x). Choosing Medkit grants no new card.',
     claimCardBtn: 'Claim Card',
 
     // ── GameOverModal ──
@@ -509,7 +568,8 @@ export const TRANSLATIONS = {
     empFloat: '⚡ EMP! Armor destroyed! -{damage} HP',
     glitchFloat: '👾 GLITCH -{damage} HP!',
     virusFloat: '☠️ VIRUS -{damage} HP!',
-    chronosFloat: '🌀 CHRONOS REWIND: 15s Timer & Board Shuffled!',
+    rewindMistakeActiveFloat: '🌀 MISTAKE REWIND ACTIVE: Next mistake forgiven!',
+    rewindMistakeTriggeredFloat: '⏳ REWOUND: Your turn again!',
     drainFloat: '🧲 DRAIN: +{stolen} Armor & -{damage} HP!',
     drainEnemyFloat: '🧲 ENEMY DRAIN: +{stolen} Armor!',
     frostbiteFloat: '❄️ FROSTBITE: Enemy Frozen (1 Turn)!',
@@ -584,8 +644,8 @@ export const TRANSLATIONS = {
         lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Gods. Summoned when sacred warriors stand on the brink of death, striking enemies with 40 Divine Lightning Damage while healing 15 HP.'
       },
       chrono_rewind: {
-        description: 'Restores Turn Timer to 15s & shuffles all face-down cards!',
-        lore: 'A photon crystal hourglass relic forged by Chrono-Mages. Erases memory faults and resets the flow of time dimensions.'
+        description: 'Rewind Mistake: Your next mismatch is forgiven, you keep your turn!',
+        lore: 'Crystal hourglass relic crafted by Chrono-Mages. Rewinds time to undo bad fate.'
       },
       drain_syphon: {
         description: 'Steals 15 enemy Armor to self + deals 10 Damage!',
@@ -596,8 +656,8 @@ export const TRANSLATIONS = {
         lore: 'A Frost-Byte Eternal Ice seal spell from the mountains of Cyberia. Freezes enemy cognitive memories within a dome of pure ice.'
       },
       buff_neural: {
-        description: 'Reveals ALL face-down cards on the board for 1.5 seconds!',
-        lore: 'A spectral brain-hacking implant. Injects a pulse of light that reveals the entire board layout in a blink of an eye.'
+        description: 'Reveals ALL face-down cards for 1.5 seconds! (AI limited to 2-6 cards).',
+        lore: 'Spectral brain-hacker implant. Injects a pulse of light that reveals the entire board in a blink.'
       },
       gamble_cosmic: {
         description: '50% Chance: 35 Cosmic Damage OR 50% Chance: Receive 10 Damage & Target +10 HP!',

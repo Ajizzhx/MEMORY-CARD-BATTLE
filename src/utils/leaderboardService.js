@@ -10,6 +10,7 @@
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const TABLE_ENDPOINT = `${SUPABASE_URL}/rest/v1/leaderboard`;
+const BOSS_TABLE_ENDPOINT = `${SUPABASE_URL}/rest/v1/boss_leaderboard`;
 
 const HEADERS = {
   'apikey': SUPABASE_ANON_KEY,
@@ -43,6 +44,31 @@ const pruneExtraDatabaseScores = async (extraItems) => {
     });
   } catch (err) {
     console.warn('[Leaderboard] Automatic database cleanup note:', err.message);
+  }
+};
+
+/**
+ * Hapus otomatis baris di Supabase (Boss) yang berada di luar Top 10 (peringkat 11 ke bawah)
+ * @param {Array} extraItems
+ */
+const pruneExtraBossDatabaseScores = async (extraItems) => {
+  if (!extraItems || extraItems.length === 0) return;
+  const ids = extraItems.map((item) => item.id).filter(Boolean);
+  if (ids.length === 0) return;
+
+  try {
+    const deleteParams = new URLSearchParams({
+      id: `in.(${ids.join(',')})`
+    });
+    await fetch(`${BOSS_TABLE_ENDPOINT}?${deleteParams}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
+    });
+  } catch (err) {
+    console.warn('[Boss Leaderboard] Automatic database cleanup note:', err.message);
   }
 };
 
@@ -124,6 +150,79 @@ export const fetchTopScores = async (limit = TOP_LIMIT) => {
     const extraScores = allScores.slice(targetLimit);
     // Hapus otomatis peringkat 11+ dari Supabase di background
     pruneExtraDatabaseScores(extraScores);
+    return topScores;
+  }
+
+  return allScores || [];
+};
+
+/**
+ * Submit skor pemain Boss Challenge ke Supabase.
+ * @param {Object} scoreData { name, difficulty, elapsed_ms, total_matches }
+ */
+export const submitBossScore = async (scoreData) => {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+
+  try {
+    // 1. Cek apakah skor layak masuk Top 10 (lebih cepat dari peringkat 10)
+    const currentTop = await fetchBossScores(TOP_LIMIT);
+    if (currentTop.length >= TOP_LIMIT) {
+      const lowestScore = currentTop[currentTop.length - 1];
+      if (scoreData.elapsedMs > lowestScore.elapsed_ms) {
+        return; // Tidak masuk Top 10 (waktu lebih lama)
+      }
+    }
+
+    // 2. Insert jika layak (database akan auto-prune via fetchBossScores)
+    await fetch(BOSS_TABLE_ENDPOINT, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({
+        name: scoreData.name,
+        difficulty: scoreData.difficulty,
+        elapsed_ms: scoreData.elapsedMs, // mapping camelCase ke snake_case db
+        total_matches: scoreData.totalMatches
+      })
+    });
+  } catch (err) {
+    console.warn('[Boss Leaderboard] Gagal submit skor ke Supabase:', err.message);
+  }
+};
+
+/**
+ * Ambil top 10 skor Boss global dari Supabase.
+ * Otomatis menghapus baris ke-11 dan seterusnya dari database Supabase.
+ * @param {number} targetLimit 
+ * @returns {Promise<Array>}
+ */
+export const fetchBossScores = async (targetLimit = TOP_LIMIT) => {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
+
+  const params = new URLSearchParams({
+    select: 'id,name,elapsed_ms,total_matches,difficulty,created_at',
+    order: 'elapsed_ms.asc,total_matches.asc',
+    limit: '50'
+  });
+
+  const res = await fetch(`${BOSS_TABLE_ENDPOINT}?${params}`, {
+    method: 'GET',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+
+  const allScores = await res.json();
+
+  if (Array.isArray(allScores) && allScores.length > targetLimit) {
+    const topScores = allScores.slice(0, targetLimit);
+    const extraScores = allScores.slice(targetLimit);
+    // Hapus otomatis peringkat 11+ dari Supabase di background
+    pruneExtraBossDatabaseScores(extraScores);
     return topScores;
   }
 

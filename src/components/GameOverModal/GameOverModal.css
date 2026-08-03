@@ -252,3 +252,17 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+/* ── Boss Challenge Mode Styling ── */
+.gameover-modal-content.boss-mode.victory {
+  border-color: #ff3377;
+  box-shadow: 0 0 50px rgba(255, 0, 85, 0.5), 0 0 80px rgba(255, 215, 0, 0.2);
+}
+
+.gameover-modal-content.boss-mode .gameover-title {
+  background: linear-gradient(135deg, #ff3377 0%, #ffd700 60%, #ff0088 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.6));
+}
+

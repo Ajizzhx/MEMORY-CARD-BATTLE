@@ -359,3 +359,74 @@
   box-shadow: 0 0 12px rgba(255, 95, 95, 0.5);
   transform: translateY(-2px);
 }
+
+/* ── Game Mode Selector ── */
+.game-mode-selector-container {
+  margin-top: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.game-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.game-mode-btn {
+  background: rgba(15, 20, 42, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-text-muted);
+  padding: 14px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.32s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.game-mode-btn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.game-mode-btn.active.rpg {
+  background: rgba(0, 240, 255, 0.16);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+.game-mode-btn.active.boss {
+  background: rgba(255, 0, 85, 0.14);
+  border-color: #ff3377;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.55), 0 0 40px rgba(255, 215, 0, 0.2);
+}
+
+.mode-btn-title {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.game-mode-btn.active.rpg .mode-btn-title {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+}
+
+.game-mode-btn.active.boss .mode-btn-title {
+  color: #ff3377;
+  text-shadow: 0 0 8px rgba(255, 0, 85, 0.7);
+}
+
+.mode-btn-desc {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+

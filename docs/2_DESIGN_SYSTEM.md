@@ -43,3 +43,12 @@ Kartu adalah pusat dari visual game.
 ## 6. Feedback Visual & Aksesibilitas
 - Status pemain (giliran siapa sekarang) harus ditandai dengan sangat jelas, misalnya menggunakan border bercahaya (*glowing frame*) pada panel pemain yang sedang mengambil giliran.
 - Warna yang digunakan harus kontras. Meskipun banyak menggunakan efek *glow*, informasi penting seperti jumlah HP tidak boleh buram.
+
+## 7. Boss Challenge Mode (Abyss Omega Arena)
+- **Grid 14×3 (42 kartu):** Layout menggunakan CSS Grid `repeat(14, 1fr)` dengan 3 baris otomatis (lebar ke samping bergaya ultrawide). Container diperlebar ke `max-width: 95vw`.
+- **Warna Aksen Bos:** Crimson Red (#ff3377) dengan pendar emas sebagai aksen identitas mode Boss, kontras dengan Cyan biru mode RPG.
+- **Boss Badge:** Badge header berdenyut (`pulseGlowBoss`) crimson-gold untuk menandakan mode Boss Challenge.
+- **Elapsed Time Ticker:** Waktu berlalu ditampilkan di header, diperbarui setiap detik, format `Xm Ys`.
+- **Game Over Boss Victory:** Modal khusus dengan gradien crimson-gold pada judul, menampilkan waktu penyelesaian sebagai rekor utama.
+- **Responsivitas:** Grid menyesuaikan gap dan ukuran kartu untuk tablet (768px) dan mobile (480px). Direkomendasikan dimainkan di layar penuh / landscape.
+

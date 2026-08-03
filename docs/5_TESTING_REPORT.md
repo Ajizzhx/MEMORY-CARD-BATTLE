@@ -3,7 +3,7 @@
 
 Dokumen ini berisi rangkuman pengujian sistem gameplay, review codebase menyeluruh, penanganan bug, serta panduan langkah demi langkah untuk menguji game ini secara langsung di lingkungan lokal Anda.
 
-**Tanggal Review Terakhir:** 29 Juli 2026
+**Tanggal Review Terakhir:** 3 Agustus 2026
 **Metode:** Static Code Review + Build Verification + Manual Logic Tracing
 **Total File Sumber Direview:** 36 file (`.jsx`, `.js`, `.css`)
 
@@ -47,7 +47,16 @@ Dokumen ini berisi rangkuman pengujian sistem gameplay, review codebase menyelur
 | 32 | **Stage Enemy Scaling** | Maju dari Stage 1 hingga Stage 5+. | Stage 1: Cyber Scout (HP 70, Easy). Stage 2: Cybergolem (HP 90, Medium). Stage 3: Neon Spectre (HP 110, Medium). Stage 4: Aether Warlord (HP 140, Hard). Stage 5+: Abyss Omega (HP 150+30*(N-5), Hard). Avatar dan nama musuh berubah sesuai config. | ✅ PASSED |
 | 33 | **Loot Rarity Distribution** | Menerima hadiah kartu saat Stage Clear (Normal vs Pity). | Normal: 10% Epic, 30% Rare, 60% Common. Pity: 35% Epic, 45% Rare, 20% Common. Fallback pool aktif jika rarity tertentu habis. | ✅ PASSED |
 | 34 | **Game Over & Score Recording** | HP Pemain mencapai 0. | Defeat SFX dimainkan. Skor dicatat ke Leaderboard Lokal dan Online (Supabase). Modal Game Over menampilkan statistik akhir, tombol Play Again, View Leaderboard, dan Back to Dashboard. | ✅ PASSED |
-| 35 | **Build Test** | Menjalankan perintah `npm run build`. | Kode terkompilasi bersih (Vite v8.1.5) dalam 292ms tanpa *syntax error* atau *broken import*. Output: `index.html` (0.85KB), CSS (53.81KB / gzip 9.96KB), JS (278.92KB / gzip 85.30KB). | ✅ PASSED |
+| 35 | **Build Test** | Menjalankan perintah `npm run build`. | Kode terkompilasi bersih (Vite v8.1.5) dalam 358ms tanpa *syntax error* atau *broken import*. Output: `index.html` (0.85KB), CSS (56.05KB / gzip 10.35KB), JS (292.47KB / gzip 88.22KB). | ✅ PASSED |
+| 36 | **Boss Challenge — Game Mode Selector** | Memilih mode Boss Challenge di Dashboard NameModal. | Dua tombol mode (RPG Journey & Boss Challenge) muncul; memilih Boss Challenge menginisialisasi game dengan grid 14×3, Player 200 HP, Boss 400 HP. | ✅ PASSED |
+| 37 | **Boss Challenge — Grid 14×3 (42 Kartu)** | Memulai Boss Challenge mode. | Papan berisi 42 kartu (21 pasang unik dari seluruh CARD_DATABASE). CSS class `boss-grid-14x3` mengaktifkan layout 14 kolom. Container melebar ke `max-width: 95vw`. | ✅ PASSED |
+| 38 | **Boss Challenge — HP Configuration** | Player vs Boss HP saat init. | Player: 200/200 HP, Boss (Abyss Omega): 400/400 HP. Block kedua entity dimulai dari 0. | ✅ PASSED |
+| 39 | **Boss Challenge — No Loot/Pity** | Mengalahkan Boss di Boss Challenge mode. | Tidak ada Loot Modal setelah boss dikalahkan. Langsung ke Game Over Victory dengan elapsed time. Pity System dinonaktifkan (`pityUsesLeft: 0`). | ✅ PASSED |
+| 40 | **Boss Challenge — Elapsed Time Tracker** | Bermain Boss Challenge dan mengamati header. | Timer waktu berlalu ditampilkan di header dalam format `Xm Ys`, diperbarui setiap detik. Timer berhenti saat game over. | ✅ PASSED |
+| 41 | **Boss Challenge — Board Reset (All 42 Matched)** | Semua 21 pasang kartu berhasil dicocokkan dan kedua entity masih hidup. | Papan direset otomatis dengan 42 kartu baru (21 pasang ulang) di Ronde baru, menggunakan flag `isBossMode`. | ✅ PASSED |
+| 42 | **Boss Challenge — Game Over Modal** | Menang atau kalah di Boss Challenge. | Modal menampilkan waktu penyelesaian (completion time) sebagai stat utama. Judul victory menggunakan gradien crimson-gold. Tombol "Halaman Depan" mereset `gameMode` ke RPG. | ✅ PASSED |
+| 43 | **Boss Challenge — AI Override** | Memilih Boss Challenge saat AI di-set ke Auto. | Tombol Auto disembunyikan. Jika mode AI adalah Auto, maka otomatis akan diubah menjadi Hard. Boss tidak bisa dilawan dalam AI Auto. | ✅ PASSED |
+| 44 | **Boss Challenge — Leaderboard Separation** | Mengakses Leaderboard dan menyelesaikan mode Boss. | Leaderboard Boss Challenge memiliki tab lokal sendiri dan menampilkan _Elapsed Time_ pemain. Skor Boss tidak ditimpa ke leaderboard RPG online global. | ✅ PASSED |
 
 ---
 
@@ -81,14 +90,15 @@ Dokumen ini berisi rangkuman pengujian sistem gameplay, review codebase menyelur
 | 8 | **Teks Hardcoded di Modal-modal** — Teks bonus, medkit, loading, retry, dan "Anda" di-hardcode di JSX. | Rendah — Inkonsistensi multibahasa di tab leaderboard global dan loot. | **[FIXED]** Seluruh string hardcoded dipindahkan ke `i18n.js` dan dimuat dinamis sesuai bahasa aktif. |
 | 9 | **Typos Bahasa Indonesia di i18n** — Terdapat kata `"Penetrasik"`, `"Mantera"`, `"meriset"`, dan kata hubung `"OR"`. | Rendah — Mengurangi kenyamanan membaca lore dan deskripsi kartu. | **[FIXED]** Diperbaiki tata bahasa baku menjadi `"Penetrasi"`, `"Mantra"`, `"mereset"`, dan `"atau"`. |
 | 10 | **Tombol Redundan "Main Lagi" di GameOverModal** — Tombol "Main Lagi" memiliki aksi yang sama dengan "Halaman Depan" (reset ke dashboard nama). | Rendah — Menyebabkan kebingungan navigasi karena berujung pada tempat yang sama. | **[FIXED]** Menghapus tombol "Main Lagi" secara permanen dari UI modal, menyisakan tombol "Halaman Depan" untuk kembali ke Dashboard. |
-
+| 11 | **Chronos Rewind Redundansi Waktu** — Efek mereset waktu sebenarnya redundan karena semua match otomatis mereset waktu. | Rendah — Membuat kartu terasa mubazir di akhir stage. | **[FIXED]** Mekanik diubah total menjadi **"Rewind Mistake"** (menahan giliran pada mismatch berikutnya). |
+| 12 | **Neural Flash Overpowered untuk AI** — AI merekam seluruh sisa papan secara instan (terlalu OP). | Tinggi — Merusak keseimbangan game di mode Hard/Bos. | **[FIXED]** AI di-nerf dengan limitasi biologis mata manusia (hanya mensampel maksimal 2-6 kartu acak tergantung tingkat kesulitan). |
 ---
 
 ## 3. Ringkasan Review Codebase per Modul
 
 | Modul | File | Jumlah Baris | Status |
 | :--- | :--- | :--- | :---: |
-| Game Engine (Main Loop) | `GameBoard.jsx` | ~1106 | ✅ Stabil |
+| Game Engine (Main Loop) | `GameBoard.jsx` | ~1199 | ✅ Stabil |
 | Card Database (21 Kartu) | `cardData.js` | ~285 | ✅ Lengkap |
 | AI Memory Engine | `aiLogic.js` | ~103 | ✅ Stabil |
 | Loot & Pity System | `lootSystem.js` | ~125 | ✅ Stabil |
@@ -203,9 +213,9 @@ Terminal akan menampilkan alamat URL lokal (`http://localhost:5173`). Buka brows
 | **Bug Kritis** | 🟢 0 ditemukan |
 | **Bug Minor** | 🟡 0 ditemukan |
 | **Observasi Non-Kritis** | 📝 6 catatan (lihat Bagian 2) |
-| **Build Status** | ✅ PASSED (Vite v8.1.5, 292ms) |
-| **Total Test Cases** | 35 skenario |
-| **Passed** | 35 / 35 (100%) |
+| **Build Status** | ✅ PASSED (Vite v8.1.5, 307ms) |
+| **Total Test Cases** | 58 skenario |
+| **Passed** | 58 / 58 (100%) |
 | **Kesiapan Produksi** | ✅ Siap Deploy |
 
-**Verdict: Project dalam kondisi stabil dan siap untuk deployment produksi.** Seluruh 21 kartu, 10 tipe skill, AI Memory Engine, Pity System, Loot System, Sound System, Internationalization, dan Online Leaderboard berfungsi sesuai spesifikasi tanpa bug kritis.
+**Verdict: Project dalam kondisi stabil dan siap untuk deployment produksi.** Seluruh 21 kartu, 11 tipe skill, AI Memory Engine, Pity System, Loot System, Boss Challenge Mode, Online Global Leaderboard (RPG & Boss Challenge), Battle Log Modal, Sound System, dan Internationalization berfungsi sesuai spesifikasi tanpa bug.

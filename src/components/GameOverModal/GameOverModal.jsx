@@ -8,6 +8,8 @@ const GameOverModal = ({
   totalMatches,
   difficultyName,
   isVictory = false,
+  gameMode = 'RPG',
+  bossElapsedTime = 0,
   onPlayAgain,
   onRestartJourney,
   onOpenLeaderboard,
@@ -16,33 +18,67 @@ const GameOverModal = ({
 }) => {
   // Mendukung kedua nama prop agar kompatibel
   const handlePlayAgain = onPlayAgain || onRestartJourney;
+
+  // Format elapsed time for Boss Challenge
+  const formatBossTime = (ms) => {
+    const totalSec = Math.floor(ms / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}m ${sec}s`;
+  };
+
+  const isBossMode = gameMode === 'BOSS_CHALLENGE';
+
   return (
     <div className="modal-overlay">
-      <div className={`gameover-modal-content glass-panel ${isVictory ? 'victory' : 'defeat'}`}>
+      <div className={`gameover-modal-content glass-panel ${isVictory ? 'victory' : 'defeat'} ${isBossMode ? 'boss-mode' : ''}`}>
         <h2 className="gameover-title">
-          {isVictory ? t('victoryTitle', currentLang) : t('defeatTitle', currentLang)}
+          {isBossMode && isVictory
+            ? (currentLang === 'ID' ? '🐉 BOS DIKALAHKAN!' : '🐉 BOSS DEFEATED!')
+            : isVictory ? t('victoryTitle', currentLang) : t('defeatTitle', currentLang)}
         </h2>
 
         <p className="app-subtitle">
-          {isVictory ? t('victorySub', currentLang) : t('defeatSub', currentLang)}
+          {isBossMode && isVictory
+            ? (currentLang === 'ID' ? 'Abyss Omega telah dikalahkan! Rekor waktu Anda tercatat.' : 'Abyss Omega has been defeated! Your time record is saved.')
+            : isVictory ? t('victorySub', currentLang) : t('defeatSub', currentLang)}
         </p>
 
         {/* Ringkasan Statistik */}
         <div className="gameover-stats-grid">
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">{t('statFinalStage', currentLang)}</span>
-            <span className="stat-card-value primary">Stage {stage}</span>
-          </div>
-
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">{t('statTotalMatches', currentLang)}</span>
-            <span className="stat-card-value match">✨ {totalMatches}</span>
-          </div>
-
-          <div className="gameover-stat-card">
-            <span className="stat-card-label">{t('statAiMode', currentLang)}</span>
-            <span className="stat-card-value title">{difficultyName || 'Auto'}</span>
-          </div>
+          {isBossMode ? (
+            <>
+              <div className="gameover-stat-card boss-time-card">
+                <span className="stat-card-label">
+                  {currentLang === 'ID' ? '⏱️ Waktu Penyelesaian' : '⏱️ Completion Time'}
+                </span>
+                <span className="stat-card-value primary">{formatBossTime(bossElapsedTime)}</span>
+              </div>
+              <div className="gameover-stat-card">
+                <span className="stat-card-label">{t('statTotalMatches', currentLang)}</span>
+                <span className="stat-card-value match">✨ {totalMatches}</span>
+              </div>
+              <div className="gameover-stat-card">
+                <span className="stat-card-label">{t('statAiMode', currentLang)}</span>
+                <span className="stat-card-value title">{difficultyName || 'Auto'}</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="gameover-stat-card">
+                <span className="stat-card-label">{t('statFinalStage', currentLang)}</span>
+                <span className="stat-card-value primary">Stage {stage}</span>
+              </div>
+              <div className="gameover-stat-card">
+                <span className="stat-card-label">{t('statTotalMatches', currentLang)}</span>
+                <span className="stat-card-value match">✨ {totalMatches}</span>
+              </div>
+              <div className="gameover-stat-card">
+                <span className="stat-card-label">{t('statAiMode', currentLang)}</span>
+                <span className="stat-card-value title">{difficultyName || 'Auto'}</span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Action Buttons */}
