@@ -63,9 +63,9 @@ Saat giliran AI tiba, AI menentukan 2 kartu yang akan diputar melalui urutan hie
 
 ## 4. Rincian Strategi Algoritma
 
-1. **Status Debuff (EMP Jammer Check)**
-   - Jika status `isJammerActive = true`, seluruh logika memori diabaikan.
-   - AI memilih 2 indeks kartu secara acak murni dari sisa kartu yang belum terpasang (`availableCards`).
+1. **Status Debuff / EMP Effect**
+   - Ketika efek kartu `EMP Disrupter` aktif (atau flag `isJammerActive = true`), seluruh memori AI diacak/direset.
+   - AI memilih 2 indeks kartu secara acak murni dari sisa kartu di papan (`availableCards`).
 
 2. **Strategi 1: Known Pair Matching**
    - AI memindai isi memorinya (`aiMemory`).

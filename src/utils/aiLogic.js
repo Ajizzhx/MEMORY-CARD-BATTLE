@@ -44,7 +44,7 @@ export const getAiCardChoices = (cards, matchedCardIds, aiMemory, accuracy, isJa
 
   if (availableCards.length < 2) return [];
 
-  // Jika EMP Jammer aktif, AI lupa total (pilih 100% acak)
+  // Jika EMP Jammer aktif/kartu EMP terpicu, AI lupa total (pilih 100% acak)
   if (isJammerActive) {
     const idx1 = Math.floor(Math.random() * availableCards.length);
     let idx2 = Math.floor(Math.random() * availableCards.length);
