@@ -30,7 +30,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
       .finally(() => setIsLoading(false));
   }, [activeTab, currentLang]);
 
-  // Fetch Boss online scores
+  // Fetch Boss online scores (with local fallback)
   useEffect(() => {
     if (activeTab !== 'boss') return;
 
@@ -39,10 +39,34 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
 
     fetchBossScores(10)
       .then((data) => {
-        setBossLeaderboard((data || []).slice(0, 10));
+        if (data && data.length > 0) {
+          setBossLeaderboard(data.slice(0, 10));
+        } else {
+          // Fallback ke local storage jika belum ada skor global
+          const savedBoss = localStorage.getItem('memory_boss_leaderboard');
+          if (savedBoss) {
+            try {
+              setBossLeaderboard(JSON.parse(savedBoss));
+            } catch (e) {
+              setBossLeaderboard([]);
+            }
+          } else {
+            setBossLeaderboard([]);
+          }
+        }
       })
       .catch((err) => {
-        setFetchError(t('globalLBError', currentLang));
+        // Fallback ke local storage jika offline/error
+        const savedBoss = localStorage.getItem('memory_boss_leaderboard');
+        if (savedBoss) {
+          try {
+            setBossLeaderboard(JSON.parse(savedBoss));
+          } catch (e) {
+            setFetchError(t('globalLBError', currentLang));
+          }
+        } else {
+          setFetchError(t('globalLBError', currentLang));
+        }
         console.error('[LeaderboardModal]', err);
       })
       .finally(() => setIsLoading(false));

@@ -152,7 +152,7 @@ export const TRANSLATIONS = {
     thDate: 'Tanggal',
     noGlobalData: 'Belum ada data di Papan Peringkat Supabase.',
     noSessionData: 'Belum ada catatan skor RPG di sesi lokal ini.',
-    noBossData: 'Belum ada catatan waktu Boss Challenge di sesi lokal ini.',
+    noBossData: 'Belum ada catatan waktu Boss Challenge. Kalahkan Abyss Omega untuk mencatatkan rekor pertamamu!',
     closeLeaderboardBtn: 'Tutup Leaderboard',
 
     // ── LogModal ──
@@ -491,7 +491,7 @@ export const TRANSLATIONS = {
     thDate: 'Date',
     noGlobalData: 'No data yet in Supabase Leaderboard.',
     noSessionData: 'No RPG score records in this local session yet.',
-    noBossData: 'No Boss Challenge time records in this local session yet.',
+    noBossData: 'No Boss Challenge time records yet. Defeat Abyss Omega to set your record!',
     closeLeaderboardBtn: 'Close Leaderboard',
 
     // ── LogModal ──
