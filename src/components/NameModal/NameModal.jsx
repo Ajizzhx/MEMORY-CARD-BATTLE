@@ -17,9 +17,10 @@ const NameModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nameInput.trim().length > 0) {
+    const sanitizedName = nameInput.replace(/[<>&"'/]/g, '').trim();
+    if (sanitizedName.length > 0) {
       soundManager.playClickSFX();
-      onSubmitName(nameInput.trim(), selectedAiMode, selectedGameMode);
+      onSubmitName(sanitizedName, selectedAiMode, selectedGameMode);
     }
   };
 

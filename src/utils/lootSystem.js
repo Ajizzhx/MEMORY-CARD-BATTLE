@@ -82,6 +82,11 @@ export const generateLootChoices = (playerDeck = [], isPityActive = false, canUs
       pool = unownedCards.filter((c) => !chosenIds.has(c.id));
     }
 
+    // Jika seluruh sisa kartu unowned sudah terpilih, keluar dari loop
+    if (pool.length === 0) {
+      break;
+    }
+
     const randomCard = pool[Math.floor(Math.random() * pool.length)];
     if (randomCard) {
       chosenIds.add(randomCard.id);

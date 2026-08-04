@@ -23,62 +23,32 @@ const HEADERS = {
 const TOP_LIMIT = 10;
 
 /**
- * Hapus otomatis baris di Supabase yang berada di luar Top 10 (peringkat 11 ke bawah)
- * @param {Array} extraItems
+ * Sanitasi string input untuk mencegah XSS/HTML Injection
+ * @param {string} str 
  */
-const pruneExtraDatabaseScores = async (extraItems) => {
-  if (!extraItems || extraItems.length === 0) return;
-  const ids = extraItems.map((item) => item.id).filter(Boolean);
-  if (ids.length === 0) return;
-
-  try {
-    const deleteParams = new URLSearchParams({
-      id: `in.(${ids.join(',')})`
-    });
-    await fetch(`${TABLE_ENDPOINT}?${deleteParams}`, {
-      method: 'DELETE',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-      }
-    });
-  } catch (err) {
-    console.warn('[Leaderboard] Automatic database cleanup note:', err.message);
-  }
-};
-
-/**
- * Hapus otomatis baris di Supabase (Boss) yang berada di luar Top 10 (peringkat 11 ke bawah)
- * @param {Array} extraItems
- */
-const pruneExtraBossDatabaseScores = async (extraItems) => {
-  if (!extraItems || extraItems.length === 0) return;
-  const ids = extraItems.map((item) => item.id).filter(Boolean);
-  if (ids.length === 0) return;
-
-  try {
-    const deleteParams = new URLSearchParams({
-      id: `in.(${ids.join(',')})`
-    });
-    await fetch(`${BOSS_TABLE_ENDPOINT}?${deleteParams}`, {
-      method: 'DELETE',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-      }
-    });
-  } catch (err) {
-    console.warn('[Boss Leaderboard] Automatic database cleanup note:', err.message);
-  }
+const sanitizeInput = (str) => {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[<>&"'/]/g, '').trim().substring(0, 15);
 };
 
 /**
  * Submit skor pemain ke Supabase.
  * Hanya mengirim jika skor masuk Top 10 (optimasi: tidak insert data yang tidak perlu).
+ * Pembersihan baris 11+ ditangani otomatis oleh PostgreSQL Trigger di Supabase.
  * @param {{ name: string, stage: number, totalMatches: number, difficulty: string }} entry
  */
 export const submitScore = async (entry) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+
+  const cleanName = sanitizeInput(entry.name) || 'Cyber Hero';
+  const cleanStage = Number(entry.stage) || 1;
+  const cleanMatches = Number(entry.totalMatches) || 0;
+
+  // Basic Payload Sanity Checks (Mencegah POST skor palsu / manipulasi ekstrem)
+  if (cleanStage < 1 || cleanMatches < 0) {
+    console.warn('[Leaderboard] Invalid payload blocked.');
+    return;
+  }
 
   try {
     // Cek apakah skor ini layak masuk Top 10 sebelum insert
@@ -88,47 +58,42 @@ export const submitScore = async (entry) => {
 
     // Jika tabel sudah penuh, cek apakah skor ini lebih baik dari yang paling rendah
     if (isTableFull && lowestTop) {
-      const entryIsWorse =
-        entry.stage < lowestTop.stage ||
-        (entry.stage === lowestTop.stage && (entry.totalMatches || 0) <= lowestTop.total_matches);
-      if (entryIsWorse) return; // Tidak insert, skor tidak cukup tinggi
+      const isBetterStage = cleanStage > lowestTop.stage;
+      const isSameStageFewerMatches = cleanStage === lowestTop.stage && cleanMatches < lowestTop.total_matches;
+
+      if (!isBetterStage && !isSameStageFewerMatches) {
+        return; // Tidak layak masuk Top 10
+      }
     }
 
+    // Insert ke Supabase
     await fetch(TABLE_ENDPOINT, {
       method: 'POST',
       headers: HEADERS,
       body: JSON.stringify({
-        name: entry.name || 'Cyber Hero',
-        stage: entry.stage || 1,
-        total_matches: entry.totalMatches || 0,
-        difficulty: entry.difficulty || 'Otomatis'
+        name: cleanName,
+        stage: cleanStage,
+        total_matches: cleanMatches,
+        difficulty: entry.difficulty || 'Auto'
       })
     });
-
-    // Jalankan pembersihan database otomatis setelah submit
-    await fetchTopScores(TOP_LIMIT);
   } catch (err) {
-    // Gagal silently — jangan ganggu gameplay
-    console.warn('[Leaderboard] Gagal mengirim skor online:', err.message);
+    console.warn('[Leaderboard] Gagal submit skor ke Supabase:', err.message);
   }
 };
 
 /**
- * Ambil top 10 skor global dari Supabase.
- * Otomatis menghapus baris ke-11 dan seterusnya dari database Supabase.
- * @param {number} limit - Jumlah skor yang diambil (default 10)
- * @returns {Promise<Array>} Daftar skor terurut Stage DESC, Total Match DESC (Maksimal 10)
+ * Ambil top 10 skor RPG global dari Supabase.
+ * @param {number} targetLimit 
+ * @returns {Promise<Array>}
  */
-export const fetchTopScores = async (limit = TOP_LIMIT) => {
+export const fetchTopScores = async (targetLimit = TOP_LIMIT) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
 
-  const targetLimit = Math.min(limit, TOP_LIMIT);
-
-  // Ambil hingga 50 data untuk mendeteksi dan membersihkan entri di luar Top 10
   const params = new URLSearchParams({
     select: 'id,name,stage,total_matches,difficulty,created_at',
     order: 'stage.desc,total_matches.desc',
-    limit: '50'
+    limit: String(targetLimit)
   });
 
   const res = await fetch(`${TABLE_ENDPOINT}?${params}`, {
@@ -144,16 +109,7 @@ export const fetchTopScores = async (limit = TOP_LIMIT) => {
   }
 
   const allScores = await res.json();
-
-  if (Array.isArray(allScores) && allScores.length > targetLimit) {
-    const topScores = allScores.slice(0, targetLimit);
-    const extraScores = allScores.slice(targetLimit);
-    // Hapus otomatis peringkat 11+ dari Supabase di background
-    pruneExtraDatabaseScores(extraScores);
-    return topScores;
-  }
-
-  return allScores || [];
+  return Array.isArray(allScores) ? allScores.slice(0, targetLimit) : [];
 };
 
 /**
@@ -163,25 +119,35 @@ export const fetchTopScores = async (limit = TOP_LIMIT) => {
 export const submitBossScore = async (scoreData) => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
 
+  const cleanName = sanitizeInput(scoreData.name) || 'Cyber Hero';
+  const cleanElapsed = Number(scoreData.elapsedMs) || 0;
+  const cleanMatches = Number(scoreData.totalMatches) || 0;
+
+  // Basic Payload Sanity Checks
+  if (cleanElapsed <= 0 || cleanMatches < 0) {
+    console.warn('[Boss Leaderboard] Invalid payload blocked.');
+    return;
+  }
+
   try {
     // 1. Cek apakah skor layak masuk Top 10 (lebih cepat dari peringkat 10)
     const currentTop = await fetchBossScores(TOP_LIMIT);
     if (currentTop.length >= TOP_LIMIT) {
       const lowestScore = currentTop[currentTop.length - 1];
-      if (scoreData.elapsedMs > lowestScore.elapsed_ms) {
+      if (cleanElapsed > lowestScore.elapsed_ms) {
         return; // Tidak masuk Top 10 (waktu lebih lama)
       }
     }
 
-    // 2. Insert jika layak (database akan auto-prune via fetchBossScores)
+    // 2. Insert jika layak (database akan auto-prune via PostgreSQL Trigger)
     await fetch(BOSS_TABLE_ENDPOINT, {
       method: 'POST',
       headers: HEADERS,
       body: JSON.stringify({
-        name: scoreData.name,
-        difficulty: scoreData.difficulty,
-        elapsed_ms: scoreData.elapsedMs, // mapping camelCase ke snake_case db
-        total_matches: scoreData.totalMatches
+        name: cleanName,
+        difficulty: scoreData.difficulty || 'Auto',
+        elapsed_ms: cleanElapsed,
+        total_matches: cleanMatches
       })
     });
   } catch (err) {
@@ -191,7 +157,6 @@ export const submitBossScore = async (scoreData) => {
 
 /**
  * Ambil top 10 skor Boss global dari Supabase.
- * Otomatis menghapus baris ke-11 dan seterusnya dari database Supabase.
  * @param {number} targetLimit 
  * @returns {Promise<Array>}
  */
@@ -201,7 +166,7 @@ export const fetchBossScores = async (targetLimit = TOP_LIMIT) => {
   const params = new URLSearchParams({
     select: 'id,name,elapsed_ms,total_matches,difficulty,created_at',
     order: 'elapsed_ms.asc,total_matches.asc',
-    limit: '50'
+    limit: String(targetLimit)
   });
 
   const res = await fetch(`${BOSS_TABLE_ENDPOINT}?${params}`, {
@@ -217,16 +182,7 @@ export const fetchBossScores = async (targetLimit = TOP_LIMIT) => {
   }
 
   const allScores = await res.json();
-
-  if (Array.isArray(allScores) && allScores.length > targetLimit) {
-    const topScores = allScores.slice(0, targetLimit);
-    const extraScores = allScores.slice(targetLimit);
-    // Hapus otomatis peringkat 11+ dari Supabase di background
-    pruneExtraBossDatabaseScores(extraScores);
-    return topScores;
-  }
-
-  return allScores || [];
+  return Array.isArray(allScores) ? allScores.slice(0, targetLimit) : [];
 };
 
 /**

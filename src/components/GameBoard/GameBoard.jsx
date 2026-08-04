@@ -827,7 +827,7 @@ const GameBoard = () => {
             spawnFloatingText(t('xrayScanFloat', currentLang).replace('{name}', card.name), 'match');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
             if (unmatched.length >= 2) {
-              const sample = unmatched.slice(0, 2).map((c) => c.uniqueId);
+              const sample = [...unmatched].sort(() => 0.5 - Math.random()).slice(0, 2).map((c) => c.uniqueId);
               setTemporaryRevealed(sample);
               setTimeout(() => {
                 setTemporaryRevealed([]);
@@ -838,7 +838,7 @@ const GameBoard = () => {
             spawnFloatingText(t('xrayScanEnemyFloat', currentLang), 'damage');
             const unmatched = cards.filter((c) => !matchedCardIds.includes(c.pairId));
             if (unmatched.length >= 2) {
-              const sample = unmatched.slice(0, 2);
+              const sample = [...unmatched].sort(() => 0.5 - Math.random()).slice(0, 2);
               const accuracy = AI_DIFFICULTY_LEVELS[activeAiDifficulty].memoryAccuracy;
               setAiMemory((prevMem) => updateAiMemory(prevMem, sample, accuracy));
             }
@@ -859,19 +859,26 @@ const GameBoard = () => {
         } else {
           spawnFloatingText(t('virusFloat', currentLang).replace('{damage}', damage), 'damage');
         }
+
+        const applyDebuff = (target) => {
+          if (isEmpAttack) {
+            // EMP Disrupter membakar seluruh armor ke 0 dan sisa damage mengurangi HP
+            const updatedHp = Math.max(0, target.hp - damage);
+            return { ...target, block: 0, hp: updatedHp };
+          }
+          // Corrosive Virus & Glitch Overlay: Armor menyerap damage terlebih dahulu
+          const blocked = Math.min(target.block, damage);
+          const remainingDamage = damage - blocked;
+          const newBlock = target.block - blocked;
+          const newHp = Math.max(0, target.hp - remainingDamage);
+          return { ...target, block: newBlock, hp: newHp };
+        };
+
         if (isPlayer) {
           setIsEmpJammerActive(true);
-          setEnemy((prev) => {
-            const newBlock = isEmpAttack ? 0 : prev.block;
-            const updatedHp = Math.max(0, prev.hp - damage);
-            return { ...prev, block: newBlock, hp: updatedHp };
-          });
+          setEnemy((prev) => applyDebuff(prev));
         } else {
-          setPlayer((prev) => {
-            const newBlock = isEmpAttack ? 0 : prev.block;
-            const updatedHp = Math.max(0, prev.hp - damage);
-            return { ...prev, block: newBlock, hp: updatedHp };
-          });
+          setPlayer((prev) => applyDebuff(prev));
         }
         break;
       }
@@ -892,23 +899,29 @@ const GameBoard = () => {
         const stealBase = 15 * mult;
         const damage = 10 * mult;
         if (isPlayer) {
-          setEnemy((prev) => {
-            const stolen = Math.min(prev.block, stealBase);
-            const newBlock = prev.block - stolen;
-            const newHp = Math.max(0, prev.hp - damage);
-            setPlayer((p) => ({ ...p, block: p.block + stolen }));
-            spawnFloatingText(t('drainFloat', currentLang).replace('{stolen}', stolen).replace('{damage}', damage), 'match');
-            return { ...prev, block: newBlock, hp: newHp };
-          });
+          const stolen = Math.min(enemy.block, stealBase);
+          setEnemy((prev) => ({
+            ...prev,
+            block: prev.block - stolen,
+            hp: Math.max(0, prev.hp - damage)
+          }));
+          setPlayer((prev) => ({
+            ...prev,
+            block: prev.block + stolen
+          }));
+          spawnFloatingText(t('drainFloat', currentLang).replace('{stolen}', stolen).replace('{damage}', damage), 'match');
         } else {
-          setPlayer((prev) => {
-            const stolen = Math.min(prev.block, stealBase);
-            const newBlock = prev.block - stolen;
-            const newHp = Math.max(0, prev.hp - damage);
-            setEnemy((e) => ({ ...e, block: e.block + stolen }));
-            spawnFloatingText(t('drainEnemyFloat', currentLang).replace('{stolen}', stolen), 'damage');
-            return { ...prev, block: newBlock, hp: newHp };
-          });
+          const stolen = Math.min(player.block, stealBase);
+          setPlayer((prev) => ({
+            ...prev,
+            block: prev.block - stolen,
+            hp: Math.max(0, prev.hp - damage)
+          }));
+          setEnemy((prev) => ({
+            ...prev,
+            block: prev.block + stolen
+          }));
+          spawnFloatingText(t('drainEnemyFloat', currentLang).replace('{stolen}', stolen), 'damage');
         }
         break;
       }
