@@ -444,7 +444,7 @@ const GameBoard = () => {
   // Alias untuk kompatibilitas (dipanggil dari GameOverModal)
   const startNewJourney = returnToDashboard;
 
-  // Reset Board untuk Stage / Ronde baru (supports both RPG 4x4 and Boss Challenge 6x7)
+  // Reset Board untuk Stage / Ronde baru (supports both RPG 4x4 and Boss Challenge 14x3)
   const resetBoardForStage = (stageNum, deckToUse, isNewStage = false, isBossMode = false) => {
     const boardCards = [];
     const activeDeck = deckToUse || playerDeck;
