@@ -1010,10 +1010,10 @@ const GameBoard = () => {
     if (gameMode === 'BOSS_CHALLENGE') {
       finalElapsedMs = Date.now() - (bossStartTime || Date.now());
       setBossElapsedTime(finalElapsedMs);
-    } else {
-      // Hanya rekam skor jika RPG mode (berdasarkan stage tertinggi yang dicapai)
-      recordLeaderboardScore(stage, totalMatchesMade, finalElapsedMs);
     }
+    
+    recordLeaderboardScore(stage, totalMatchesMade, finalElapsedMs);
+
     setTimeout(() => {
       setShowGameOverModal(true);
     }, 600);
