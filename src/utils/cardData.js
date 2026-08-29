@@ -94,10 +94,11 @@ export const CARD_DATABASE = [
     name: 'Corrosive Virus',
     type: 'DEBUFF',
     rarity: 'rare',
-    value: 16,
+    value: 18,
+    isPiercing: true,
     icon: '☠️',
     img: '/assets/cards/debuff_virus.png',
-    description: 'Virus mengikis HP musuh (16 Damage).',
+    description: 'Virus mengikis HP musuh (18 Damage Menembus Perisai).',
     lore: 'Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.',
     color: '#ef4444'
   },
@@ -172,7 +173,7 @@ export const CARD_DATABASE = [
     value: 28,
     icon: '⚡',
     img: '/assets/cards/debuff_emp.png',
-    description: 'Pulsa EMP melumpuhkan perisai & berikan 28 Damage.',
+    description: 'Pulsa EMP mengikis 50% perisai (max 25) & berikan 28 Damage.',
     lore: 'Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.',
     color: '#00ffaa'
   },
@@ -183,11 +184,11 @@ export const CARD_DATABASE = [
     name: 'Divine Wrath',
     type: 'ATTACK',
     rarity: 'epic',
-    value: 40,
+    value: 32,
     icon: '⚡',
     img: '/assets/cards/pity_wrath.png',
-    description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
-    lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.',
+    description: 'Serangan petir suci 32 Damage + Heal 15 HP!',
+    lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 32 Damage sekaligus memulihkan 15 HP.',
     color: '#eab308'
   },
 

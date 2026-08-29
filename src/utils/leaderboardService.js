@@ -59,9 +59,9 @@ export const submitScore = async (entry) => {
     // Jika tabel sudah penuh, cek apakah skor ini lebih baik dari yang paling rendah
     if (isTableFull && lowestTop) {
       const isBetterStage = cleanStage > lowestTop.stage;
-      const isSameStageFewerMatches = cleanStage === lowestTop.stage && cleanMatches < lowestTop.total_matches;
+      const isSameStageBetterMatches = cleanStage === lowestTop.stage && cleanMatches > lowestTop.total_matches;
 
-      if (!isBetterStage && !isSameStageFewerMatches) {
+      if (!isBetterStage && !isSameStageBetterMatches) {
         return; // Tidak layak masuk Top 10
       }
     }

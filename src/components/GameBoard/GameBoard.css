@@ -263,8 +263,11 @@
 /* Responsive Boss Grid for mobile */
 @media (max-width: 480px) {
   .cards-grid.boss-grid-14x3 {
-    grid-template-columns: repeat(5, 1fr); /* 5 kolom untuk mobile agar kartu tidak terlalu kecil */
-    gap: 3px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding-right: 4px;
   }
 }
 

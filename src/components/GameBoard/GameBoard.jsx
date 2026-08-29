@@ -35,8 +35,12 @@ const GameBoard = () => {
   const [showGuideModal, setShowGuideModal] = useState(false);
   const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => {
-    const saved = localStorage.getItem('memory_card_leaderboard');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('memory_card_leaderboard');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   // Turn Timer State
@@ -171,10 +175,12 @@ const GameBoard = () => {
   // Efek Samping Pemantau Nyawa (Mencegah anti-pattern React updaters)
   useEffect(() => {
     if (playerName && !showNameModal) {
-      if (enemy.hp === 0 && player.hp > 0 && !showLootModal && !showGameOverModal) {
-        triggerStageClear();
-      } else if (player.hp === 0 && enemy.hp > 0 && !showGameOverModal) {
+      if (player.hp === 0 && enemy.hp > 0 && !showGameOverModal) {
         triggerGameOver();
+      } else if (player.hp === 0 && !showGameOverModal) {
+        triggerGameOver();
+      } else if (enemy.hp === 0 && player.hp > 0 && !showLootModal && !showGameOverModal) {
+        triggerStageClear();
       }
     }
   }, [player.hp, enemy.hp, playerName, showNameModal]);
@@ -282,10 +288,13 @@ const GameBoard = () => {
   };
 
   // Catat Skor ke Leaderboard Lokal (Sesi) & Online (Supabase)
-  const recordLeaderboardScore = (finalStage, matches, elapsedMs = 0) => {
+  const recordLeaderboardScore = (finalStage, matches, elapsedMs = 0, isVictory = false) => {
     const activeDifficultyLabel = AI_DIFFICULTY_LEVELS[activeAiDifficulty]?.name || 'Otomatis';
     
     if (gameMode === 'BOSS_CHALLENGE') {
+      // JANGAN simpan jika kalah di Boss Challenge
+      if (!isVictory) return;
+
       const newEntry = {
         name: playerName || 'Cyber Hero',
         difficulty: activeDifficultyLabel,
@@ -569,14 +578,16 @@ const GameBoard = () => {
 
   // Handle Player Card Click
   const handleCardClick = (clickedCard) => {
+    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal || showLootModal || showGameOverModal || showNameModal;
     if (
       currentTurn !== 'PLAYER' ||
       isProcessing ||
+      isAnyModalOpen ||
+      flippedCards.length >= 2 ||
       flippedCards.some((c) => c.uniqueId === clickedCard.uniqueId) ||
       matchedCardIds.includes(clickedCard.pairId) ||
       player.hp <= 0 ||
-      enemy.hp <= 0 ||
-      showPauseModal
+      enemy.hp <= 0
     ) {
       return;
     }
@@ -862,11 +873,21 @@ const GameBoard = () => {
 
         const applyDebuff = (target) => {
           if (isEmpAttack) {
-            // EMP Disrupter membakar seluruh armor ke 0 dan sisa damage mengurangi HP
-            const updatedHp = Math.max(0, target.hp - damage);
-            return { ...target, block: 0, hp: updatedHp };
+            // EMP Disrupter: Mengikis 50% armor (maksimal 25) dan sisa damage mengurangi HP
+            const armorDamage = Math.min(Math.floor(target.block * 0.5), 25);
+            const remainingBlock = target.block - armorDamage;
+            const blocked = Math.min(remainingBlock, damage);
+            const remainingHpDamage = damage - blocked;
+            const newBlock = remainingBlock - blocked;
+            const newHp = Math.max(0, target.hp - remainingHpDamage);
+            return { ...target, block: newBlock, hp: newHp };
           }
-          // Corrosive Virus & Glitch Overlay: Armor menyerap damage terlebih dahulu
+          if (card.isPiercing) {
+            // Piercing Debuff (Corrosive Virus): Langsung potong HP menembus armor
+            const newHp = Math.max(0, target.hp - damage);
+            return { ...target, hp: newHp };
+          }
+          // Glitch Overlay & Standard Debuff: Armor menyerap damage terlebih dahulu
           const blocked = Math.min(target.block, damage);
           const remainingDamage = damage - blocked;
           const newBlock = target.block - blocked;
@@ -941,7 +962,7 @@ const GameBoard = () => {
         if (isWin) {
           soundManager.playVictorySFX();
           triggerScreenShake();
-          const dmg = 35 * mult;
+          const dmg = 40 * mult;
           spawnFloatingText(t('gambleWinFloat', currentLang).replace('{damage}', dmg), 'match');
           if (isPlayer) {
             setEnemy((prev) => ({ ...prev, hp: Math.max(0, prev.hp - dmg) }));
@@ -951,7 +972,7 @@ const GameBoard = () => {
         } else {
           soundManager.playMismatchSFX();
           const selfDmg = 10 * mult;
-          const targetHeal = 10 * mult;
+          const targetHeal = 5 * mult;
           spawnFloatingText(t('gambleLossFloat', currentLang).replace('{damage}', selfDmg).replace('{heal}', targetHeal), 'damage');
           if (isPlayer) {
             setPlayer((p) => ({ ...p, hp: Math.max(0, p.hp - selfDmg) }));
@@ -988,7 +1009,7 @@ const GameBoard = () => {
       const elapsedMs = Date.now() - (bossStartTime || Date.now());
       setBossElapsedTime(elapsedMs);
       spawnFloatingText(t('bossVictoryFloat', currentLang), 'match');
-      recordLeaderboardScore(stage, totalMatchesMade, elapsedMs);
+      recordLeaderboardScore(stage, totalMatchesMade, elapsedMs, true);
       setTimeout(() => {
         setShowGameOverModal(true);
       }, 600);
@@ -996,7 +1017,8 @@ const GameBoard = () => {
     }
 
     setTimeout(() => {
-      const choices = generateLootChoices(playerDeck, isPityActive, pityUsesLeft > 0);
+      const isStageClearPity = (player.hp / player.maxHp) < 0.5;
+      const choices = generateLootChoices(playerDeck, isStageClearPity, pityUsesLeft > 0);
       setLootChoices(choices);
       setShowLootModal(true);
     }, 600);
@@ -1012,7 +1034,7 @@ const GameBoard = () => {
       setBossElapsedTime(finalElapsedMs);
     }
     
-    recordLeaderboardScore(stage, totalMatchesMade, finalElapsedMs);
+    recordLeaderboardScore(stage, totalMatchesMade, finalElapsedMs, false);
 
     setTimeout(() => {
       setShowGameOverModal(true);

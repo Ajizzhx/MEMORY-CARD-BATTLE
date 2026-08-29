@@ -132,7 +132,9 @@ export const TRANSLATIONS = {
     statInspectEffect: 'Efek Pengintip',
     statFeature: 'KEISTIMEWAAN',
     statQuantumPiercing: '🗡️ Kuantum Penetrasi',
-    closeCardDetailBtn: 'Tutup Detail Kartu',
+    playerTurnMsg: 'GILIRAN ANDA (PILIH 2 KARTU)',
+    enemyTurnMsg: 'GILIRAN AI MUSUH (MEMILIH KARTU...)',
+    playAgainBtn: '⚡ Main Lagi',
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 PAPAN SKOR TOP GLOBAL',
@@ -471,7 +473,9 @@ export const TRANSLATIONS = {
     statInspectEffect: 'Scan Effect',
     statFeature: 'SPECIAL TRAIT',
     statQuantumPiercing: '🗡️ Quantum Armor Piercing',
-    closeCardDetailBtn: 'Close Card Detail',
+    playerTurnMsg: 'YOUR TURN (PICK 2 CARDS)',
+    enemyTurnMsg: 'ENEMY AI TURN (CHOOSING CARDS...)',
+    playAgainBtn: '⚡ Play Again',
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 GLOBAL TOP SCORES',

@@ -48,13 +48,13 @@ Saat giliran AI tiba, AI menentukan 2 kartu yang akan diputar melalui urutan hie
   (Amnesia Total)                   |
                      +--------------+--------------+
                      |                             |
-             (Ada & Lolos Akurasi)       (Tidak Ada / Gagal)
+                 (Ada di Memori)              (Tidak Ada)
                      v                             v
            [Pilih Pasangan Pasti]       Pilih Kartu 1 Secara Acak
                                                    |
                                        Pasangan Kartu 1 Ada di Memori?
                                        /                           \
-                                  (Ya & Lolos)                 (Tidak)
+                                  (Ada di Memori)                (Tidak)
                                       v                           v
                            [Pilih Kartu 2 Pasti]       [Pilih Kartu 2 Acak]
 ```
@@ -69,15 +69,16 @@ Saat giliran AI tiba, AI menentukan 2 kartu yang akan diputar melalui urutan hie
 
 2. **Strategi 1: Known Pair Matching**
    - AI memindai isi memorinya (`aiMemory`).
-   - Jika AI mencatat 2 kartu berbeda yang memiliki `pairId` sama dan lolos uji akurasi (`Math.random() <= accuracy`), AI langsung memilih 2 kartu tersebut.
+   - Kartu yang tersimpan di memori sudah melewati uji probabilitas akurasi saat kartu terbuka (`updateAiMemory`).
+   - Jika AI mencatat 2 kartu berbeda yang memiliki `pairId` sama di memori, AI langsung memilih pasangan tersebut tanpa pengacakan ulang.
 
 3. **Strategi 2: Single Known Match**
    - AI memilih **Kartu 1** secara acak.
-   - AI memeriksa apakah pasangan dari **Kartu 1** sudah ada di memorinya.
-   - Jika ada dan lolos uji akurasi (`Math.random() <= accuracy`), AI memilih kartu memori tersebut sebagai **Kartu 2**.
+   - AI memeriksa apakah pasangan dari **Kartu 1** sudah tercatat di memorinya.
+   - Jika ada di memori, AI langsung memilih kartu memori tersebut sebagai **Kartu 2**.
 
 4. **Strategi 3: Random Selection (Blind Guess)**
-   - Jika Strategi 1 dan 2 gagal/tidak terpenuhi, AI memilih **Kartu 2** secara acak dari sisa kartu di papan (`remainingCards`).
+   - Jika Strategi 1 dan 2 tidak terpenuhi, AI memilih **Kartu 2** secara acak dari sisa kartu di papan (`remainingCards`).
 
 ---
 

@@ -143,9 +143,9 @@ test('TC-04: Distribusi tipe kartu mencakup 11 kategori', () => {
   });
 });
 
-test('TC-05: Quantum Piercer memiliki flag isPiercing: true', () => {
+test('TC-05: Quantum Piercer & Corrosive Virus memiliki flag isPiercing: true', () => {
   assertIncludes(cardDataRaw, "isPiercing: true", 'isPiercing flag');
-  assertEqual(piercingCount, 1, 'Hanya 1 kartu piercing');
+  assertEqual(piercingCount, 2, 'Total 2 kartu piercing (Quantum Piercer & Corrosive Virus)');
 });
 
 test('TC-06: Semua kartu memiliki properti wajib (id, name, type, rarity, value, icon, img)', () => {

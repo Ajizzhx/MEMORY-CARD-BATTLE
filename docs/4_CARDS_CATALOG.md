@@ -24,18 +24,18 @@ Dokumen ini berisi daftar lengkap **21 kartu** yang ada di dalam game, mencakup 
 | `def_aura` | **Aura Shield** | DEFENSE | Rare | **18 Block** | `/assets/cards/def_shield.png` |
 | `heal_elixir` | **Cyber Elixir** | HEAL | Rare | **20 HP Heal** | `/assets/cards/heal_elixir.png` |
 | `buff_vision` | **Oracle Eye** | BUFF | Rare | **Scan 2 Kartu** | `/assets/cards/buff_eye.png` |
-| `debuff_poison` | **Corrosive Virus** | DEBUFF | Rare | **16 Damage** | `/assets/cards/debuff_virus.png` |
+| `debuff_poison` | **Corrosive Virus** | DEBUFF | Rare | **18 Damage MENEMBUS Armor** | `/assets/cards/debuff_virus.png` |
 | `atk_aether` | **Aether Strike** | ATTACK | Epic | **30 Damage** | `/assets/cards/atk_aether.png` |
 | `def_aegis` | **Aegis Protocol** | DEFENSE | Epic | **32 Block** | `/assets/cards/def_aegis.png` |
 | `heal_phoenix` | **Phoenix Catalyst** | HEAL | Epic | **35 HP Heal** | `/assets/cards/heal_phoenix.png` |
 | `debuff_glitch` | **Glitch Overlay** | DEBUFF | Epic | **24 Damage** | `/assets/cards/debuff_glitch.png` |
-| `debuff_emp` | **EMP Disrupter** | DEBUFF | Epic | **28 Damage (Lumpuhkan Perisai)** | `/assets/cards/debuff_emp.png` |
-| `pity_wrath` | **Divine Wrath** | ATTACK | Epic | **40 Damage + 15 Heal** | `/assets/cards/pity_wrath.png` |
+| `debuff_emp` | **EMP Disrupter** | DEBUFF | Epic | **28 Damage (Kikis 50% Perisai, Max 25)** | `/assets/cards/debuff_emp.png` |
+| `pity_wrath` | **Divine Wrath** | ATTACK | Epic | **32 Damage + 15 Heal** | `/assets/cards/pity_wrath.png` |
 | `chrono_rewind` | **Chronos Rewind** | UTILITY | Epic | **Timer 15s + Kocok Papan** | `/assets/cards/chrono_rewind.png` |
 | `drain_syphon` | **Aether Syphon** | DRAIN | Rare | **Curi 15 Armor + 10 Damage** | `/assets/cards/drain_syphon.png` |
 | `ctrl_frostbite` | **Frostbite Stasis** | CONTROL | Epic | **Bekukan 1 Turn AI Musuh** | `/assets/cards/ctrl_frostbite.png` |
 | `buff_neural` | **Neural Flash** | BUFF | Epic | **Buka Seluruh Papan 1.5s** | `/assets/cards/buff_neural.png` |
-| `gamble_cosmic` | **Cosmic Gamble** | RISK | Rare | **50% 35 Dmg / 50% -10 HP & +10 Enemy HP** | `/assets/cards/gamble_cosmic.png` |
+| `gamble_cosmic` | **Cosmic Gamble** | RISK | Rare | **50% 40 Dmg / 50% -10 HP & +5 Enemy HP** | `/assets/cards/gamble_cosmic.png` |
 | `special_mirage` | **Mirage Duplicator** | SPECIAL | Epic | **Efek 2x Lipat pada Kartu Berikutnya** | `/assets/cards/special_mirage.png` |
 
 ---

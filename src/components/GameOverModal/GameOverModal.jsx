@@ -83,6 +83,18 @@ const GameOverModal = ({
 
         {/* Action Buttons */}
         <div className="gameover-actions">
+          {handlePlayAgain && (
+            <button
+              className="action-btn primary-btn restart-journey-btn"
+              onClick={() => {
+                soundManager.playClickSFX();
+                handlePlayAgain();
+              }}
+            >
+              {t('playAgainBtn', currentLang)}
+            </button>
+          )}
+
           {onOpenLeaderboard && (
             <button
               className="view-leaderboard-btn"

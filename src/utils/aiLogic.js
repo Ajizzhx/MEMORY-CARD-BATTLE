@@ -74,8 +74,8 @@ export const getAiCardChoices = (cards, matchedCardIds, aiMemory, accuracy, isJa
     }
   });
 
-  // Jika AI ingat ada 2 kartu cocok dan lolos uji akurasi -> Pilih pasangan itu!
-  if (knownMatchPairId && Math.random() <= accuracy) {
+  // Jika AI ingat ada 2 kartu cocok di memori -> Pilih pasangan itu!
+  if (knownMatchPairId) {
     return memoryPairs[knownMatchPairId];
   }
 
@@ -88,8 +88,8 @@ export const getAiCardChoices = (cards, matchedCardIds, aiMemory, accuracy, isJa
     (c) => c.uniqueId !== card1.uniqueId && c.pairId === card1.pairId && aiMemory[c.uniqueId]
   );
 
-  // Jika ada pasangan Card 1 di memori dan lolos uji akurasi -> Pilih kartu tersebut sebagai Card 2!
-  if (rememberedPairCard && Math.random() <= accuracy) {
+  // Jika ada pasangan Card 1 di memori -> Pilih kartu tersebut sebagai Card 2!
+  if (rememberedPairCard) {
     return [card1, rememberedPairCard];
   }
 

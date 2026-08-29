@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { soundManager } from '../../utils/soundSystem';
 import { t } from '../../utils/i18n';
 import './LootModal.css';
 
 const LootModal = ({ stage, choices = [], isPityActive = false, pityUsesLeft = 2, onSelectLoot, currentLang = 'ID' }) => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleChoiceClick = (card) => {
+    if (isSubmitted) return;
+    setIsSubmitted(true);
     soundManager.playClickSFX();
     onSelectLoot(card);
   };

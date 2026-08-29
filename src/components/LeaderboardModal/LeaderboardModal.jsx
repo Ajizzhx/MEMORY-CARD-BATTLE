@@ -12,7 +12,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
 
-  // Fetch RPG online scores
+  // Fetch RPG online scores (with local fallback)
   useEffect(() => {
     if (activeTab !== 'online') return;
 
@@ -21,10 +21,32 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
 
     fetchTopScores(10)
       .then((data) => {
-        setOnlineScores((data || []).slice(0, 10));
+        if (data && data.length > 0) {
+          setOnlineScores(data.slice(0, 10));
+        } else {
+          const saved = localStorage.getItem('memory_card_leaderboard');
+          if (saved) {
+            try {
+              setOnlineScores(JSON.parse(saved));
+            } catch (e) {
+              setOnlineScores([]);
+            }
+          } else {
+            setOnlineScores([]);
+          }
+        }
       })
       .catch((err) => {
-        setFetchError(t('globalLBError', currentLang));
+        const saved = localStorage.getItem('memory_card_leaderboard');
+        if (saved) {
+          try {
+            setOnlineScores(JSON.parse(saved));
+          } catch (e) {
+            setFetchError(t('globalLBError', currentLang));
+          }
+        } else {
+          setFetchError(t('globalLBError', currentLang));
+        }
         console.error('[LeaderboardModal]', err);
       })
       .finally(() => setIsLoading(false));
@@ -113,8 +135,12 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                 <button
                   className="lb-retry-btn"
                   onClick={() => {
-                    setActiveTab('local');
-                    setTimeout(() => setActiveTab('online'), 50);
+                    setIsLoading(true);
+                    setFetchError(null);
+                    fetchTopScores(10)
+                      .then((data) => setOnlineScores((data || []).slice(0, 10)))
+                      .catch((err) => setFetchError(t('globalLBError', currentLang)))
+                      .finally(() => setIsLoading(false));
                   }}
                 >
                   {t('globalLBRetry', currentLang)}

@@ -95,7 +95,7 @@ class SoundSystem {
     let chordIndex = 0;
 
     const playNextChord = () => {
-      if (!this.isBgmPlaying || !this.ctx) return;
+      if (!this.ctx || this.isBgmMuted || !this.isBgmPlaying) return;
 
       const currentNotes = chords[chordIndex];
       chordIndex = (chordIndex + 1) % chords.length;
