@@ -6,9 +6,9 @@ Dokumen ini berisi daftar lengkap **21 kartu** yang ada di dalam game, mencakup 
 ---
 
 ## 1. Skema Kelangkaan & Tipe Kartu (Rarity & Type System)
-- ⚪ **Common (Biasa):** Drop rate 50%. Efek dasar (Cyber Dagger, Nano Barrier, Bio Nectar).
-- 🔵 **Rare (Langka):** Drop rate 35%. Efek taktis & spesifik (Plasma Blade, Quantum Piercer, Aura Shield, Cyber Elixir, Oracle Eye, Corrosive Virus, Aether Syphon, Cosmic Gamble).
-- 🟣 **Epic / Special (Sangat Langka):** Drop rate 15%. Efek manipulasi arena & pembalik keadaan (Aether Strike, Aegis Protocol, Phoenix Catalyst, Glitch Overlay, EMP Disrupter, Divine Wrath, Chronos Rewind, Frostbite Stasis, Neural Flash, Mirage Duplicator).
+- **Common (Biasa):** Drop rate 50%. Efek dasar (Cyber Dagger, Nano Barrier, Bio Nectar).
+- **Rare (Langka):** Drop rate 35%. Efek taktis & spesifik (Plasma Blade, Quantum Piercer, Aura Shield, Cyber Elixir, Oracle Eye, Corrosive Virus, Aether Syphon, Cosmic Gamble).
+- **Epic / Special (Sangat Langka):** Drop rate 15%. Efek manipulasi arena & pembalik keadaan (Aether Strike, Aegis Protocol, Phoenix Catalyst, Glitch Overlay, EMP Disrupter, Divine Wrath, Chronos Rewind, Frostbite Stasis, Neural Flash, Mirage Duplicator).
 
 ---
 
@@ -42,27 +42,27 @@ Dokumen ini berisi daftar lengkap **21 kartu** yang ada di dalam game, mencakup 
 
 ## 3. Kisah Latar Belakang (Lore Story Archive) Cyberfantasy 21 Kartu
 
-1. ⚔️ **Cyber Dagger:** *Belati sihir foton yang ditempa oleh Penyihir Rune di Laboratorium Alkimia Neo-Veridia. Diukir dengan inskripsi mantra suci kuno yang dialiri energi neon, senjata ini menembus jiwa dan memori musuh dalam sekejap.*
-2. 🛡️ **Nano Barrier:** *Perisai gaib gabungan Sihir Perlindungan Elven dan matriks Nanobot. Diciptakan oleh Para Penyihir Cybermedis, jaring kristal ini memancarkan mantra pelindung suci secara instan saat ancaman bahaya mendekat.*
-3. 🧪 **Bio Nectar:** *Cairan mana bioluminesensi murni yang diekstrak dari Bunga Abadi Hutan Aether. Dikenal oleh para Penyihir Cyber sebagai ramuan mukjizat penyembuh jiwa yang mampu menutup luka fusi sel dalam sekejap.*
-4. 🗡️ **Plasma Blade:** *Pedang plasma terionisasi yang disuntikkan Jiwa Naga Api Kuno. Senjata pusaka garapan Pandai Besi Alkemis ini memancarkan kobaran api magis 10.000°C yang mampu membelah inti matriks kegelapan.*
-5. 🔰 **Aura Shield:** *Tameng energi bertuliskan Geometri Suci Mandala yang dipancarkan dari jimat intan sihir kuno. Pelindung bertuah ini membiaskan kutukan musuh dan menahan gempuran fisik dengan benteng aura mistik.*
-6. 💊 **Cyber Elixir:** *Elixir rahasia ciptaan para Alkemis Takdir dari Kuil Digital Neo-Kyoto. Meramu sari benih kehidupan mistis dengan molekul regeneratif untuk membangkitkan vitalitas jiwa dan fisik penggunanya secara dramatis.*
-7. 👁️ **Oracle Eye:** *Relik mata peramal suci milik Sang Oracle Kuno dari Kuil Sektor 0. Menggabungkan penglihatan gaib dengan pindaian spektral dimensi tinggi, mata mistik ini menembus tabir takdir untuk menyingkap rahasia kartu tertutup.*
-8. ☠️ **Corrosive Virus:** *Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.*
-9. 🗡️ **Quantum Piercer:** *Tombak kuantum bertatahkan Rune Valkyrie berenergi foton suci. Membelah takdir ruang dan waktu untuk mengabaikan segala armor fisik maupun perisai sihir musuh, menghantam titik vital secara mematikan.*
-10. 🔱 **Aether Strike:** *Tebasan pedang kosmik Malaikat Agung bertatahkan Kristal Aether Murni. Membelah dimensi astral dan melepaskan ledakan sihir kosmik berkekuatan tinggi yang meremukkan musuh paling tangguh.*
-11. 🏰 **Aegis Protocol:** *Mantra pertahanan tertinggi ciptaan Parlemen Penyihir Agung Sektor Atas. Memanggil Sanctuary bertatahkan kristal pelindung suci yang memantulkan gempuran musuh dalam keabadian benteng sihir.*
-12. 🔥 **Phoenix Catalyst:** *Relik suci yang menyimpan Jiwa Api Burung Phoenix Abadi. Saat dipicu dalam ritual pertarungan, gelombang kobaran api regenerasi membakar seluruh sel mati dan memulihkan 35 HP secara sempurna.*
-13. 👾 **Glitch Overlay:** *Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.*
-14. ⚡ **EMP Disrupter:** *Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.*
-15. ⚡ **Divine Wrath:** *Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.*
-16. 🌀 **Chronos Rewind:** *Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan meriset arus dimensi waktu.*
-17. 🧲 **Aether Syphon:** *Sedotan matriks energi bioluminesensi dari Sektor Alkimia. Menyerap benteng pertahanan lawan untuk memperkuat pelindung pribadi.*
-18. ❄️ **Frostbite Stasis:** *Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.*
-19. 🧠 **Neural Flash:** *Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.*
-20. 🎲 **Cosmic Gamble:** *Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.*
-21. 🪞 **Mirage Duplicator:** *Cermin ilusi fraktal dimensi astral yang membiaskan 1 jejak mantra menjadi 2 bayangan nyata.*
+1. **Cyber Dagger:** *Belati sihir foton yang ditempa oleh Penyihir Rune di Laboratorium Alkimia Neo-Veridia. Diukir dengan inskripsi mantra suci kuno yang dialiri energi neon, senjata ini menembus jiwa dan memori musuh dalam sekejap.*
+2. **Nano Barrier:** *Perisai gaib gabungan Sihir Perlindungan Elven dan matriks Nanobot. Diciptakan oleh Para Penyihir Cybermedis, jaring kristal ini memancarkan mantra pelindung suci secara instan saat ancaman bahaya mendekat.*
+3. **Bio Nectar:** *Cairan mana bioluminesensi murni yang diekstrak dari Bunga Abadi Hutan Aether. Dikenal oleh para Penyihir Cyber sebagai ramuan mukjizat penyembuh jiwa yang mampu menutup luka fusi sel dalam sekejap.*
+4. **Plasma Blade:** *Pedang plasma terionisasi yang disuntikkan Jiwa Naga Api Kuno. Senjata pusaka garapan Pandai Besi Alkemis ini memancarkan kobaran api magis 10.000°C yang mampu membelah inti matriks kegelapan.*
+5. **Aura Shield:** *Tameng energi bertuliskan Geometri Suci Mandala yang dipancarkan dari jimat intan sihir kuno. Pelindung bertuah ini membiaskan kutukan musuh dan menahan gempuran fisik dengan benteng aura mistik.*
+6. **Cyber Elixir:** *Elixir rahasia ciptaan para Alkemis Takdir dari Kuil Digital Neo-Kyoto. Meramu sari benih kehidupan mistis dengan molekul regeneratif untuk membangkitkan vitalitas jiwa dan fisik penggunanya secara dramatis.*
+7. **Oracle Eye:** *Relik mata peramal suci milik Sang Oracle Kuno dari Kuil Sektor 0. Menggabungkan penglihatan gaib dengan pindaian spektral dimensi tinggi, mata mistik ini menembus tabir takdir untuk menyingkap rahasia kartu tertutup.*
+8. **Corrosive Virus:** *Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.*
+9. **Quantum Piercer:** *Tombak kuantum bertatahkan Rune Valkyrie berenergi foton suci. Membelah takdir ruang dan waktu untuk mengabaikan segala armor fisik maupun perisai sihir musuh, menghantam titik vital secara mematikan.*
+10. **Aether Strike:** *Tebasan pedang kosmik Malaikat Agung bertatahkan Kristal Aether Murni. Membelah dimensi astral dan melepaskan ledakan sihir kosmik berkekuatan tinggi yang meremukkan musuh paling tangguh.*
+11. **Aegis Protocol:** *Mantra pertahanan tertinggi ciptaan Parlemen Penyihir Agung Sektor Atas. Memanggil Sanctuary bertatahkan kristal pelindung suci yang memantulkan gempuran musuh dalam keabadian benteng sihir.*
+12. **Phoenix Catalyst:** *Relik suci yang menyimpan Jiwa Api Burung Phoenix Abadi. Saat dipicu dalam ritual pertarungan, gelombang kobaran api regenerasi membakar seluruh sel mati dan memulihkan 35 HP secara sempurna.*
+13. **Glitch Overlay:** *Kutukan ilusi fraktal sihir yang mengacaukan kognisi musuh. Memancarkan matriks ilusi rusak yang membuat musuh terjerat dalam labirin bawah sadar sekaligus merusak sirkuit pertahanan lawan.*
+14. **EMP Disrupter:** *Mantera Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.*
+15. **Divine Wrath:** *Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 32 Damage sekaligus memulihkan 15 HP.*
+16. **Chronos Rewind:** *Relik jam pasir kristal foton garapan Chrono-Mage. Menghapus kesalahan memori dan meriset arus dimensi waktu.*
+17. **Aether Syphon:** *Sedotan matriks energi bioluminesensi dari Sektor Alkimia. Menyerap benteng pertahanan lawan untuk memperkuat pelindung pribadi.*
+18. **Frostbite Stasis:** *Mantra segel Es Abadi Frost-Byte dari Pegunungan Cyberia. Membekukan kognisi memori musuh dalam kubah es murni.*
+19. **Neural Flash:** *Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.*
+20. **Cosmic Gamble:** *Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.*
+21. **Mirage Duplicator:** *Cermin ilusi fraktal dimensi astral yang membiaskan 1 jejak mantra menjadi 2 bayangan nyata.*
 
 ---
 

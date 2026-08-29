@@ -67,7 +67,6 @@ const CardDetailModal = ({ card, onClose, currentLang = 'ID' }) => {
         {/* Lore Background Story Box */}
         <div className="card-detail-lore-box">
           <div className="lore-box-header">
-            <span className="lore-icon">📜</span>
             <span className="lore-title">{t('loreArchiveHeader', currentLang)}</span>
           </div>
           <p className="lore-content">
@@ -80,20 +79,20 @@ const CardDetailModal = ({ card, onClose, currentLang = 'ID' }) => {
           <div className="stat-pill">
             <span className="stat-label">{t('statEffectValue', currentLang)}</span>
             <span className="stat-val" style={{ color: card.color }}>
-              {card.type === 'ATTACK' && card.isPiercing && `🗡️ -${card.value} PIERCE`}
-              {card.type === 'ATTACK' && !card.isPiercing && card.id === 'pity_wrath' && `⚡ -${card.value} HP / +15 HP`}
+              {card.type === 'ATTACK' && card.isPiercing && `-${card.value} PIERCE`}
+              {card.type === 'ATTACK' && !card.isPiercing && card.id === 'pity_wrath' && `-${card.value} HP / +15 HP`}
               {card.type === 'ATTACK' && !card.isPiercing && card.id !== 'pity_wrath' && `-${card.value} HP`}
               {card.type === 'HEAL' && `+${card.value} HP`}
               {card.type === 'DEFENSE' && `+${card.value} Armor`}
-              {card.type === 'BUFF' && card.id === 'buff_neural' && '🧠 FLASH BOARD (1.5s)'}
-              {card.type === 'BUFF' && card.id !== 'buff_neural' && '👁️ SCAN BOARD (2.5s)'}
-              {card.type === 'DEBUFF' && card.id === 'debuff_emp' && `⚡ EMP -${card.value} HP / RESET ARMOR`}
+              {card.type === 'BUFF' && card.id === 'buff_neural' && 'FLASH BOARD (1.5s)'}
+              {card.type === 'BUFF' && card.id !== 'buff_neural' && 'SCAN BOARD (2.5s)'}
+              {card.type === 'DEBUFF' && card.id === 'debuff_emp' && `EMP -${card.value} HP / RESET ARMOR`}
               {card.type === 'DEBUFF' && card.id !== 'debuff_emp' && `-${card.value} HP`}
-              {card.type === 'UTILITY' && '🌀 TIMER 15s / SHUFFLE'}
-              {card.type === 'DRAIN' && '🧲 DRAIN -10 HP / +15 ARMOR'}
-              {card.type === 'CONTROL' && '❄️ FREEZE 1 TURN'}
-              {card.type === 'RISK' && '🎲 GAMBLE 35 HP / -10 HP'}
-              {card.type === 'SPECIAL' && '🪞 DOUBLE CAST'}
+              {card.type === 'UTILITY' && 'TIMER 15s / SHUFFLE'}
+              {card.type === 'DRAIN' && 'DRAIN -10 HP / +15 ARMOR'}
+              {card.type === 'CONTROL' && 'FREEZE 1 TURN'}
+              {card.type === 'RISK' && 'GAMBLE 40 HP / -10 HP'}
+              {card.type === 'SPECIAL' && 'DOUBLE CAST'}
             </span>
           </div>
           {card.isPiercing && (
