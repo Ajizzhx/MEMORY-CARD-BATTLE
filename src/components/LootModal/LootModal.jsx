@@ -76,7 +76,7 @@ const LootModal = ({ stage, choices = [], isPityActive = false, pityUsesLeft = 2
                     borderColor: card.isEmergencyPity ? '#ff0055' : (card.color || '#00f0ff')
                   }}
                 >
-                  {card.isEmergencyPity ? '🚑 MEDKIT' : card.rarity}
+                  {card.isEmergencyPity ? 'MEDKIT' : card.rarity}
                 </div>
 
                 {/* Card Art / Icon */}
