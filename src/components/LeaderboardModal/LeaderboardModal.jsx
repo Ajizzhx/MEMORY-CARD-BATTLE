@@ -23,12 +23,14 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
       .then((data) => {
         if (data && data.length > 0) {
           setOnlineScores(data.slice(0, 10));
+        } else if (leaderboard && leaderboard.length > 0) {
+          setOnlineScores(leaderboard.slice(0, 10));
         } else {
           const saved = localStorage.getItem('memory_card_leaderboard');
           if (saved) {
             try {
               setOnlineScores(JSON.parse(saved));
-            } catch (e) {
+            } catch {
               setOnlineScores([]);
             }
           } else {
@@ -37,20 +39,24 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
         }
       })
       .catch((err) => {
-        const saved = localStorage.getItem('memory_card_leaderboard');
-        if (saved) {
-          try {
-            setOnlineScores(JSON.parse(saved));
-          } catch (e) {
+        if (leaderboard && leaderboard.length > 0) {
+          setOnlineScores(leaderboard.slice(0, 10));
+        } else {
+          const saved = localStorage.getItem('memory_card_leaderboard');
+          if (saved) {
+            try {
+              setOnlineScores(JSON.parse(saved));
+            } catch {
+              setFetchError(t('globalLBError', currentLang));
+            }
+          } else {
             setFetchError(t('globalLBError', currentLang));
           }
-        } else {
-          setFetchError(t('globalLBError', currentLang));
         }
         console.error('[LeaderboardModal]', err);
       })
       .finally(() => setIsLoading(false));
-  }, [activeTab, currentLang]);
+  }, [activeTab, currentLang, leaderboard]);
 
   // Fetch Boss online scores (with local fallback)
   useEffect(() => {
@@ -69,7 +75,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
           if (savedBoss) {
             try {
               setBossLeaderboard(JSON.parse(savedBoss));
-            } catch (e) {
+            } catch {
               setBossLeaderboard([]);
             }
           } else {
@@ -83,7 +89,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
         if (savedBoss) {
           try {
             setBossLeaderboard(JSON.parse(savedBoss));
-          } catch (e) {
+          } catch {
             setFetchError(t('globalLBError', currentLang));
           }
         } else {
@@ -93,6 +99,17 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
       })
       .finally(() => setIsLoading(false));
   }, [activeTab, currentLang]);
+
+  // Handle Escape key to close modal (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   return (
     <div className="modal-overlay">
@@ -139,7 +156,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                     setFetchError(null);
                     fetchTopScores(10)
                       .then((data) => setOnlineScores((data || []).slice(0, 10)))
-                      .catch((err) => setFetchError(t('globalLBError', currentLang)))
+                      .catch((_err) => setFetchError(t('globalLBError', currentLang)))
                       .finally(() => setIsLoading(false));
                   }}
                 >
@@ -164,7 +181,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                   {onlineScores.length === 0 ? (
                     <tr>
                       <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
-                        {t('noGlobalData', currentLang)} 🚀
+                        {t('noGlobalData', currentLang)}
                       </td>
                     </tr>
                   ) : (
@@ -184,7 +201,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                           </td>
                           <td className="stage-cell">Stage {item.stage}</td>
                           <td className="matches-cell">{item.total_matches ?? item.totalMatches}</td>
-                          <td className="time-cell">{formatRelativeTime(item.created_at)}</td>
+                          <td className="time-cell">{formatRelativeTime(item.created_at, currentLang)}</td>
                         </tr>
                       );
                     })
@@ -240,7 +257,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                   {bossLeaderboard.length === 0 ? (
                     <tr>
                       <td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: 'var(--color-text-muted)' }}>
-                        {t('noBossData', currentLang)} 🚀
+                        {t('noBossData', currentLang)}
                       </td>
                     </tr>
                   ) : (
@@ -261,7 +278,7 @@ const LeaderboardModal = ({ leaderboard, currentPlayerName, onClose, currentLang
                           </td>
                           <td className="time-cell">{minutes}:{seconds.padStart(4, '0')}</td>
                           <td className="matches-cell">{item.total_matches ?? item.totalMatches}</td>
-                          <td className="time-cell">{formatRelativeTime(item.created_at)}</td>
+                          <td className="time-cell">{formatRelativeTime(item.created_at, currentLang)}</td>
                         </tr>
                       )
                     })

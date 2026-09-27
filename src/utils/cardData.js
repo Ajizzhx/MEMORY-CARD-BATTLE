@@ -246,10 +246,10 @@ export const CARD_DATABASE = [
     name: 'Cosmic Gamble',
     type: 'RISK',
     rarity: 'rare',
-    value: 35,
+    value: 40,
     icon: '🎲',
     img: '/assets/cards/gamble_cosmic.png',
-    description: '50% Peluang: 35 Damage Kosmik OR 50% Peluang: Menerima 10 Damage & Target +10 HP!',
+    description: '50% Peluang: 40 Damage Kosmik OR 50% Peluang: Menerima 10 Damage & Target +5 HP!',
     lore: 'Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.',
     color: '#f59e0b'
   },

@@ -10,7 +10,7 @@
   box-shadow: 0 0 18px rgba(0, 240, 255, 0.15);
 }
 
-/* ── Top Bar: Turn Badge & AI Mode ── */
+/* Top Bar: Turn Badge & AI Mode */
 .status-center-badge {
   display: flex;
   align-items: center;
@@ -73,9 +73,21 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 215, 0, 0.35);
   user-select: none;
+  transition: all 0.25s ease;
 }
 
-/* ── Main Entities Row (Pemain vs Musuh) ── */
+.difficulty-tag.clickable {
+  cursor: pointer;
+}
+
+.difficulty-tag.clickable:hover {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Main Entities Row */
 .player-status-entities {
   display: flex;
   justify-content: space-between;

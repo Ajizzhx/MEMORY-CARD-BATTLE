@@ -12,6 +12,17 @@ const LogModal = ({ logs, onClose, currentLang = 'ID' }) => {
     }
   }, [logs]);
 
+  // Handle Escape key to close modal (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div className="modal-overlay">
       <div className="log-modal-content glass-panel">

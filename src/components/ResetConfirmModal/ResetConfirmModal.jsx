@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { t } from '../../utils/i18n';
 import './ResetConfirmModal.css';
 
 const ResetConfirmModal = ({ onConfirm, onCancel, currentLang = 'ID' }) => {
+  // Handle Escape key to cancel reset (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onCancel) {
+        onCancel();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onCancel]);
+
   return (
     <div className="modal-overlay">
       <div className="reset-confirm-modal glass-panel">

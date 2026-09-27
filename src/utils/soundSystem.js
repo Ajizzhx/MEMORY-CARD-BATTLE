@@ -17,7 +17,6 @@ class SoundSystem {
     this.isSfxMuted = localStorage.getItem('memory_sfx_muted') === 'true';
 
     this.isBgmPlaying = false;
-    this.bgmOscillators = [];
     this.bgmInterval = null;
   }
 

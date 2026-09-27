@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { soundManager } from '../../utils/soundSystem';
 import { t } from '../../utils/i18n';
 import './CardDetailModal.css';
 
 const CardDetailModal = ({ card, onClose, currentLang = 'ID' }) => {
-  if (!card) return null;
-
   const handleClose = () => {
     soundManager.playClickSFX();
-    onClose();
+    if (onClose) onClose();
   };
+
+  // Handle Escape key to close modal (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onClose]);
+
+  if (!card) return null;
 
   return (
     <div className="card-detail-overlay" onClick={handleClose}>

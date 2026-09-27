@@ -3,7 +3,7 @@ import { soundManager } from '../../utils/soundSystem';
 import { t } from '../../utils/i18n';
 import './LootModal.css';
 
-const LootModal = ({ stage, choices = [], isPityActive = false, pityUsesLeft = 2, onSelectLoot, currentLang = 'ID' }) => {
+const LootModal = ({ stage: _stage, choices = [], isPityActive = false, pityUsesLeft = 2, onSelectLoot, currentLang = 'ID' }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChoiceClick = (card) => {

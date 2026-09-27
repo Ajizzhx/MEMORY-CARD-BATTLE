@@ -55,16 +55,25 @@ h1, h2, h3, h4, .app-title, .leaderboard-title, .catalog-title, .loot-modal-titl
   box-shadow: var(--glass-shadow);
 }
 
+/* Focus Visibility Standard (WCAG AA & R-32) */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+}
+
 /* Modal Close Icon Button (✕) Top Right */
 .modal-close-icon-btn {
   position: absolute;
-  top: 14px;
-  right: 16px;
+  top: 12px;
+  right: 14px;
   background: rgba(255, 0, 85, 0.15);
   border: 1px solid rgba(255, 0, 85, 0.5);
   color: #ff3377;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -82,5 +91,5 @@ h1, h2, h3, h4, .app-title, .leaderboard-title, .catalog-title, .loot-modal-titl
   background: #ff0055;
   color: #fff;
   box-shadow: 0 0 20px rgba(255, 0, 85, 0.85);
-  transform: scale(1.1) rotate(90deg);
+  transform: scale(1.05) rotate(90deg);
 }

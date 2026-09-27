@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { t } from '../../utils/i18n';
 import './GuideModal.css';
 
 const GuideModal = ({ onClose, currentLang = 'ID' }) => {
+  // Handle Escape key to close modal (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
   return (
     <div className="modal-overlay">
       <div className="guide-modal-content glass-panel" style={{ position: 'relative' }}>

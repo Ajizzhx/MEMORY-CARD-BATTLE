@@ -38,7 +38,7 @@ const GameBoard = () => {
     try {
       const saved = localStorage.getItem('memory_card_leaderboard');
       return saved ? JSON.parse(saved) : [];
-    } catch (e) {
+    } catch {
       return [];
     }
   });
@@ -154,6 +154,7 @@ const GameBoard = () => {
       soundManager.startBgm();
       initBoardForNewPlayer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerName]);
 
   // Peringatan Browser saat pemain mencoba Refresh / Tutup Tab saat pertarungan berlangsung
@@ -170,7 +171,7 @@ const GameBoard = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [playerName, showNameModal, player.hp, enemy.hp]);
+  }, [playerName, showNameModal, player.hp, enemy.hp, currentLang]);
 
   // Efek Samping Pemantau Nyawa (Mencegah anti-pattern React updaters)
   useEffect(() => {
@@ -183,12 +184,13 @@ const GameBoard = () => {
         triggerStageClear();
       }
     }
-  }, [player.hp, enemy.hp, playerName, showNameModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player.hp, enemy.hp, playerName, showNameModal, showGameOverModal, showLootModal]);
 
   // Turn Timer Countdown Effect (15s)
   useEffect(() => {
     let interval = null;
-    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal;
+    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal || showLogModal;
     if (currentTurn === 'PLAYER' && !isProcessing && player.hp > 0 && enemy.hp > 0 && !showNameModal && !isAnyModalOpen) {
       interval = setInterval(() => {
         setTurnTimer((prev) => {
@@ -204,7 +206,8 @@ const GameBoard = () => {
       // Do not countdown, keep current time or reset
     }
     return () => clearInterval(interval);
-  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal, showPauseModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTurn, isProcessing, player.hp, enemy.hp, showNameModal, showCatalogModal, showGuideModal, showLeaderboardModal, showResetConfirmModal, showPauseModal, showLogModal]);
 
   // Boss Challenge Elapsed Time Ticker
   useEffect(() => {
@@ -309,7 +312,7 @@ const GameBoard = () => {
       if (savedBoss) {
         try {
           bossLeaderboard = JSON.parse(savedBoss);
-        } catch (e) {}
+        } catch {}
       }
       
       const updatedBoss = [...bossLeaderboard, newEntry]
@@ -328,7 +331,8 @@ const GameBoard = () => {
       name: playerName || 'Cyber Hero',
       difficulty: activeDifficultyLabel,
       stage: finalStage,
-      totalMatches: matches
+      totalMatches: matches,
+      created_at: new Date().toISOString()
     };
     const updated = [...leaderboard, newEntry]
       .sort((a, b) => (b.stage - a.stage) || (b.totalMatches - a.totalMatches))
@@ -528,7 +532,8 @@ const GameBoard = () => {
       updateStatus();
       setCurrentTurn('ENEMY');
     }
-  }, [currentTurn, isPlayerFrozen, isProcessing, player.hp, enemy.hp, showNameModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTurn, isPlayerFrozen, isProcessing, player.hp, enemy.hp, showNameModal, currentLang]);
 
   // AI Turn Handling
   useEffect(() => {
@@ -574,11 +579,12 @@ const GameBoard = () => {
         }
       }, 1100);
     }
-  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, isEnemyFrozen, player.hp, enemy.hp, showPauseModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTurn, isProcessing, cards, matchedCardIds, aiMemory, activeAiDifficulty, isEmpJammerActive, isEnemyFrozen, player.hp, enemy.hp, showPauseModal, currentLang]);
 
   // Handle Player Card Click
   const handleCardClick = (clickedCard) => {
-    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal || showLootModal || showGameOverModal || showNameModal;
+    const isAnyModalOpen = showCatalogModal || showGuideModal || showLeaderboardModal || showResetConfirmModal || showPauseModal || showLootModal || showGameOverModal || showNameModal || showLogModal;
     if (
       currentTurn !== 'PLAYER' ||
       isProcessing ||
@@ -1102,6 +1108,7 @@ const GameBoard = () => {
         enemyMatches={enemyMatches}
         currentTurn={currentTurn}
         difficultyName={AI_DIFFICULTY_LEVELS[activeAiDifficulty].name}
+        onCycleDifficulty={handleCycleDifficulty}
         currentLang={currentLang}
       />
 

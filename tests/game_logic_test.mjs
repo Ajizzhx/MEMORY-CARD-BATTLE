@@ -96,14 +96,14 @@ const cardRarityMatches = [...cardDataRaw.matchAll(/rarity:\s*'([^']+)'/g)];
 const cardRarities = cardRarityMatches.map(m => m[1]);
 
 // Extract card values
-const cardValueMatches = [...cardDataRaw.matchAll(/value:\s*(\d+)/g)];
-const cardValues = cardValueMatches.map(m => parseInt(m[1]));
+const _cardValueMatches = [...cardDataRaw.matchAll(/value:\s*(\d+)/g)];
+const _cardValues = _cardValueMatches.map(m => parseInt(m[1]));
 
 // Extract isPiercing flags
 const piercingCount = (cardDataRaw.match(/isPiercing:\s*true/g) || []).length;
 
 // Extract enemy configs from lootSystem
-const enemyConfigMatches = [...lootRaw.matchAll(/name:\s*'([^']+)',\s*hp:\s*(\d+)/g)];
+const _enemyConfigMatches = [...lootRaw.matchAll(/name:\s*'([^']+)',\s*hp:\s*(\d+)/g)];
 
 // Extract AI difficulty levels
 const aiDiffMatches = [...aiRaw.matchAll(/(\w+):\s*\{[^}]*memoryAccuracy:\s*([\d.]+)/g)];
@@ -505,7 +505,7 @@ console.log('\n═════════════════════�
 console.log(' TEST RESULTS SUMMARY');
 console.log('══════════════════════════════════════════════════════\n');
 
-results.forEach((r, i) => {
+results.forEach((r) => {
   console.log(`  ${r.status} ${r.name}`);
   if (r.error) console.log(`         └─ ${r.error}`);
 });

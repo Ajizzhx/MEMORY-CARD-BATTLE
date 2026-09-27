@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getLocalizedCards } from '../../utils/cardData';
 import { soundManager } from '../../utils/soundSystem';
 import { t } from '../../utils/i18n';
@@ -9,6 +9,17 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [showAll21CardsInGame, setShowAll21CardsInGame] = useState(false);
   const [selectedCardForDetail, setSelectedCardForDetail] = useState(null);
+
+  // Handle Escape key to close modal (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const localizedDatabase = getLocalizedCards(currentLang);
 
@@ -95,54 +106,60 @@ const CatalogModal = ({ isDashboard = false, activeStageCards = [], stage = 1, o
 
         {/* Grid Kartu Katalog */}
         <div className="catalog-grid">
-          {filteredCards.map((card) => {
-            const countOnBoard = boardCardCounts[card.id] || 0;
-            const isPresent = countOnBoard > 0;
+          {filteredCards.length === 0 ? (
+            <div className="catalog-empty-state">
+              <p className="catalog-empty-text">{t('catalogEmptyFilter', currentLang)}</p>
+            </div>
+          ) : (
+            filteredCards.map((card) => {
+              const countOnBoard = boardCardCounts[card.id] || 0;
+              const isPresent = countOnBoard > 0;
 
-            return (
-              <div
-                key={card.id}
-                className={`catalog-card-item rarity-${card.rarity} ${isPresent && !isDashboard ? 'present-on-stage' : ''}`}
-                style={{
-                  borderColor: card.color || 'rgba(0, 240, 255, 0.5)',
-                  boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
-                }}
-                onClick={() => handleCardClick(card)}
-                title={t('clickToOpenLore', currentLang)}
-              >
-                {!isDashboard && isPresent && (
-                  <div className="card-stage-status-badge">
-                    <span className="badge-present">🟢 {countOnBoard} {t('badgePresent', currentLang)}</span>
-                  </div>
-                )}
-
-                <span className="loot-rarity-tag" style={{ color: card.color }}>
-                  {card.rarity}
-                </span>
-
-                <div className="catalog-card-icon" style={{ color: card.color }}>
-                  {card.img ? (
-                    <img
-                      src={card.img}
-                      alt={card.name}
-                      className="card-art-img"
-                      style={{ borderColor: card.color }}
-                    />
-                  ) : (
-                    card.icon
+              return (
+                <div
+                  key={card.id}
+                  className={`catalog-card-item rarity-${card.rarity} ${isPresent && !isDashboard ? 'present-on-stage' : ''}`}
+                  style={{
+                    borderColor: card.color || 'rgba(0, 240, 255, 0.5)',
+                    boxShadow: `0 0 14px ${card.color || '#00f0ff'}40`
+                  }}
+                  onClick={() => handleCardClick(card)}
+                  title={t('clickToOpenLore', currentLang)}
+                >
+                  {!isDashboard && isPresent && (
+                    <div className="card-stage-status-badge">
+                      <span className="badge-present">🟢 {countOnBoard} {t('badgePresent', currentLang)}</span>
+                    </div>
                   )}
-                </div>
 
-                <div className="catalog-card-name">{card.name}</div>
-                <div className="catalog-card-desc">{card.description}</div>
+                  <span className="loot-rarity-tag" style={{ color: card.color }}>
+                    {card.rarity}
+                  </span>
 
-                {/* Lore Hint Badge */}
-                <div className="card-lore-hint-badge">
-                  <span>{t('loreHint', currentLang)}</span>
+                  <div className="catalog-card-icon" style={{ color: card.color }}>
+                    {card.img ? (
+                      <img
+                        src={card.img}
+                        alt={card.name}
+                        className="card-art-img"
+                        style={{ borderColor: card.color }}
+                      />
+                    ) : (
+                      card.icon
+                    )}
+                  </div>
+
+                  <div className="catalog-card-name">{card.name}</div>
+                  <div className="catalog-card-desc">{card.description}</div>
+
+                  {/* Lore Hint Badge */}
+                  <div className="card-lore-hint-badge">
+                    <span>{t('loreHint', currentLang)}</span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
 
         <button className="close-modal-btn" onClick={onClose}>

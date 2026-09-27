@@ -9,6 +9,13 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
   // Cari image artwork dari object kartu atau fallback database
   const cardImage = card.img || CARD_DATABASE.find((c) => c.id === (card.pairId || card.id))?.img;
 
@@ -16,6 +23,10 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
     <div
       className={`card-container ${isFlipped ? 'flipped' : ''} ${isMatched ? 'matched' : ''} ${isXrayVision ? 'xray-active' : ''}`}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={isFlipped || isMatched || isDisabled ? -1 : 0}
+      aria-label={isFlipped ? `${card.name}, ${card.type}, ${card.rarity}` : 'Kartu tertutup'}
     >
       <div className="card-inner">
         {/* Punggung Kartu (Tampak Belakang) */}

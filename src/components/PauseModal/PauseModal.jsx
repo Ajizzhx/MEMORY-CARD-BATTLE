@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { t } from '../../utils/i18n';
-import { soundManager } from '../../utils/soundSystem';
 import './PauseModal.css';
 
 const PauseModal = ({
@@ -16,6 +15,17 @@ const PauseModal = ({
   onOpenLeaderboard,
   onResetClick
 }) => {
+  // Handle Escape key to resume game (R-32)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onResume) {
+        onResume();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onResume]);
+
   return (
     <div className="modal-overlay">
       <div className="pause-modal-content glass-panel">

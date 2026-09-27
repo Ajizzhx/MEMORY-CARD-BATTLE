@@ -185,18 +185,18 @@ export const fetchBossScores = async (targetLimit = TOP_LIMIT) => {
   return Array.isArray(allScores) ? allScores.slice(0, targetLimit) : [];
 };
 
-/**
- * Format waktu relatif (contoh: "2 jam lalu", "baru saja")
- * @param {string} isoString
- */
-export const formatRelativeTime = (isoString) => {
-  const diffMs = Date.now() - new Date(isoString).getTime();
+export const formatRelativeTime = (isoString, lang = 'ID') => {
+  if (!isoString) return lang === 'EN' ? 'Just now' : 'Baru saja';
+  const timestamp = new Date(isoString).getTime();
+  if (isNaN(timestamp)) return lang === 'EN' ? 'Just now' : 'Baru saja';
+
+  const diffMs = Math.max(0, Date.now() - timestamp);
   const diffMin = Math.floor(diffMs / 60000);
 
-  if (diffMin < 1) return 'Baru saja';
-  if (diffMin < 60) return `${diffMin} menit lalu`;
+  if (diffMin < 1) return lang === 'EN' ? 'Just now' : 'Baru saja';
+  if (diffMin < 60) return lang === 'EN' ? `${diffMin}m ago` : `${diffMin} menit lalu`;
   const diffHr = Math.floor(diffMin / 60);
-  if (diffHr < 24) return `${diffHr} jam lalu`;
+  if (diffHr < 24) return lang === 'EN' ? `${diffHr}h ago` : `${diffHr} jam lalu`;
   const diffDay = Math.floor(diffHr / 24);
-  return `${diffDay} hari lalu`;
+  return lang === 'EN' ? `${diffDay}d ago` : `${diffDay} hari lalu`;
 };

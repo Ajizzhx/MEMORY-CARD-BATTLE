@@ -2,7 +2,7 @@ import React from 'react';
 import { t } from '../../utils/i18n';
 import './PlayerStatus.css';
 
-const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName, currentLang = 'ID' }) => {
+const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, currentTurn, difficultyName, onCycleDifficulty, currentLang = 'ID' }) => {
   const playerHpPct = Math.max(0, Math.min(100, (player.hp / player.maxHp) * 100));
   const enemyHpPct = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
 
@@ -15,7 +15,13 @@ const PlayerStatus = ({ player, enemy, playerMatches = 0, enemyMatches = 0, curr
           {currentTurn === 'PLAYER' ? t('yourTurn', currentLang) : t('enemyTurn', currentLang)}
         </div>
         {difficultyName && (
-          <div className="difficulty-tag" title={`Mode Kesulitan AI Musuh: ${difficultyName}`}>
+          <div
+            className={`difficulty-tag ${onCycleDifficulty ? 'clickable' : ''}`}
+            onClick={onCycleDifficulty}
+            role={onCycleDifficulty ? 'button' : undefined}
+            tabIndex={onCycleDifficulty ? 0 : undefined}
+            title={`Mode Kesulitan AI Musuh: ${difficultyName}${onCycleDifficulty ? ' (Klik untuk ganti)' : ''}`}
+          >
             🧠 {t('aiDifficultyLabel', currentLang)}: {difficultyName}
           </div>
         )}

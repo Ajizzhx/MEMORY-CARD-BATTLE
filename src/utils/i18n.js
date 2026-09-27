@@ -113,6 +113,7 @@ export const TRANSLATIONS = {
     badgePresent: 'Kartu di Papan',
     loreHint: 'Kisah Lore',
     closeCatalogBtn: 'Tutup Katalog',
+    catalogEmptyFilter: 'Tidak ada kartu pada kategori ini di papan stage saat ini.',
 
     // ── CardDetailModal ──
     cardDetailTypeAttack: 'SERANGAN',
@@ -134,7 +135,6 @@ export const TRANSLATIONS = {
     statQuantumPiercing: 'Kuantum Penetrasi',
     playerTurnMsg: 'GILIRAN ANDA (PILIH 2 KARTU)',
     enemyTurnMsg: 'GILIRAN AI MUSUH (MEMILIH KARTU...)',
-    playAgainBtn: '⚡ Main Lagi',
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 PAPAN SKOR TOP GLOBAL',
@@ -275,7 +275,7 @@ export const TRANSLATIONS = {
         lore: 'Relik mata peramal suci milik Sang Oracle Kuno dari Kuil Sektor 0. Menggabungkan penglihatan gaib dengan pindaian spektral dimensi tinggi, mata mistik ini menembus tabir takdir untuk menyingkap rahasia kartu tertutup.'
       },
       debuff_poison: {
-        description: 'Virus mengikis HP musuh (16 Damage).',
+        description: 'Virus mengikis HP musuh (18 Damage Menembus Perisai).',
         lore: 'Kutukan sihir hitam berkode virus bio-digital yang menyebar di alam mimpi musuh. Racun gaib molekuler ini menggerogoti jiwa dan perisai pertahanan musuh secara perlahan tanpa bisa ditolak jimat pelindung.'
       },
       atk_pierce: {
@@ -303,8 +303,8 @@ export const TRANSLATIONS = {
         lore: 'Mantra Pulsa Petir Elektromagnetik yang ditempa dari Badai Elemental Kuno. Saat dilepaskan, ledakan shockwave petir gaib melumpuhkan sirkuit musuh, meremukkan armor, dan mengacak memori musuh.'
       },
       pity_wrath: {
-        description: 'Serangan petir suci 40 Damage + Heal 15 HP!',
-        lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 40 Damage sekaligus memulihkan 15 HP.'
+        description: 'Serangan petir suci 32 Damage + Heal 15 HP!',
+        lore: 'Manifestasi Amarah Titan Kuno dari Alam Para Dewa Cybernetic. Terpanggil saat pejuang suci berada di ambang maut, melepaskan sambaran petir gaib 32 Damage sekaligus memulihkan 15 HP.'
       },
       chrono_rewind: {
         description: 'Rewind Mistake: Kesalahan tebakan (mismatch) berikutnya dimaafkan, giliran tidak pindah!',
@@ -323,7 +323,7 @@ export const TRANSLATIONS = {
         lore: 'Implan peretas otak spektral. Menyuntikkan pulsa cahaya yang menyingkap seluruh isi papan dalam sekejap mata.'
       },
       gamble_cosmic: {
-        description: '50% Peluang: 35 Damage Kosmik atau 50% Peluang: Menerima 10 Damage & Target +10 HP!',
+        description: '50% Peluang: 40 Damage Kosmik atau 50% Peluang: Menerima 10 Damage & Target +5 HP!',
         lore: 'Artefak Dadu Alkemis Chaos dari Dimensi Void. Keberuntungan para dewa menentukan apakah sihir ini memusnahkan musuh atau memakan tuannya.'
       },
       special_mirage: {
@@ -336,10 +336,6 @@ export const TRANSLATIONS = {
     deckFullDesc: 'Selamat! Semua 21 kartu katalog telah terkumpul di Deck Anda. Dapatkan bonus pemulihan HP maksimal!',
     claimBonusBtn: 'Klaim Bonus +50 HP & Lanjut',
     emergencyMedkitBtn: '🚑 Ambil Medkit',
-    globalLBLoading: 'Memuat data leaderboard global...',
-    globalLBSub: 'Top 10 Pemain Terbaik Dunia — Memory Card Battle',
-    globalLBError: 'Gagal memuat data. Periksa koneksi internet Anda.',
-    globalLBRetry: 'Coba Lagi',
     youPill: 'Anda',
     clickToOpenLore: 'Klik untuk membuka Kisah Lore & Detail Kartu',
     loreFallback: 'Arsip rahasia kartu ini tersimpan dalam intisari memori Sektor Neo-Veridia.',
@@ -454,6 +450,7 @@ export const TRANSLATIONS = {
     badgePresent: 'Cards on Board',
     loreHint: 'Card Lore',
     closeCatalogBtn: 'Close Catalog',
+    catalogEmptyFilter: 'No cards match this category on the current stage board.',
 
     // ── CardDetailModal ──
     cardDetailTypeAttack: 'ATTACK',
@@ -475,7 +472,6 @@ export const TRANSLATIONS = {
     statQuantumPiercing: 'Quantum Armor Piercing',
     playerTurnMsg: 'YOUR TURN (PICK 2 CARDS)',
     enemyTurnMsg: 'ENEMY AI TURN (CHOOSING CARDS...)',
-    playAgainBtn: '⚡ Play Again',
 
     // ── LeaderboardModal ──
     leaderboardTitle: '🏆 GLOBAL TOP SCORES',
@@ -509,7 +505,7 @@ export const TRANSLATIONS = {
 
     // ── LootModal ──
     lootTitle: '🎉 STAGE CLEAR!',
-    lootSub: 'Congratulations! You defeated the enemy. Choose 1 new Reward Card to empower your Deck:',
+    lootSub: 'Congratulations! You defeated the enemy. Choose 1 new Reward Card for your Deck:',
     emergencyPityTag: 'EMERGENCY ASSIST (PITY)',
     emergencyPityNotice: '🚑 Medkit Pity Option Active! Grants +35 HP & +25 Armor (Uses left: ',
     emergencyPityNoticeEnd: 'x). Choosing Medkit grants no new card.',
@@ -616,7 +612,7 @@ export const TRANSLATIONS = {
         lore: 'A sacred oracle eye relic belonging to the Ancient Oracle of Sector 0 Shrine. Combining clairvoyance with high-dimensional spectral scanning, this mystic lens pierces the veil of fate to reveal hidden cards.'
       },
       debuff_poison: {
-        description: 'Corrosive virus erodes enemy HP (16 Damage).',
+        description: 'Corrosive virus erodes enemy HP (18 Piercing Damage).',
         lore: 'A black magic curse encoded as a bio-digital virus invading enemy dreamscapes. This molecular poison slowly erodes the enemy\'s soul and defensive shields beyond any warding talisman.'
       },
       atk_pierce: {
@@ -644,8 +640,8 @@ export const TRANSLATIONS = {
         lore: 'An Electromagnetic Lightning Pulse Incantation forged from Ancient Elemental Storms. When unleashed, lightning shockwaves paralyze enemy circuits, crush armor, and scramble memories.'
       },
       pity_wrath: {
-        description: 'Divine lightning strikes 40 Damage + Heals 15 HP!',
-        lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Gods. Summoned when sacred warriors stand on the brink of death, striking enemies with 40 Divine Lightning Damage while healing 15 HP.'
+        description: 'Divine lightning strikes 32 Damage + Heals 15 HP!',
+        lore: 'Manifestation of Ancient Titan Wrath from the Realm of Cybernetic Gods. Summoned when sacred warriors stand on the brink of death, striking enemies with 32 Divine Lightning Damage while healing 15 HP.'
       },
       chrono_rewind: {
         description: 'Rewind Mistake: Your next mismatch is forgiven, you keep your turn!',
@@ -664,7 +660,7 @@ export const TRANSLATIONS = {
         lore: 'Spectral brain-hacker implant. Injects a pulse of light that reveals the entire board in a blink.'
       },
       gamble_cosmic: {
-        description: '50% Chance: 35 Cosmic Damage OR 50% Chance: Receive 10 Damage & Target +10 HP!',
+        description: '50% Chance: 40 Cosmic Damage OR 50% Chance: Receive 10 Damage & Target +5 HP!',
         lore: 'Chaos Alchemist Dice artifact from the Void Dimension. Divine luck decides whether this spell obliterates the enemy or backfires.'
       },
       special_mirage: {
@@ -677,10 +673,6 @@ export const TRANSLATIONS = {
     deckFullDesc: 'Congratulations! All 21 catalog cards have been collected in your Deck. Receive maximum HP recovery bonus!',
     claimBonusBtn: 'Claim Bonus +50 HP & Continue',
     emergencyMedkitBtn: '🚑 Take Medkit',
-    globalLBLoading: 'Loading global scores...',
-    globalLBSub: 'Top 10 Players Worldwide — Memory Card Battle',
-    globalLBError: 'Failed to load leaderboard data. Check your internet connection.',
-    globalLBRetry: 'Retry',
     youPill: 'You',
     clickToOpenLore: 'Click to open Lore story & Card Details',
     loreFallback: 'This card\'s secret archive is stored within the memory core of the Neo-Veridia Sector.',
