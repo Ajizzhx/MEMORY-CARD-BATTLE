@@ -14,11 +14,12 @@ dist-ssr
 .env.*
 !.env.example
 
-# Editor directories and files
+# Editor and Agent directories
 .vscode/*
 !.vscode/extensions.json
 .idea
 .claude
+.agents
 .DS_Store
 *.suo
 *.ntvs*
