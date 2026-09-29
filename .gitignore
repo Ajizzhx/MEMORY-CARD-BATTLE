@@ -20,6 +20,7 @@ dist-ssr
 .idea
 .claude
 .agents
+anti-slop/
 .DS_Store
 *.suo
 *.ntvs*

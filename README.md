@@ -106,7 +106,6 @@ Spesifikasi dan rekam jejak pengembangan terdokumentasi terstruktur di folder [`
 5. [📄 5_TESTING_REPORT.md](docs/5_TESTING_REPORT.md) — Laporan pengujian komprehensif seluruh modul game.
 6. [📄 6_AI_ALGORITHM.md](docs/6_AI_ALGORITHM.md) — Spesifikasi teknis AI Memory Engine, probabilitas retensi, & algoritma pencarian.
 7. [📄 7_AUDIT_REPORT.md](docs/7_AUDIT_REPORT.md) — Laporan audit performa, stabilitas arsitektur, & refactoring.
-8. [📄 anti-slop/audit-001-2026-09-27.md](anti-slop/audit-001-2026-09-27.md) — Laporan audit antislop putaran 1 (Delivery Gate Passed).
 
 ---
 
