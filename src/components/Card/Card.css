@@ -166,11 +166,12 @@
   background: linear-gradient(155deg, rgba(16, 20, 42, 0.96), rgba(6, 8, 18, 0.98)), url('/assets/card-front-bg.png') center/cover no-repeat;
   border: 1.5px solid rgba(255, 255, 255, 0.2);
   image-rendering: -webkit-optimize-contrast;
-  padding: 4px;
+  padding: 3.5px 3.5px 6.5px 3.5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 3px;
+  gap: 2.5px;
+  box-sizing: border-box;
 }
 
 .card-front.rare::after,
@@ -307,7 +308,7 @@
 /* --- ARTWORK FRAME (Modern Framed TCG) --- */
 .card-art-frame {
   width: 100%;
-  flex: 1;
+  flex: 1 1 0px;
   min-height: 0;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -359,25 +360,25 @@
 /* --- BOTTOM INFO PANEL (Nameplate + Stat Ribbon) --- */
 .card-bottom-panel {
   width: 100%;
-  background: rgba(5, 8, 20, 0.94);
+  background: rgba(5, 8, 20, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 5px;
-  padding: 2.5px 3px;
+  padding: 2px 3px 2.5px 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5px;
+  gap: 1px;
   flex-shrink: 0;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .card-name {
   font-family: var(--font-heading);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 800;
   color: #f8fafc;
-  line-height: 1.1;
+  line-height: 1.15;
   text-align: center;
   width: 100%;
   white-space: nowrap;
@@ -388,20 +389,23 @@
 
 .card-stat-ribbon {
   font-family: var(--font-heading);
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   font-weight: 900;
   color: var(--color-accent);
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid rgba(255, 215, 0, 0.25);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 3px;
-  padding: 0.5px 5px;
-  line-height: 1.15;
-  letter-spacing: 0.25px;
+  padding: 1px 5px;
+  line-height: 1.1;
+  letter-spacing: 0.2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Mobile Ultra-Compact Adjustments (< 500px) */
@@ -410,8 +414,8 @@
     aspect-ratio: 3 / 4.5;
   }
   .card-front {
-    padding: 2.5px 2px 2px 2px;
-    gap: 2px;
+    padding: 2px 2px 5px 2px;
+    gap: 1.5px;
   }
   .card-back {
     padding: 3px 2px;
@@ -439,17 +443,18 @@
     border-radius: 4px;
   }
   .card-bottom-panel {
-    padding: 1.5px 2px;
+    padding: 1.5px 2px 2px 2px;
     border-radius: 3px;
-    gap: 1px;
+    gap: 0.5px;
   }
   .card-name {
-    font-size: 0.46rem;
+    font-size: 0.45rem;
     line-height: 1.05;
   }
   .card-stat-ribbon {
-    font-size: 0.42rem;
-    padding: 0.5px 3px;
+    font-size: 0.40rem;
+    line-height: 1.05;
+    padding: 0.5px 2.5px;
   }
   .xray-title {
     font-size: 0.55rem;
