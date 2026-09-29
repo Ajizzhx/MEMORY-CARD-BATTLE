@@ -33,7 +33,12 @@ const CardDetailModal = ({ card, onClose, currentLang = 'ID' }) => {
           boxShadow: `0 0 35px ${card.color || '#00f0ff'}45`
         }}
       >
-        <button className="modal-close-icon-btn" onClick={handleClose} title={t('closeCardDetailBtn', currentLang)}>
+        <button
+          className="modal-close-icon-btn"
+          onClick={handleClose}
+          title={t('closeCardDetailBtn', currentLang)}
+          aria-label={t('closeCardDetailBtn', currentLang)}
+        >
           ✕
         </button>
 

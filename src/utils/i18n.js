@@ -116,6 +116,7 @@ export const TRANSLATIONS = {
     catalogEmptyFilter: 'Tidak ada kartu pada kategori ini di papan stage saat ini.',
 
     // ── CardDetailModal ──
+    closeCardDetailBtn: 'Tutup Detail',
     cardDetailTypeAttack: 'SERANGAN',
     cardDetailTypeDefense: 'PERTAHANAN',
     cardDetailTypeHeal: 'PEMULIHAN',
@@ -453,6 +454,7 @@ export const TRANSLATIONS = {
     catalogEmptyFilter: 'No cards match this category on the current stage board.',
 
     // ── CardDetailModal ──
+    closeCardDetailBtn: 'Close Details',
     cardDetailTypeAttack: 'ATTACK',
     cardDetailTypeDefense: 'DEFENSE',
     cardDetailTypeHeal: 'HEAL',
