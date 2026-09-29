@@ -54,10 +54,12 @@ const Card = ({ card, isFlipped, isMatched, isXrayVision, onClick, isDisabled })
         {/* Muka Kartu (Tampak Depan saat 3D Flip) */}
         <div className={`card-front ${card.rarity}`}>
           <div className="card-header">
-            <span className="card-type-badge" style={{ color: card.color }}>
+            <span className="card-type-badge" style={{ color: card.color, borderColor: `${card.color}45` }}>
               {card.type}
             </span>
-            <span className="card-rarity">{card.rarity[0].toUpperCase()}</span>
+            <span className={`card-rarity-badge rarity-${card.rarity}`}>
+              {card.rarity?.toUpperCase()}
+            </span>
           </div>
 
           <div className="card-icon" style={{ color: card.color }}>
